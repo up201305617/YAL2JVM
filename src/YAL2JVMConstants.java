@@ -9,19 +9,53 @@ public interface YAL2JVMConstants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int INTEGER_LITERAL = 7;
+  int RELA_OP = 7;
   /** RegularExpression Id. */
-  int DECIMAL_LITERAL = 8;
+  int ADDSUB_OP = 8;
   /** RegularExpression Id. */
-  int HEX_LITERAL = 9;
+  int ARITH_OP = 9;
   /** RegularExpression Id. */
-  int OCTAL_LITERAL = 10;
+  int BITWISE_OP = 10;
   /** RegularExpression Id. */
-  int IDENTIFIER = 11;
+  int NOT_OP = 11;
   /** RegularExpression Id. */
-  int LETTER = 12;
+  int WHILE = 12;
   /** RegularExpression Id. */
-  int DIGIT = 13;
+  int IF = 13;
+  /** RegularExpression Id. */
+  int ELSE = 14;
+  /** RegularExpression Id. */
+  int ASSIGN = 15;
+  /** RegularExpression Id. */
+  int ASPA = 16;
+  /** RegularExpression Id. */
+  int LPAR = 17;
+  /** RegularExpression Id. */
+  int RPAR = 18;
+  /** RegularExpression Id. */
+  int VIRG = 19;
+  /** RegularExpression Id. */
+  int PVIRG = 20;
+  /** RegularExpression Id. */
+  int LCHAVETA = 21;
+  /** RegularExpression Id. */
+  int RCHAVETA = 22;
+  /** RegularExpression Id. */
+  int FUNCTION = 23;
+  /** RegularExpression Id. */
+  int MODULE = 24;
+  /** RegularExpression Id. */
+  int SIZE = 25;
+  /** RegularExpression Id. */
+  int INTEGER = 26;
+  /** RegularExpression Id. */
+  int ID = 27;
+  /** RegularExpression Id. */
+  int LETTER = 28;
+  /** RegularExpression Id. */
+  int DIGIT = 29;
+  /** RegularExpression Id. */
+  int STRING = 30;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -35,21 +69,30 @@ public interface YAL2JVMConstants {
     "\"\\r\"",
     "<token of kind 5>",
     "<token of kind 6>",
-    "<INTEGER_LITERAL>",
-    "<DECIMAL_LITERAL>",
-    "<HEX_LITERAL>",
-    "<OCTAL_LITERAL>",
-    "<IDENTIFIER>",
-    "<LETTER>",
-    "<DIGIT>",
-    "\";\"",
-    "\"+\"",
-    "\"-\"",
-    "\"*\"",
-    "\"/\"",
-    "\"%\"",
+    "<RELA_OP>",
+    "<ADDSUB_OP>",
+    "<ARITH_OP>",
+    "<BITWISE_OP>",
+    "\"!\"",
+    "\"while\"",
+    "\"if\"",
+    "\"else\"",
+    "\"=\"",
+    "\"\\\"\"",
     "\"(\"",
     "\")\"",
+    "\",\"",
+    "\";\"",
+    "\"{\"",
+    "\"}\"",
+    "\"function\"",
+    "\"module\"",
+    "\"size\"",
+    "<INTEGER>",
+    "<ID>",
+    "<LETTER>",
+    "<DIGIT>",
+    "<STRING>",
   };
 
 }
