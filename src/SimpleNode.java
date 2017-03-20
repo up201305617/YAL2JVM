@@ -8,7 +8,8 @@ class SimpleNode implements Node {
   protected int id;
   protected Object value;
   protected YAL2JVM parser;
-
+  public String ID;
+  
   public SimpleNode(int i) {
     id = i;
   }

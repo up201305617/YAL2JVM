@@ -2,10 +2,16 @@
 public interface YAL2JVMTreeConstants
 {
   public int JJTMODULE = 0;
+  public int JJTDECLARATION = 1;
+  public int JJTVOID = 2;
+  public int JJTGLOBALRIGHT = 3;
 
 
   public String[] jjtNodeName = {
     "Module",
+    "Declaration",
+    "void",
+    "GlobalRight",
   };
 }
-/* JavaCC - OriginalChecksum=d03ff2bde69c669758d77138b1ac4c0a (do not edit this line) */
+/* JavaCC - OriginalChecksum=f367efc84003995864eab68c83088134 (do not edit this line) */

@@ -7,17 +7,74 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants/*@egen*/{/
                                SimpleNode jjtn000 = new SimpleNode(JJTMODULE);
                                boolean jjtc000 = true;
                                jjtree.openNodeScope(jjtn000);
-/*@egen*/ Token moduleID; }{/*@bgen(jjtree) Module */
-   try {
-/*@egen*//*@bgen(jjtree)*/
-   {
-     jjtree.closeNodeScope(jjtn000, true);
-     jjtc000 = false;
-   }
-/*@egen*/   { return jjtn000; }/*@bgen(jjtree)*/
-   } finally {
-     if (jjtc000) {
-       jjtree.closeNodeScope(jjtn000, true);
-     }
-   }
+/*@egen*/ Token moduleId; }{/*@bgen(jjtree) Module */
+        try {
+/*@egen*/	< MODULE > moduleId = < ID > { jjtn000.ID = moduleId.image; } <LCHAVETA >	( Declaration())* < RCHAVETA >/*@bgen(jjtree)*/
+        {
+          jjtree.closeNodeScope(jjtn000, true);
+          jjtc000 = false;
+        }
+/*@egen*/   	{ return jjtn000; }/*@bgen(jjtree)*/
+        } catch (Throwable jjte000) {
+          if (jjtc000) {
+            jjtree.clearNodeScope(jjtn000);
+            jjtc000 = false;
+          } else {
+            jjtree.popNode();
+          }
+          if (jjte000 instanceof RuntimeException) {
+            throw (RuntimeException)jjte000;
+          }
+          if (jjte000 instanceof ParseException) {
+            throw (ParseException)jjte000;
+          }
+          throw (Error)jjte000;
+        } finally {
+          if (jjtc000) {
+            jjtree.closeNodeScope(jjtn000, true);
+          }
+        }
+/*@egen*/}void Declaration()             : {/*@bgen(jjtree) Declaration */
+                                   SimpleNode jjtn000 = new SimpleNode(JJTDECLARATION);
+                                   boolean jjtc000 = true;
+                                   jjtree.openNodeScope(jjtn000);
+/*@egen*/ Token assign; }{/*@bgen(jjtree) Declaration */
+        try {
+/*@egen*/	LeftSide() (assign=<ASSIGN> { jjtn000.ID = assign.image; } RightSide())? <PVIRG>/*@bgen(jjtree)*/
+        } catch (Throwable jjte000) {
+          if (jjtc000) {
+            jjtree.clearNodeScope(jjtn000);
+            jjtc000 = false;
+          } else {
+            jjtree.popNode();
+          }
+          if (jjte000 instanceof RuntimeException) {
+            throw (RuntimeException)jjte000;
+          }
+          if (jjte000 instanceof ParseException) {
+            throw (ParseException)jjte000;
+          }
+          throw (Error)jjte000;
+        } finally {
+          if (jjtc000) {
+            jjtree.closeNodeScope(jjtn000, true);
+          }
+        }
+/*@egen*/}void LeftSide()      : {}{	LOOKAHEAD(2) ArrayElement() | ScalarElement()}void RightSide()             : {/*@bgen(jjtree) GlobalRight */
+                                 SimpleNode jjtn000 = new SimpleNode(JJTGLOBALRIGHT);
+                                 boolean jjtc000 = true;
+                                 jjtree.openNodeScope(jjtn000);
+/*@egen*/ Token op, intID; }{/*@bgen(jjtree) GlobalRight */
+        try {
+/*@egen*/	("[" ArraySize() "]")  | 	((op=<ADDSUB_OP> {jjtn000.ID = op.image;})?	intID=<INTEGER>/*@bgen(jjtree)*/
+                        {
+                          jjtree.closeNodeScope(jjtn000, true);
+                          jjtc000 = false;
+                        }
+/*@egen*/ {		if (jjtn000.ID != null)			jjtn000.ID += intID.image;		else			jjtn000.ID = intID.image;	})/*@bgen(jjtree)*/
+        } finally {
+          if (jjtc000) {
+            jjtree.closeNodeScope(jjtn000, true);
+          }
+        }
 /*@egen*/}
