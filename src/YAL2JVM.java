@@ -120,26 +120,50 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
   }
 
   static final public void LeftSide() throws ParseException {
-    if (jj_2_1(2)) {
-      ArrayElement();
-    } else {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case ID:
-        ScalarElement();
-        break;
-      default:
-        jj_la1[3] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
+                            /*@bgen(jjtree) LeftSide */
+  SimpleNode jjtn000 = new SimpleNode(JJTLEFTSIDE);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+    try {
+      if (jj_2_1(2)) {
+        ArrayElement();
+      } else {
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case ID:
+          ScalarElement();
+          break;
+        default:
+          jj_la1[3] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
       }
+    } catch (Throwable jjte000) {
+          if (jjtc000) {
+            jjtree.clearNodeScope(jjtn000);
+            jjtc000 = false;
+          } else {
+            jjtree.popNode();
+          }
+          if (jjte000 instanceof RuntimeException) {
+            {if (true) throw (RuntimeException)jjte000;}
+          }
+          if (jjte000 instanceof ParseException) {
+            {if (true) throw (ParseException)jjte000;}
+          }
+          {if (true) throw (Error)jjte000;}
+    } finally {
+          if (jjtc000) {
+            jjtree.closeNodeScope(jjtn000, true);
+          }
     }
   }
 
   static final public void RightSide() throws ParseException {
-                                /*@bgen(jjtree) GlobalRight */
-                                 SimpleNode jjtn000 = new SimpleNode(JJTGLOBALRIGHT);
-                                 boolean jjtc000 = true;
-                                 jjtree.openNodeScope(jjtn000);Token op, intID;
+                              /*@bgen(jjtree) RightSide */
+                               SimpleNode jjtn000 = new SimpleNode(JJTRIGHTSIDE);
+                               boolean jjtc000 = true;
+                               jjtree.openNodeScope(jjtn000);Token op, intID;
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 31:
@@ -282,8 +306,8 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
   }
 
   static final public void Varlist() throws ParseException {
-                             /*@bgen(jjtree) Parameters */
-  SimpleNode jjtn000 = new SimpleNode(JJTPARAMETERS);
+                          /*@bgen(jjtree) Varlist */
+  SimpleNode jjtn000 = new SimpleNode(JJTVARLIST);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
     try {
@@ -673,10 +697,10 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
   }
 
   static final public void Exprtest() throws ParseException {
-                             /*@bgen(jjtree) Condition */
-                              SimpleNode jjtn000 = new SimpleNode(JJTCONDITION);
-                              boolean jjtc000 = true;
-                              jjtree.openNodeScope(jjtn000);Token op;
+                            /*@bgen(jjtree) Exprtest */
+                             SimpleNode jjtn000 = new SimpleNode(JJTEXPRTEST);
+                             boolean jjtc000 = true;
+                             jjtree.openNodeScope(jjtn000);Token op;
     try {
       jj_consume_token(LPAR);
       Lhs();

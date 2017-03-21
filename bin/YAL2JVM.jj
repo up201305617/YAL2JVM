@@ -60,11 +60,37 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants/*@egen*/{/
             jjtree.closeNodeScope(jjtn000, true);
           }
         }
-/*@egen*/}void LeftSide()      : {}{	LOOKAHEAD(2) ArrayElement() | ScalarElement()}void RightSide()             : {/*@bgen(jjtree) GlobalRight */
-                                 SimpleNode jjtn000 = new SimpleNode(JJTGLOBALRIGHT);
-                                 boolean jjtc000 = true;
-                                 jjtree.openNodeScope(jjtn000);
-/*@egen*/ Token op, intID; }{/*@bgen(jjtree) GlobalRight */
+/*@egen*/}void LeftSide()          : {/*@bgen(jjtree) LeftSide */
+  SimpleNode jjtn000 = new SimpleNode(JJTLEFTSIDE);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/}{/*@bgen(jjtree) LeftSide */
+        try {
+/*@egen*/	LOOKAHEAD(2) ArrayElement() | ScalarElement()/*@bgen(jjtree)*/
+        } catch (Throwable jjte000) {
+          if (jjtc000) {
+            jjtree.clearNodeScope(jjtn000);
+            jjtc000 = false;
+          } else {
+            jjtree.popNode();
+          }
+          if (jjte000 instanceof RuntimeException) {
+            throw (RuntimeException)jjte000;
+          }
+          if (jjte000 instanceof ParseException) {
+            throw (ParseException)jjte000;
+          }
+          throw (Error)jjte000;
+        } finally {
+          if (jjtc000) {
+            jjtree.closeNodeScope(jjtn000, true);
+          }
+        }
+/*@egen*/}void RightSide()           : {/*@bgen(jjtree) RightSide */
+                               SimpleNode jjtn000 = new SimpleNode(JJTRIGHTSIDE);
+                               boolean jjtc000 = true;
+                               jjtree.openNodeScope(jjtn000);
+/*@egen*/ Token op, intID; }{/*@bgen(jjtree) RightSide */
         try {
 /*@egen*/	("[" ArraySize() "]")  | 	((op=<ADDSUB_OP> {jjtn000.ID = op.image;})?	intID=<INTEGER>/*@bgen(jjtree)*/
                         {
@@ -143,11 +169,11 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants/*@egen*/{/
             jjtree.closeNodeScope(jjtn000, true);
           }
         }
-/*@egen*/}void Varlist()            : {/*@bgen(jjtree) Parameters */
-  SimpleNode jjtn000 = new SimpleNode(JJTPARAMETERS);
+/*@egen*/}void Varlist()         : {/*@bgen(jjtree) Varlist */
+  SimpleNode jjtn000 = new SimpleNode(JJTVARLIST);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
-/*@egen*/}{/*@bgen(jjtree) Parameters */
+/*@egen*/}{/*@bgen(jjtree) Varlist */
         try {
 /*@egen*/	(LOOKAHEAD(2) ArrayElement() | ScalarElement()) (<VIRG> (LOOKAHEAD(2) ArrayElement() | ScalarElement()))*/*@bgen(jjtree)*/
         } catch (Throwable jjte000) {
@@ -338,11 +364,11 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants/*@egen*/{/
             jjtree.closeNodeScope(jjtn000, true);
           }
         }
-/*@egen*/}void Exprtest()           : {/*@bgen(jjtree) Condition */
-                              SimpleNode jjtn000 = new SimpleNode(JJTCONDITION);
-                              boolean jjtc000 = true;
-                              jjtree.openNodeScope(jjtn000);
-/*@egen*/ Token op; }{/*@bgen(jjtree) Condition */
+/*@egen*/}void Exprtest()          : {/*@bgen(jjtree) Exprtest */
+                             SimpleNode jjtn000 = new SimpleNode(JJTEXPRTEST);
+                             boolean jjtc000 = true;
+                             jjtree.openNodeScope(jjtn000);
+/*@egen*/ Token op; }{/*@bgen(jjtree) Exprtest */
         try {
 /*@egen*/	< LPAR > Lhs() op= <RELA_OP> { jjtn000.ID = op.image; } Rhs() <RPAR>/*@bgen(jjtree)*/
         } catch (Throwable jjte000) {
