@@ -93,6 +93,9 @@ public interface YAL2JVMConstants {
     "<LETTER>",
     "<DIGIT>",
     "<STRING>",
+    "\"[\"",
+    "\"]\"",
+    "\".\"",
   };
 
 }

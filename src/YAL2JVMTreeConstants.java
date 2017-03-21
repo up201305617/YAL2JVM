@@ -10,13 +10,23 @@ public interface YAL2JVMTreeConstants
   public int JJTPARAMETERS = 6;
   public int JJTARRAY = 7;
   public int JJTSCALAR = 8;
-  public int JJTFUNCTIONBODY = 9;
-  public int JJTWHILEBODY = 10;
-  public int JJTIFBODY = 11;
-  public int JJTELSEBODY = 12;
-  public int JJTARRAYSIZE = 13;
-  public int JJTASSIGNEMENT = 14;
+  public int JJTASSIGNEMENT = 9;
+  public int JJTLHS = 10;
+  public int JJTRHS = 11;
+  public int JJTARRAYSIZE = 12;
+  public int JJTTERM = 13;
+  public int JJTCONDITION = 14;
   public int JJTWHILE = 15;
+  public int JJTIF = 16;
+  public int JJTCALL = 17;
+  public int JJTARGUMENT = 18;
+  public int JJTARRAYACCESS = 19;
+  public int JJTSCALARACCESS = 20;
+  public int JJTINDEX = 21;
+  public int JJTFUNCTIONBODY = 22;
+  public int JJTWHILEBODY = 23;
+  public int JJTIFBODY = 24;
+  public int JJTELSEBODY = 25;
 
 
   public String[] jjtNodeName = {
@@ -29,13 +39,23 @@ public interface YAL2JVMTreeConstants
     "Parameters",
     "Array",
     "Scalar",
+    "Assignement",
+    "Lhs",
+    "Rhs",
+    "ArraySize",
+    "Term",
+    "Condition",
+    "While",
+    "If",
+    "Call",
+    "Argument",
+    "ArrayAccess",
+    "ScalarAccess",
+    "Index",
     "FunctionBody",
     "WhileBody",
     "IfBody",
     "ElseBody",
-    "ArraySize",
-    "Assignement",
-    "While",
   };
 }
-/* JavaCC - OriginalChecksum=b0a05bc31fb253bc7b94a56850c8a9f7 (do not edit this line) */
+/* JavaCC - OriginalChecksum=9900a7cafbb546c5c03acc2c3d4c53a7 (do not edit this line) */
