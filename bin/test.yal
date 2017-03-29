@@ -1,0 +1,17 @@
+module test 
+{	
+	function i=f(a, b, c[])
+	{
+		if(a==1)
+		{
+			a = 1;
+		}
+		
+		while(a==9)
+		{	
+			a=1;
+			b=2;
+			c=[2];
+		}
+	}
+}
