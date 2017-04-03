@@ -3,7 +3,7 @@
 public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants/*@egen*/{/*@bgen(jjtree)*/
   protected static JJTYAL2JVMState jjtree = new JJTYAL2JVMState();
 
-/*@egen*/   public static void main(String args [])   {    	//YAL2JVM myYAL2JVM = new YAL2JVM(System.in);    	YAL2JVM myYAL2JVM = null;		try {			myYAL2JVM = new YAL2JVM(new FileInputStream(args[0]));		} catch (FileNotFoundException e1) {			// TODO Auto-generated catch block			e1.printStackTrace();		}    	SimpleNode root = null;		try {			root = myYAL2JVM.Module();		} catch (ParseException e) {			// TODO Auto-generated catch block			e.printStackTrace();		}    	root.dump("");   }}PARSER_END(YAL2JVM)<DEFAULT> SKIP:{	" "	| "\t"	| "\n"	| "\r"	| <"//" (~["\n","\r"])* ("\n" | "\r" | "\r\n")>	| <"/*" (~["*"])* "*" ("*" | ~["*","/"] (~["*"])* "*")* "/">}/* reserved words */<DEFAULT> TOKEN :{	<RELA_OP: ">" | "<" | "<=" | ">=" | "==" | "!=">	| <ADDSUB_OP: "+" | "-">	| <ARITH_OP: "*" | "/" | "<<" | ">>" | ">>>">	| <BITWISE_OP: "&" | "|" | "^">	| <NOT_OP: "!">	| <WHILE: "while">	| <IF: "if">	| <ELSE: "else">	| <ASSIGN: "=">	| <ASPA: "\"">	| <LPAR: "(">	| <RPAR: ")">	| <VIRG: ",">	| <PVIRG: ";">	| <LCHAVETA: "{">	| <RCHAVETA: "}">	| <FUNCTION: "function">	| <MODULE: "module">	| <SIZE: "size">}<DEFAULT> TOKEN :{	<INTEGER: (<DIGIT>)+>	| <ID: <LETTER> (<LETTER> | <DIGIT>)*>	| <#LETTER: ["$","A"-"Z","_","a"-"z"]>	| <#DIGIT: ["0"-"9"]>	| <STRING: "\"" (["a"-"z","A"-"Z","0"-"9",":"," ","="])+ "\"">}SimpleNode Module()        : {/*@bgen(jjtree) Module */
+/*@egen*/   private static Module module;   public static void main(String args [])   {    	//YAL2JVM myYAL2JVM = new YAL2JVM(System.in);    	YAL2JVM myYAL2JVM = null;		try {			myYAL2JVM = new YAL2JVM(new FileInputStream(args[0]));		} catch (FileNotFoundException e1) {			// TODO Auto-generated catch block			e1.printStackTrace();		}    	SimpleNode root = null;		try {			root = myYAL2JVM.Module();			module = new Module(root.ID, root);		} catch (ParseException e) {			// TODO Auto-generated catch block			e.printStackTrace();		}		System.out.println(root.ID);    	root.dump("");    	root.analyse();   }   public static Module getModule()   {		return module;   }}PARSER_END(YAL2JVM)<DEFAULT> SKIP:{	" "	| "\t"	| "\n"	| "\r"	| <"//" (~["\n","\r"])* ("\n" | "\r" | "\r\n")>	| <"/*" (~["*"])* "*" ("*" | ~["*","/"] (~["*"])* "*")* "/">}/* reserved words */<DEFAULT> TOKEN :{	<RELA_OP: ">" | "<" | "<=" | ">=" | "==" | "!=">	| <ADDSUB_OP: "+" | "-">	| <ARITH_OP: "*" | "/" | "<<" | ">>" | ">>>">	| <BITWISE_OP: "&" | "|" | "^">	| <NOT_OP: "!">	| <WHILE: "while">	| <IF: "if">	| <ELSE: "else">	| <ASSIGN: "=">	| <ASPA: "\"">	| <LPAR: "(">	| <RPAR: ")">	| <VIRG: ",">	| <PVIRG: ";">	| <LCHAVETA: "{">	| <RCHAVETA: "}">	| <FUNCTION: "function">	| <MODULE: "module">	| <SIZE: "size">}<DEFAULT> TOKEN :{	<INTEGER: (<DIGIT>)+>	| <ID: <LETTER> (<LETTER> | <DIGIT>)*>	| <#LETTER: ["$","A"-"Z","_","a"-"z"]>	| <#DIGIT: ["0"-"9"]>	| <STRING: "\"" (["a"-"z","A"-"Z","0"-"9",":"," ","="])+ "\"">}SimpleNode Module()        : {/*@bgen(jjtree) Module */
                                SimpleNode jjtn000 = new SimpleNode(JJTMODULE);
                                boolean jjtc000 = true;
                                jjtree.openNodeScope(jjtn000);
@@ -60,64 +60,7 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants/*@egen*/{/
             jjtree.closeNodeScope(jjtn000, true);
           }
         }
-/*@egen*/}void LeftSide()          : {/*@bgen(jjtree) LeftSide */
-  SimpleNode jjtn000 = new SimpleNode(JJTLEFTSIDE);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-/*@egen*/}{/*@bgen(jjtree) LeftSide */
-        try {
-/*@egen*/	LOOKAHEAD(2) ArrayElement() | ScalarElement()/*@bgen(jjtree)*/
-        } catch (Throwable jjte000) {
-          if (jjtc000) {
-            jjtree.clearNodeScope(jjtn000);
-            jjtc000 = false;
-          } else {
-            jjtree.popNode();
-          }
-          if (jjte000 instanceof RuntimeException) {
-            throw (RuntimeException)jjte000;
-          }
-          if (jjte000 instanceof ParseException) {
-            throw (ParseException)jjte000;
-          }
-          throw (Error)jjte000;
-        } finally {
-          if (jjtc000) {
-            jjtree.closeNodeScope(jjtn000, true);
-          }
-        }
-/*@egen*/}void RightSide()           : {/*@bgen(jjtree) RightSide */
-                               SimpleNode jjtn000 = new SimpleNode(JJTRIGHTSIDE);
-                               boolean jjtc000 = true;
-                               jjtree.openNodeScope(jjtn000);
-/*@egen*/ Token op, intID; }{/*@bgen(jjtree) RightSide */
-        try {
-/*@egen*/	("[" ArraySize() "]")  | 	((op=<ADDSUB_OP> {jjtn000.ID = op.image;})?	intID=<INTEGER>/*@bgen(jjtree)*/
-                        {
-                          jjtree.closeNodeScope(jjtn000, true);
-                          jjtc000 = false;
-                        }
-/*@egen*/ {		if (jjtn000.ID != null)			jjtn000.ID += intID.image;		else			jjtn000.ID = intID.image;	})/*@bgen(jjtree)*/
-        } catch (Throwable jjte000) {
-          if (jjtc000) {
-            jjtree.clearNodeScope(jjtn000);
-            jjtc000 = false;
-          } else {
-            jjtree.popNode();
-          }
-          if (jjte000 instanceof RuntimeException) {
-            throw (RuntimeException)jjte000;
-          }
-          if (jjte000 instanceof ParseException) {
-            throw (ParseException)jjte000;
-          }
-          throw (Error)jjte000;
-        } finally {
-          if (jjtc000) {
-            jjtree.closeNodeScope(jjtn000, true);
-          }
-        }
-/*@egen*/}void Function()          : {/*@bgen(jjtree) Function */
+/*@egen*/}void LeftSide()      : {}{	LOOKAHEAD(2) ArrayElement() | ScalarElement()}void Function()          : {/*@bgen(jjtree) Function */
                              SimpleNode jjtn000 = new SimpleNode(JJTFUNCTION);
                              boolean jjtc000 = true;
                              jjtree.openNodeScope(jjtn000);
@@ -283,6 +226,37 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants/*@egen*/{/
 /*@egen*/Token op;}{/*@bgen(jjtree) Rhs */
         try {
 /*@egen*/	(Term() ((op=<ARITH_OP> {jjtn000.ID = op.image;} |			 op=<BITWISE_OP> {jjtn000.ID = op.image;} |			 op=<ADDSUB_OP> {jjtn000.ID = op.image;}) Term())?) |			 "[" ArraySize() "]"/*@bgen(jjtree)*/
+        } catch (Throwable jjte000) {
+          if (jjtc000) {
+            jjtree.clearNodeScope(jjtn000);
+            jjtc000 = false;
+          } else {
+            jjtree.popNode();
+          }
+          if (jjte000 instanceof RuntimeException) {
+            throw (RuntimeException)jjte000;
+          }
+          if (jjte000 instanceof ParseException) {
+            throw (ParseException)jjte000;
+          }
+          throw (Error)jjte000;
+        } finally {
+          if (jjtc000) {
+            jjtree.closeNodeScope(jjtn000, true);
+          }
+        }
+/*@egen*/}void RightSide()           : {/*@bgen(jjtree) RightSide */
+                               SimpleNode jjtn000 = new SimpleNode(JJTRIGHTSIDE);
+                               boolean jjtc000 = true;
+                               jjtree.openNodeScope(jjtn000);
+/*@egen*/ Token op, intID; }{/*@bgen(jjtree) RightSide */
+        try {
+/*@egen*/	("[" ArraySize() "]")  | 	((op=<ADDSUB_OP> {jjtn000.ID = op.image;})?	intID=<INTEGER>/*@bgen(jjtree)*/
+                        {
+                          jjtree.closeNodeScope(jjtn000, true);
+                          jjtc000 = false;
+                        }
+/*@egen*/ {		if (jjtn000.ID != null)			jjtn000.ID += intID.image;		else			jjtn000.ID = intID.image;	})/*@bgen(jjtree)*/
         } catch (Throwable jjte000) {
           if (jjtc000) {
             jjtree.clearNodeScope(jjtn000);

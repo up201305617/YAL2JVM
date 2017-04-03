@@ -3,7 +3,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMConstants {/*@bgen(jjtree)*/
-  protected static JJTYAL2JVMState jjtree = new JJTYAL2JVMState();public static void main(String args [])
+  protected static JJTYAL2JVMState jjtree = new JJTYAL2JVMState();private static Module module;
+
+   public static void main(String args [])
    {
         //YAL2JVM myYAL2JVM = new YAL2JVM(System.in);        YAL2JVM myYAL2JVM = null;
                 try {
@@ -14,10 +16,18 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
         SimpleNode root = null;
                 try {
                         root = myYAL2JVM.Module();
+                        module = new Module(root.ID, root);
                 } catch (ParseException e) {
                         // TODO Auto-generated catch block                        e.printStackTrace();
                 }
+                System.out.println(root.ID);
         root.dump("");
+        root.analyse();
+   }
+
+   public static Module getModule()
+   {
+                return module;
    }
 
   static final public SimpleNode Module() throws ParseException {
@@ -120,99 +130,18 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
   }
 
   static final public void LeftSide() throws ParseException {
-                            /*@bgen(jjtree) LeftSide */
-  SimpleNode jjtn000 = new SimpleNode(JJTLEFTSIDE);
-  boolean jjtc000 = true;
-  jjtree.openNodeScope(jjtn000);
-    try {
-      if (jj_2_1(2)) {
-        ArrayElement();
-      } else {
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case ID:
-          ScalarElement();
-          break;
-        default:
-          jj_la1[3] = jj_gen;
-          jj_consume_token(-1);
-          throw new ParseException();
-        }
-      }
-    } catch (Throwable jjte000) {
-          if (jjtc000) {
-            jjtree.clearNodeScope(jjtn000);
-            jjtc000 = false;
-          } else {
-            jjtree.popNode();
-          }
-          if (jjte000 instanceof RuntimeException) {
-            {if (true) throw (RuntimeException)jjte000;}
-          }
-          if (jjte000 instanceof ParseException) {
-            {if (true) throw (ParseException)jjte000;}
-          }
-          {if (true) throw (Error)jjte000;}
-    } finally {
-          if (jjtc000) {
-            jjtree.closeNodeScope(jjtn000, true);
-          }
-    }
-  }
-
-  static final public void RightSide() throws ParseException {
-                              /*@bgen(jjtree) RightSide */
-                               SimpleNode jjtn000 = new SimpleNode(JJTRIGHTSIDE);
-                               boolean jjtc000 = true;
-                               jjtree.openNodeScope(jjtn000);Token op, intID;
-    try {
+    if (jj_2_1(2)) {
+      ArrayElement();
+    } else {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case 31:
-        jj_consume_token(31);
-        ArraySize();
-        jj_consume_token(32);
-        break;
-      case ADDSUB_OP:
-      case INTEGER:
-        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-        case ADDSUB_OP:
-          op = jj_consume_token(ADDSUB_OP);
-                          jjtn000.ID = op.image;
-          break;
-        default:
-          jj_la1[4] = jj_gen;
-          ;
-        }
-        intID = jj_consume_token(INTEGER);
-                          jjtree.closeNodeScope(jjtn000, true);
-                          jjtc000 = false;
-                if (jjtn000.ID != null)
-                        jjtn000.ID += intID.image;
-                else
-                        jjtn000.ID = intID.image;
+      case ID:
+        ScalarElement();
         break;
       default:
-        jj_la1[5] = jj_gen;
+        jj_la1[3] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
-    } catch (Throwable jjte000) {
-          if (jjtc000) {
-            jjtree.clearNodeScope(jjtn000);
-            jjtc000 = false;
-          } else {
-            jjtree.popNode();
-          }
-          if (jjte000 instanceof RuntimeException) {
-            {if (true) throw (RuntimeException)jjte000;}
-          }
-          if (jjte000 instanceof ParseException) {
-            {if (true) throw (ParseException)jjte000;}
-          }
-          {if (true) throw (Error)jjte000;}
-    } finally {
-          if (jjtc000) {
-            jjtree.closeNodeScope(jjtn000, true);
-          }
     }
   }
 
@@ -236,7 +165,7 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
         Varlist();
         break;
       default:
-        jj_la1[6] = jj_gen;
+        jj_la1[4] = jj_gen;
         ;
       }
       jj_consume_token(RPAR);
@@ -278,7 +207,7 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
           ScalarElement();
           break;
         default:
-          jj_la1[7] = jj_gen;
+          jj_la1[5] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -319,7 +248,7 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
           ScalarElement();
           break;
         default:
-          jj_la1[8] = jj_gen;
+          jj_la1[6] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -331,7 +260,7 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
           ;
           break;
         default:
-          jj_la1[9] = jj_gen;
+          jj_la1[7] = jj_gen;
           break label_3;
         }
         jj_consume_token(VIRG);
@@ -343,7 +272,7 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
             ScalarElement();
             break;
           default:
-            jj_la1[10] = jj_gen;
+            jj_la1[8] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
@@ -414,7 +343,7 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
         ;
         break;
       default:
-        jj_la1[11] = jj_gen;
+        jj_la1[9] = jj_gen;
         break label_4;
       }
       Stmt();
@@ -430,7 +359,7 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
       If();
       break;
     default:
-      jj_la1[12] = jj_gen;
+      jj_la1[10] = jj_gen;
       if (jj_2_6(3)) {
         Assign();
       } else {
@@ -440,7 +369,7 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
           jj_consume_token(PVIRG);
           break;
         default:
-          jj_la1[13] = jj_gen;
+          jj_la1[11] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -493,7 +422,7 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
           ScalarAccess();
           break;
         default:
-          jj_la1[14] = jj_gen;
+          jj_la1[12] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -548,14 +477,14 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
                                          jjtn000.ID = op.image;
             break;
           default:
-            jj_la1[15] = jj_gen;
+            jj_la1[13] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
           Term();
           break;
         default:
-          jj_la1[16] = jj_gen;
+          jj_la1[14] = jj_gen;
           ;
         }
         break;
@@ -563,6 +492,63 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
         jj_consume_token(31);
         ArraySize();
         jj_consume_token(32);
+        break;
+      default:
+        jj_la1[15] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    } catch (Throwable jjte000) {
+          if (jjtc000) {
+            jjtree.clearNodeScope(jjtn000);
+            jjtc000 = false;
+          } else {
+            jjtree.popNode();
+          }
+          if (jjte000 instanceof RuntimeException) {
+            {if (true) throw (RuntimeException)jjte000;}
+          }
+          if (jjte000 instanceof ParseException) {
+            {if (true) throw (ParseException)jjte000;}
+          }
+          {if (true) throw (Error)jjte000;}
+    } finally {
+          if (jjtc000) {
+            jjtree.closeNodeScope(jjtn000, true);
+          }
+    }
+  }
+
+  static final public void RightSide() throws ParseException {
+                              /*@bgen(jjtree) RightSide */
+                               SimpleNode jjtn000 = new SimpleNode(JJTRIGHTSIDE);
+                               boolean jjtc000 = true;
+                               jjtree.openNodeScope(jjtn000);Token op, intID;
+    try {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case 31:
+        jj_consume_token(31);
+        ArraySize();
+        jj_consume_token(32);
+        break;
+      case ADDSUB_OP:
+      case INTEGER:
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case ADDSUB_OP:
+          op = jj_consume_token(ADDSUB_OP);
+                          jjtn000.ID = op.image;
+          break;
+        default:
+          jj_la1[16] = jj_gen;
+          ;
+        }
+        intID = jj_consume_token(INTEGER);
+                          jjtree.closeNodeScope(jjtn000, true);
+                          jjtc000 = false;
+                if (jjtn000.ID != null)
+                        jjtn000.ID += intID.image;
+                else
+                        jjtn000.ID = intID.image;
         break;
       default:
         jj_la1[17] = jj_gen;
@@ -1172,31 +1158,6 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
     finally { jj_save(8, xla); }
   }
 
-  static private boolean jj_3_8() {
-    if (jj_3R_10()) return true;
-    return false;
-  }
-
-  static private boolean jj_3_5() {
-    if (jj_3R_6()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_19() {
-    if (jj_scan_token(31)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_27() {
-    if (jj_scan_token(INTEGER)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_26() {
-    if (jj_scan_token(ADDSUB_OP)) return true;
-    return false;
-  }
-
   static private boolean jj_3R_22() {
     Token xsp;
     xsp = jj_scanpos;
@@ -1215,8 +1176,23 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
     return false;
   }
 
+  static private boolean jj_3R_17() {
+    if (jj_3R_21()) return true;
+    return false;
+  }
+
   static private boolean jj_3R_33() {
     if (jj_scan_token(INTEGER)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_5() {
+    if (jj_3R_6()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_19() {
+    if (jj_scan_token(31)) return true;
     return false;
   }
 
@@ -1255,8 +1231,19 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
     return false;
   }
 
+  static private boolean jj_3R_14() {
+    if (jj_scan_token(33)) return true;
+    if (jj_scan_token(ID)) return true;
+    return false;
+  }
+
   static private boolean jj_3R_11() {
     if (jj_3R_16()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_28() {
+    if (jj_3R_21()) return true;
     return false;
   }
 
@@ -1267,23 +1254,7 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
     return false;
   }
 
-  static private boolean jj_3R_14() {
-    if (jj_scan_token(33)) return true;
-    if (jj_scan_token(ID)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_28() {
-    if (jj_3R_21()) return true;
-    return false;
-  }
-
   static private boolean jj_3R_32() {
-    if (jj_scan_token(ID)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_16() {
     if (jj_scan_token(ID)) return true;
     return false;
   }
@@ -1304,28 +1275,11 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
     return false;
   }
 
-  static private boolean jj_3R_6() {
-    if (jj_scan_token(ID)) return true;
-    if (jj_scan_token(31)) return true;
-    if (jj_scan_token(32)) return true;
-    return false;
-  }
-
   static private boolean jj_3R_21() {
     if (jj_scan_token(ID)) return true;
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_25()) jj_scanpos = xsp;
-    return false;
-  }
-
-  static private boolean jj_3_4() {
-    if (jj_3R_6()) return true;
-    return false;
-  }
-
-  static private boolean jj_3_2() {
-    if (jj_3R_7()) return true;
     return false;
   }
 
@@ -1336,8 +1290,8 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
     return false;
   }
 
-  static private boolean jj_3_3() {
-    if (jj_3R_6()) return true;
+  static private boolean jj_3R_16() {
+    if (jj_scan_token(ID)) return true;
     return false;
   }
 
@@ -1346,19 +1300,15 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
     return false;
   }
 
-  static private boolean jj_3R_7() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3_3()) {
-    jj_scanpos = xsp;
-    if (jj_3R_11()) return true;
-    }
-    if (jj_scan_token(ASSIGN)) return true;
+  static private boolean jj_3R_30() {
+    if (jj_scan_token(STRING)) return true;
     return false;
   }
 
-  static private boolean jj_3R_30() {
-    if (jj_scan_token(STRING)) return true;
+  static private boolean jj_3R_6() {
+    if (jj_scan_token(ID)) return true;
+    if (jj_scan_token(31)) return true;
+    if (jj_scan_token(32)) return true;
     return false;
   }
 
@@ -1385,6 +1335,16 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
     return false;
   }
 
+  static private boolean jj_3_4() {
+    if (jj_3R_6()) return true;
+    return false;
+  }
+
+  static private boolean jj_3_2() {
+    if (jj_3R_7()) return true;
+    return false;
+  }
+
   static private boolean jj_3R_20() {
     if (jj_3R_23()) return true;
     return false;
@@ -1392,6 +1352,22 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
 
   static private boolean jj_3_9() {
     if (jj_3R_9()) return true;
+    return false;
+  }
+
+  static private boolean jj_3_3() {
+    if (jj_3R_6()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_7() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3_3()) {
+    jj_scanpos = xsp;
+    if (jj_3R_11()) return true;
+    }
+    if (jj_scan_token(ASSIGN)) return true;
     return false;
   }
 
@@ -1412,8 +1388,18 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
     return false;
   }
 
-  static private boolean jj_3R_17() {
-    if (jj_3R_21()) return true;
+  static private boolean jj_3_8() {
+    if (jj_3R_10()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_27() {
+    if (jj_scan_token(INTEGER)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_26() {
+    if (jj_scan_token(ADDSUB_OP)) return true;
     return false;
   }
 
@@ -1437,7 +1423,7 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x8000000,0x800000,0x8000,0x8000000,0x100,0x84000100,0x8000000,0x8000000,0x8000000,0x80000,0x8000000,0x8003000,0x3000,0x8000000,0x8000000,0x700,0x700,0x8c000100,0xc000000,0x100,0x4000000,0x8000000,0x4000,0x0,0x4c000000,0x80000,0x4c000000,0x0,0xc000000,};
+      jj_la1_0 = new int[] {0x8000000,0x800000,0x8000,0x8000000,0x8000000,0x8000000,0x8000000,0x80000,0x8000000,0x8003000,0x3000,0x8000000,0x8000000,0x700,0x700,0x8c000100,0x100,0x84000100,0xc000000,0x100,0x4000000,0x8000000,0x4000,0x0,0x4c000000,0x80000,0x4c000000,0x0,0xc000000,};
    }
    private static void jj_la1_init_1() {
       jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x2,0x0,0x0,0x0,0x2,0x0,};
