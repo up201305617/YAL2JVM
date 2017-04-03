@@ -65,4 +65,11 @@ public class SemanticAnalysis
 			
 		}
 	}
+	
+	public IntermediateRepresentation analyseAssignment(SimpleNode lhs, SimpleNode rhs, Function function) 
+	{
+		boolean isOperation = false;
+		
+		return null;
+	}
 }
