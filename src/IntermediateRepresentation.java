@@ -16,7 +16,7 @@ public class IntermediateRepresentation
 	public String lhsAccess;
 	public String lhsType;
 	public String lhsArrayIndexId;
-	public String lhsArrayAccess;
+	public String lhsArrayAccessType;
 	
 	public String rhs1Id;
 	public String rhs1Scope;
@@ -37,5 +37,17 @@ public class IntermediateRepresentation
 	public ArrayList<String> rhs2Args;
 	public Function rhs2Call;
 	public boolean rhs2OtherModule;
+	
+	public IntermediateRepresentation (String t, Function f)
+	{
+		type = t;
+		parents = new ArrayList<IntermediateRepresentation>();
+		children = new ArrayList<IntermediateRepresentation>();
+		rhs1Args = new ArrayList<String>();
+		rhs2Args = new ArrayList<String>();
+		nodeNumber = Function.cfgNodeCount;
+		Function.cfgNodeCount++;
+		f.getNodes().add(this);
+	}
 
 }

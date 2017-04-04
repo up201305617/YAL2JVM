@@ -32,11 +32,10 @@ public class SemanticAnalysis
 				if(numChildren == 1)
 				{
 					var = new Scalar(name);
-					
 					if(!YAL2JVM.getModule().addGlobalVariableToModule(var))
 					{
 						//Existe mais que uma com o mesmo nome;
-						System.out.println("Error! Existe mais que uma variável com o nome: "+name);
+						System.out.println("Existem variáveis com o nome: "+name);
 					}
 				}
 				//Declaração e atribuição (ex.: a=1)
@@ -57,7 +56,6 @@ public class SemanticAnalysis
 					{
 						SimpleNode array = (SimpleNode) right_side.jjtGetChild(0);
 						int size = Integer.parseInt(array.ID);
-						System.out.println(size);
 						var = new Array(name, size);
 					}
 				}
@@ -66,10 +64,121 @@ public class SemanticAnalysis
 		}
 	}
 	
+	public void analyseArrayAccess(String array, String index, Function function)
+	{
+		if(YAL2JVM.getModule().isGlobalVariable(array))
+		{
+			if(YAL2JVM.getModule().getGlobalVariableById(array) instanceof Scalar)
+			{
+				System.out.println("In the function "+function.getFunctionId() + " the variable "+array+" is not an array");
+			}
+		}
+		
+		if (function.isLocalVariable(array)) 
+		{
+			if (function.getVariableById(array) instanceof Scalar)
+			{
+				System.out.println("In the function "+function.getFunctionId() + " the variable "+array+" is not an array");
+			}
+		} 
+		
+		if (function.checkArguments(array))
+		{
+			if (function.getArgumentsById(array) instanceof Scalar)
+			{
+				System.out.println("In the function "+function.getFunctionId() + " the variable "+array+" is not an array");
+			}
+		}  
+		
+		if (function.isReturnValue(array)) 
+		{
+			if (function.getReturnValue() instanceof Scalar)
+			{
+				System.out.println("In the function "+function.getFunctionId() + " the variable "+array+" is not an array");
+			}
+		} 
+		else 
+		{
+			System.out.println("In the function "+function.getFunctionId() + " the variable "+array+" hasn't been declared");
+		}
+		
+		try 
+		{
+			Integer.parseInt(index);
+		} 
+		catch (NumberFormatException e) 
+		{
+			if (YAL2JVM.getModule().isGlobalVariable(index)) 
+			{
+				if (YAL2JVM.getModule().getGlobalVariableById(index)  instanceof Array)
+				{
+					System.out.println("In the function "+function.getFunctionId() +" To access the array " + index + " you must use a scalar variable");
+				}
+			}  
+			if (function.isLocalVariable(index)) 
+			{
+				if (function.getVariableById(index) instanceof Array)
+				{
+					System.out.println("In the function "+function.getFunctionId() +" To access the array " + index + " you must use a scalar variable");
+				}
+			} 
+			if (function.checkArguments(index)) 
+			{
+				if (function.getArgumentsById(index) instanceof Array)
+				{
+					System.out.println("In the function "+function.getFunctionId() +" To access the array " + index + " you must use a scalar variable");
+				}
+			}  
+			if (function.isReturnValue(index))
+			{
+				if (function.getReturnValue() instanceof Array)
+				{
+					System.out.println("In the function "+function.getFunctionId() +" To access the array " + index + " you must use a scalar variable");
+				}
+			} 
+			else 
+			{
+				System.out.println("In the function "+function.getFunctionId() + " the variable "+index+" hasn't been declared");
+			}
+		}
+	}
+	
+	public IntermediateRepresentation analyseCondition(SimpleNode left_side, SimpleNode right_side, Function function, String type)
+	{
+		IntermediateRepresentation conditionNode = new IntermediateRepresentation(type,function);
+		
+		if(left_side.getOriginalId() == YAL2JVMTreeConstants.JJTARRAYACCESS)
+		{
+			SimpleNode index = (SimpleNode) left_side.jjtGetChild(0);
+			conditionNode.lhsId = left_side.ID;
+			conditionNode.lhsAccess = "array";
+			try
+			{
+				Integer.parseInt(index.ID);
+				conditionNode.lhsArrayAccessType = "integer";
+			}
+			catch(NumberFormatException e)
+			{
+				conditionNode.lhsArrayAccessType = "scalar";
+			}
+			conditionNode.lhsArrayIndexId = index.ID;
+			
+			analyseArrayAccess(left_side.ID, index.ID, function);
+		}
+		return conditionNode;
+	}
+	
 	public IntermediateRepresentation analyseAssignment(SimpleNode lhs, SimpleNode rhs, Function function) 
 	{
 		boolean isOperation = false;
-		
 		return null;
+	}
+
+	public void analyseBodies(Function function)
+	{
+		for(int i=0; i<sn.getChildren().length;i++)
+		{
+			SimpleNode child = (SimpleNode) sn.getChildren()[i];
+		}
 	}
 }

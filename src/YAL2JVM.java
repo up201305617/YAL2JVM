@@ -20,9 +20,11 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
                 } catch (ParseException e) {
                         // TODO Auto-generated catch block                        e.printStackTrace();
                 }
-                System.out.println(root.ID);
-        root.dump("");
-        root.analyse();
+                System.out.println("\u005cn");
+                System.out.println("Module to analyse "+root.ID+"\u005cn");
+        //root.dump("");        root.analyse();
+        Utils.getFunctions(root,module);
+        module.printAllModule();
    }
 
    public static Module getModule()
@@ -1158,29 +1160,6 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
     finally { jj_save(8, xla); }
   }
 
-  static private boolean jj_3R_22() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_26()) jj_scanpos = xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_27()) {
-    jj_scanpos = xsp;
-    if (jj_3_8()) {
-    jj_scanpos = xsp;
-    if (jj_3_9()) {
-    jj_scanpos = xsp;
-    if (jj_3R_28()) return true;
-    }
-    }
-    }
-    return false;
-  }
-
-  static private boolean jj_3R_17() {
-    if (jj_3R_21()) return true;
-    return false;
-  }
-
   static private boolean jj_3R_33() {
     if (jj_scan_token(INTEGER)) return true;
     return false;
@@ -1400,6 +1379,29 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
 
   static private boolean jj_3R_26() {
     if (jj_scan_token(ADDSUB_OP)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_22() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_26()) jj_scanpos = xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_27()) {
+    jj_scanpos = xsp;
+    if (jj_3_8()) {
+    jj_scanpos = xsp;
+    if (jj_3_9()) {
+    jj_scanpos = xsp;
+    if (jj_3R_28()) return true;
+    }
+    }
+    }
+    return false;
+  }
+
+  static private boolean jj_3R_17() {
+    if (jj_3R_21()) return true;
     return false;
   }
 

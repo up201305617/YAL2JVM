@@ -82,9 +82,13 @@ public void jjtSetValue(Object value) { this.value = value; }
   
   public void analyse()
   {
-	  System.out.println(ID);
 	  sa = new SemanticAnalysis(this);
 	  sa.initiateAnalysis();
+  }
+
+  public int getOriginalId()
+  {
+	  return id;
   }
 }
 

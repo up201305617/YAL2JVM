@@ -31,4 +31,48 @@ public class Module
 			return false;
 		}
 	}
+	
+	public boolean isGlobalVariable(String id) 
+	{
+		return globalVariables.containsKey(id);
+	}
+	
+	public Variable getGlobalVariableById(String id)
+	{
+		return globalVariables.get(id);
+	}
+
+	public boolean addFunction(Function function)
+	{
+		String key = function.getFunctionId();
+		if (!functions.containsKey(key))
+		{
+			functions.put(key,function);
+			return true;
+		} 
+		else 
+		{
+			System.out.println("Already exist a function with the name " + function.getFunctionId());
+			return false;
+		}
+	}
+	
+	public void printAllModule()
+	{
+		System.out.println(this.moduleID + " Functions");
+		
+		for(String key : functions.keySet()) 
+		{
+			Function f = functions.get(key);
+			System.out.println(f.getFunctionId());
+	 	}
+		
+		System.out.println(this.moduleID + " Globals");
+		
+		for(String key : globalVariables.keySet())
+		{
+			Variable var = globalVariables.get(key);
+			System.out.println(var.getVariableID());
+		}
+	}
 }
