@@ -83,11 +83,11 @@ public class Utils
 			}
 			if(checkIfExistArray(aux,n.ID))
 			{
-				System.out.println("Function " + functionId + " has argument " + n.ID + " duplicated");
+				System.out.println("A função " + functionId + " tem o argumento " + n.ID + " mais que uma vez");
 			}
 			else if(returnVar != null && n.ID.equals(returnVar.getVariableID()))
 			{
-				System.out.println("Function " + functionId + " has argument " + n.ID + " with the same name as the return variable");
+				System.out.println("A função " + functionId + " tem o argumento " + n.ID + " com o mesmo nome da variável de retorno");
 			}
 			else 
 			{
