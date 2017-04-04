@@ -59,15 +59,20 @@ public class Module
 	
 	public void printAllModule()
 	{
+		System.out.println("///////////////////////////////////////");
 		System.out.println(this.moduleID + " Functions");
+		System.out.println("///////////////////////////////////////");
 		
 		for(String key : functions.keySet()) 
 		{
 			Function f = functions.get(key);
 			System.out.println(f.getFunctionId());
+			f.printFuntion();
 	 	}
 		
+		System.out.println("///////////////////////////////////////");
 		System.out.println(this.moduleID + " Globals");
+		System.out.println("///////////////////////////////////////");
 		
 		for(String key : globalVariables.keySet())
 		{

@@ -82,4 +82,17 @@ public class Function
 		}
 		return false;
 	}
+	
+	public void printFuntion()
+	{
+		System.out.println("Arguments");
+		
+		for(int i=0; i<this.arguments.size();i++)
+		{
+			System.out.println(this.arguments.get(i).getVariableID());
+		}
+		
+		System.out.println("Return Value");
+		System.out.println(this.returnValue.getVariableID());
+	}
 }

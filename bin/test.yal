@@ -11,12 +11,4 @@ module test
 			d = 1*3;
 		}
 	}
-	
-	function i=aux_temp(a, b, c[])
-	{
-		if(a==1)
-		{
-			d = 1*3;
-		}
-	}
 }

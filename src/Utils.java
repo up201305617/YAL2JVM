@@ -33,7 +33,7 @@ public class Utils
 					{
 						returnValue = getReturnValue(n);
 					}
-					else if (id == YAL2JVMTreeConstants.JJTARGUMENT)
+					else if (id == YAL2JVMTreeConstants.JJTVARLIST)
 					{
 						arguments = getArguments(n,node.ID, returnValue);
 					}
