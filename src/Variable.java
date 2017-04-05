@@ -3,6 +3,7 @@
 public class Variable 
 {
 	private String variableID;
+	private String type;
 	
 	public Variable(String id) 
 	{
@@ -26,9 +27,14 @@ public class Variable
 	
 	public String getType()
 	{
-		return "variable";
+		return type;
 	}
-	
+
+	public void setType(String type) 
+	{
+		this.type = type;
+	}
+
 	public boolean whatIs(String type)
 	{
 		if(type.equals("Variable"))

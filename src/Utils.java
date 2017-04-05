@@ -75,11 +75,15 @@ public class Utils
 			SimpleNode n = (SimpleNode)node.jjtGetChild(i);
 			if(n.getOriginalId() == YAL2JVMTreeConstants.JJTSCALAR)
 			{
-				arguments.add(new Scalar(n.ID));
+				Scalar new_scalar = new Scalar(n.ID);
+				new_scalar.setType("scalar");
+				arguments.add(new_scalar);
 			}
 			else if(n.getOriginalId() == YAL2JVMTreeConstants.JJTARRAY)
 			{
-				arguments.add(new Array(n.ID));
+				Array new_array = new Array(n.ID);
+				new_array.setType("array");
+				arguments.add(new_array);
 			}
 			if(checkIfExistArray(aux,n.ID))
 			{

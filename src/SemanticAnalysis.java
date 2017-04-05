@@ -35,7 +35,7 @@ public class SemanticAnalysis
 					if(!YAL2JVM.getModule().addGlobalVariableToModule(var))
 					{
 						//Existe mais que uma com o mesmo nome;
-						System.out.println("Existem variáveis com o nome: "+name);
+						System.out.println("Existe mais que uma variável global com o nome "+name);
 					}
 				}
 				//Declaração e atribuição (ex.: a=1)
@@ -70,7 +70,7 @@ public class SemanticAnalysis
 		{
 			if(YAL2JVM.getModule().getGlobalVariableById(array) instanceof Scalar)
 			{
-				System.out.println("In the function "+function.getFunctionId() + " the variable "+array+" is not an array");
+				System.out.println("Na função "+function.getFunctionId() + " a variavel "+array+" não é um array");
 			}
 		}
 		
@@ -78,7 +78,7 @@ public class SemanticAnalysis
 		{
 			if (function.getVariableById(array) instanceof Scalar)
 			{
-				System.out.println("In the function "+function.getFunctionId() + " the variable "+array+" is not an array");
+				System.out.println("Na função "+function.getFunctionId() + " a variavel "+array+" não é um array");
 			}
 		} 
 		
@@ -86,7 +86,7 @@ public class SemanticAnalysis
 		{
 			if (function.getArgumentsById(array) instanceof Scalar)
 			{
-				System.out.println("In the function "+function.getFunctionId() + " the variable "+array+" is not an array");
+				System.out.println("Na função "+function.getFunctionId() + " a variavel "+array+" não é um array");
 			}
 		}  
 		
@@ -94,12 +94,12 @@ public class SemanticAnalysis
 		{
 			if (function.getReturnValue() instanceof Scalar)
 			{
-				System.out.println("In the function "+function.getFunctionId() + " the variable "+array+" is not an array");
+				System.out.println("Na função "+function.getFunctionId() + " a variavel "+array+" não é um array");
 			}
 		} 
 		else 
 		{
-			System.out.println("In the function "+function.getFunctionId() + " the variable "+array+" hasn't been declared");
+			System.out.println("Na função "+function.getFunctionId() + " a variavel "+array+" ainda não foi declarada");
 		}
 		
 		try 
@@ -112,33 +112,33 @@ public class SemanticAnalysis
 			{
 				if (YAL2JVM.getModule().getGlobalVariableById(index)  instanceof Array)
 				{
-					System.out.println("In the function "+function.getFunctionId() +" To access the array " + index + " you must use a scalar variable");
+					System.out.println("Na função "+function.getFunctionId() +" para aceder ao array " + index + " deve usar um scalar");
 				}
 			}  
 			if (function.isLocalVariable(index)) 
 			{
 				if (function.getVariableById(index) instanceof Array)
 				{
-					System.out.println("In the function "+function.getFunctionId() +" To access the array " + index + " you must use a scalar variable");
+					System.out.println("Na função "+function.getFunctionId() +" para aceder ao array " + index + " deve usar um scalar");
 				}
 			} 
 			if (function.checkArguments(index)) 
 			{
 				if (function.getArgumentsById(index) instanceof Array)
 				{
-					System.out.println("In the function "+function.getFunctionId() +" To access the array " + index + " you must use a scalar variable");
+					System.out.println("Na função "+function.getFunctionId() +" para aceder ao array " + index + " deve usar um scalar");
 				}
 			}  
 			if (function.isReturnValue(index))
 			{
 				if (function.getReturnValue() instanceof Array)
 				{
-					System.out.println("In the function "+function.getFunctionId() +" To access the array " + index + " you must use a scalar variable");
+					System.out.println("Na função "+function.getFunctionId() +" para aceder ao array " + index + " deve usar um scalar");
 				}
 			} 
 			else 
 			{
-				System.out.println("In the function "+function.getFunctionId() + " the variable "+index+" hasn't been declared");
+				System.out.println("Na função "+function.getFunctionId() + " a variavel "+index+" ainda não foi declarada");
 			}
 		}
 	}
@@ -174,7 +174,7 @@ public class SemanticAnalysis
 		return null;
 	}
 
-	public void analyseBodies(Function function)
+	public void analyseFunction(Function function)
 	{
 		for(int i=0; i<sn.getChildren().length;i++)
 		{

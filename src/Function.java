@@ -89,10 +89,10 @@ public class Function
 		
 		for(int i=0; i<this.arguments.size();i++)
 		{
-			System.out.println(this.arguments.get(i).getVariableID());
+			System.out.println(this.arguments.get(i).getVariableID()+" - "+this.arguments.get(i).getType());
 		}
 		
 		System.out.println("Return Value");
-		System.out.println(this.returnValue.getVariableID());
+		System.out.println(this.returnValue.getVariableID()+" - "+this.returnValue.getType());
 	}
 }
