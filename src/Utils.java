@@ -2,7 +2,8 @@ import java.util.ArrayList;
 
 public class Utils 
 {
-	public static boolean dot(String id) 
+	//io.print("")
+	public static boolean isArrayOrFunctionAccess(String id) 
 	{
 		for (int i = 0; i < id.length(); i++)
 		{
