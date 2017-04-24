@@ -17,16 +17,16 @@ public class Utils
 	
 	public static void getFunctions(SimpleNode root, Module m) 
 	{
-		int num = root.jjtGetNumChildren();
-		for (int i = 0; i < num; i++) 
+		int numChildrenRoot = root.jjtGetNumChildren();
+		for (int i = 0; i < numChildrenRoot; i++) 
 		{
 			SimpleNode node = (SimpleNode)root.jjtGetChild(i);
 			if(node.getOriginalId() == YAL2JVMTreeConstants.JJTFUNCTION)
 			{
 				ArrayList<Variable> arguments = new ArrayList<>();
 				Variable returnValue = null;
-				int num2 = node.jjtGetNumChildren();
-				for (int j = 0; j < num2; j++)
+				int numChildrenNode = node.jjtGetNumChildren();
+				for (int j = 0; j < numChildrenNode; j++)
 				{
 					SimpleNode n = (SimpleNode)node.jjtGetChild(j);
 					int id = n.getOriginalId();
@@ -48,30 +48,34 @@ public class Utils
 	
 	public static Variable getReturnValue(SimpleNode n)
 	{
-		Variable var = null;
+		Variable newVar = null;
+		
 		if(n.getOriginalId() == YAL2JVMTreeConstants.JJTRETURN)
 		{
 			SimpleNode retVarNode = (SimpleNode)n.jjtGetChild(0);
 			int returnId = retVarNode.getOriginalId();
+			
 			if(returnId == YAL2JVMTreeConstants.JJTARRAY)
 			{
-				var = new Array(retVarNode.ID);
+				newVar = new Array(retVarNode.ID);
 			}
-			else if(returnId == YAL2JVMTreeConstants.JJTSCALAR)
+			
+			if(returnId == YAL2JVMTreeConstants.JJTSCALAR)
 			{
-				var = new Scalar(retVarNode.ID);
+				newVar = new Scalar(retVarNode.ID);
 			}
 		}
-		return var;
+		
+		return newVar;
 	}
 	
 	public static ArrayList<Variable> getArguments(SimpleNode node, String functionId, Variable returnVar)
 	{
 		ArrayList<Variable> arguments = new ArrayList<>();
 		ArrayList<String> aux = new ArrayList<String>();
-		int num = node.jjtGetNumChildren();
+		int numChildren = node.jjtGetNumChildren();
 		
-		for (int i = 0; i < num; i++) 
+		for (int i = 0; i < numChildren; i++) 
 		{
 			SimpleNode n = (SimpleNode)node.jjtGetChild(i);
 			if(n.getOriginalId() == YAL2JVMTreeConstants.JJTSCALAR)
@@ -107,6 +111,18 @@ public class Utils
 		for(int i=0; i<array.size();i++)
 		{
 			if(array.get(i).equals(elem))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isCall(String call)
+	{
+		for (int i = 0; i < call.length(); i++)
+		{
+			if (call.charAt(i) == '.')
 			{
 				return true;
 			}

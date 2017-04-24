@@ -1,14 +1,13 @@
-module test 
+module test
 {	
-	a;
-	a;
-	d;
-	
-	function i=aux(a, b, c[])
+	function i=f(a, b, c[]) 
 	{
-		if(a==1)
+		i = 0;
+		Y = p;
+		
+		if(i>h)
 		{
-			d = 1*3;
+		
 		}
 	}
 }

@@ -90,6 +90,13 @@ public void jjtSetValue(Object value) { this.value = value; }
   {
 	  return id;
   }
+  
+  public IntermediateRepresentation analyseFunction(Function function, IntermediateRepresentation parentNode)
+  {
+	  
+	  sa = new SemanticAnalysis(this);
+	  return sa.analyseFunction(function,parentNode);
+  }
 }
 
 /* JavaCC - OriginalChecksum=c56f0b1b00e2826c701d1e27678b994b (do not edit this line) */

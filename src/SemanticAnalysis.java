@@ -35,7 +35,8 @@ public class SemanticAnalysis
 					if(!YAL2JVM.getModule().addGlobalVariableToModule(var))
 					{
 						//Existe mais que uma com o mesmo nome;
-						System.out.println("Existe mais que uma variável global com o nome "+name);
+						YAL2JVM.incErrors();
+						System.out.println("Existe mais que uma variável global com o nome " + name);
 					}
 				}
 				//Declaração e atribuição (ex.: a=1)
@@ -143,6 +144,84 @@ public class SemanticAnalysis
 		}
 	}
 	
+	public void analyseScalarAccess(String scalarAccess, Function parentFunction) 
+	{
+		String scalar;
+
+		if (Utils.isCall(scalarAccess)) 
+		{
+			scalar = scalarAccess.split("\\.")[0];
+
+			if (YAL2JVM.getModule().isGlobalVariable(scalar)) 
+			{
+				if (YAL2JVM.getModule().getGlobalVariableById(scalar) instanceof Scalar)
+				{
+					System.out.println("Na função "+parentFunction.getFunctionId()+" a variável "+scalar+" não é um array e não possui o atributo tamanho");
+				}
+			}  
+			if (parentFunction.isLocalVariable(scalar)) 
+			{
+				if (parentFunction.getVariableById(scalar) instanceof Scalar)
+				{
+					System.out.println("Na função "+parentFunction.getFunctionId()+" a variável "+scalar+" não é um array e não possui o atributo tamanho");
+				}
+			} 
+			if (parentFunction.checkArguments(scalar)) 
+			{
+				if (parentFunction.getArgumentsById(scalar) instanceof Scalar)
+				{
+					System.out.println("Na função "+parentFunction.getFunctionId()+" a variável "+scalar+" não é um array e não possui o atributo tamanho");
+				}
+			} 
+			if (parentFunction.isReturnValue(scalar))
+			{
+				if (parentFunction.getReturnValue() instanceof Scalar)
+				{
+					System.out.println("Na função "+parentFunction.getFunctionId()+" a variável "+scalar+" não é um array e não possui o atributo tamanho");
+				}
+			} 
+			else 
+			{
+				System.out.println("Na função "+parentFunction.getFunctionId() + " a variavel "+scalar+" ainda não foi declarada");
+			}
+		} 
+		else
+		{
+			if (YAL2JVM.getModule().isGlobalVariable(scalarAccess)) 
+			{
+				if (YAL2JVM.getModule().getGlobalVariableById(scalarAccess) instanceof Array)
+				{
+					System.out.println("Na função "+parentFunction.getFunctionId()+" é necessário um index para aceder à variavél "+scalarAccess);
+				}
+			} 
+			if (parentFunction.isLocalVariable(scalarAccess)) 
+			{
+				if (parentFunction.getVariableById(scalarAccess) instanceof Array)
+				{
+					System.out.println("Na função "+parentFunction.getFunctionId()+" é necessário um index para aceder à variavél "+scalarAccess);
+				}
+			} 
+			if (parentFunction.checkArguments(scalarAccess))
+			{
+				if (parentFunction.getArgumentsById(scalarAccess) instanceof Array)
+				{
+					System.out.println("Na função "+parentFunction.getFunctionId()+" é necessário um index para aceder à variavél "+scalarAccess);
+				}
+			} 
+			if (parentFunction.isReturnValue(scalarAccess))
+			{
+				if (parentFunction.getReturnValue() instanceof Array)
+				{
+					System.out.println("Na função "+parentFunction.getFunctionId()+" é necessário um index para aceder à variavél "+scalarAccess);
+				}
+			}
+			else 
+			{
+				System.out.println("Na função "+parentFunction.getFunctionId() + " a variavel "+scalarAccess+" ainda não foi declarada");
+			}
+		}
+	}
+	
 	public IntermediateRepresentation analyseCondition(SimpleNode left_side, SimpleNode right_side, Function function, String type)
 	{
 		IntermediateRepresentation conditionNode = new IntermediateRepresentation(type,function);
@@ -161,11 +240,95 @@ public class SemanticAnalysis
 			{
 				conditionNode.lhsArrayAccessType = "scalar";
 			}
+			
 			conditionNode.lhsArrayIndexId = index.ID;
 			
 			analyseArrayAccess(left_side.ID, index.ID, function);
 		}
+		
+		if(left_side.getOriginalId() == YAL2JVMTreeConstants.JJTSCALARACCESS)
+		{
+			conditionNode.lhsId = left_side.ID;
+			conditionNode.lhsAccess = "scalar";
+			analyseScalarAccess(left_side.ID,function);
+		}
+		
+		if(right_side.jjtGetNumChildren()==1)
+		{
+			conditionNode.isOperation = false;
+			SimpleNode right_side_child = (SimpleNode)right_side.jjtGetChild(0);
+			
+			if (right_side_child.getOriginalId() == YAL2JVMTreeConstants.JJTTERM) 
+			{
+				if (right_side_child.ID == null) 
+				{
+					@SuppressWarnings("unused")
+					SimpleNode term = (SimpleNode)right_side_child.jjtGetChild(0);
+
+					if (term.getOriginalId() == YAL2JVMTreeConstants.JJTCALL)
+					{
+						conditionNode.rhs1Access = "call";
+						conditionNode.rhs1Id = term.ID;
+						
+						if (!Utils.isCall(term.ID))
+						{
+							//String fullName = term.ID + "(" + getRealFunctionName(term.getChildren(), function) + ")";
+							conditionNode.rhs1Call = YAL2JVM.getModule().getFunctionByID(term.ID);
+						} 
+						else
+						{
+							conditionNode.rhs1OtherModule = true;
+						}
+						
+						for (int i = 0; i < term.jjtGetNumChildren(); i++)
+						{
+							conditionNode.rhs1Args.add(i, ((SimpleNode)term.jjtGetChild(i)).ID);
+						}
+						
+						analyseCall(term.ID, term.getChildren(), true, function);
+						
+					} 
+					if (term.getOriginalId() == YAL2JVMTreeConstants.JJTARRAYACCESS) 
+					{
+						SimpleNode index = (SimpleNode)term.jjtGetChild(0);
+						
+						conditionNode.rhs1Id = term.ID;
+						conditionNode.rhs1Access = "array";
+						try
+						{
+							Integer.parseInt(index.ID);
+							conditionNode.rhs1ArrayAccess = "integer";
+						}
+						catch(NumberFormatException e)
+						{
+							conditionNode.rhs1ArrayAccess = "scalar";
+						}
+						conditionNode.rhs1ArrayIndexId = index.ID;
+						
+						analyseArrayAccess(term.ID, index.ID, function);
+					} 
+					if (term.getOriginalId() == YAL2JVMTreeConstants.JJTSCALARACCESS) 
+					{
+						conditionNode.rhs1Id = term.ID;
+						conditionNode.rhs1Access = "scalar";
+						
+						analyseScalarAccess(term.ID, function);
+					}
+				} 
+				else 
+				{
+					conditionNode.rhs1Id = right_side_child.ID;
+					conditionNode.rhs1Access = "integer";
+				}
+			} 
+		}
+		
 		return conditionNode;
+	}
+	
+	public IntermediateRepresentation analyseCall(String call, Node[] args, boolean isCondition, Function parentFunction) 
+	{
+		return null;
 	}
 	
 	public IntermediateRepresentation analyseAssignment(SimpleNode lhs, SimpleNode rhs, Function function) 
@@ -174,11 +337,25 @@ public class SemanticAnalysis
 		return null;
 	}
 
-	public void analyseFunction(Function function)
+	public IntermediateRepresentation analyseFunction(Function function, IntermediateRepresentation parentNode)
 	{
 		for(int i=0; i<sn.getChildren().length;i++)
 		{
 			SimpleNode child = (SimpleNode) sn.getChildren()[i];
+			
+			switch(child.getOriginalId())
+			{
+			case YAL2JVMTreeConstants.JJTIF:
+				SimpleNode ifCondition = (SimpleNode) child.jjtGetChild(0);
+				SimpleNode ifLhs = (SimpleNode) ifCondition.jjtGetChild(0);
+				SimpleNode ifRhs = (SimpleNode) ifCondition.jjtGetChild(1);
+				
+				IntermediateRepresentation conditionNodeIf = analyseCondition(ifLhs, ifRhs, function,"if");
+				break;
+			case YAL2JVMTreeConstants.JJTWHILE:
+				break;
+			}
 		}
+		return null;
 	}
 }

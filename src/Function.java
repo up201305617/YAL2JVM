@@ -10,6 +10,7 @@ public class Function
 	private ArrayList<IntermediateRepresentation> nodes;  
 	private HashMap<String,Variable> variables;
 	public static int cfgNodeCount;
+	private IntermediateRepresentation initialNode;
 	
 	public Function(String id, Variable returnValue, ArrayList<Variable> a, SimpleNode body)
 	{
@@ -19,6 +20,26 @@ public class Function
 		this.body = body;
 		this.nodes = new ArrayList<IntermediateRepresentation>();
 		this.variables = new HashMap<String,Variable>();
+	}
+	
+	public void initializeInitialNode(Function f)
+	{
+		this.initialNode = new IntermediateRepresentation("start",f);
+	}
+	
+	public SimpleNode getBody()
+	{
+		return this.body;
+	}
+
+	public void setBody(SimpleNode body) 
+	{
+		this.body = body;
+	}
+
+	public IntermediateRepresentation getInitialNode()
+	{
+		return this.initialNode;
 	}
 
 	public ArrayList<IntermediateRepresentation> getNodes() 

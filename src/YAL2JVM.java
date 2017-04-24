@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 
 public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMConstants {/*@bgen(jjtree)*/
   protected static JJTYAL2JVMState jjtree = new JJTYAL2JVMState();private static Module module;
+   private static int numErrors = 0;
 
    public static void main(String args [])
    {
@@ -23,13 +24,24 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
                 System.out.println("\u005cn");
                 System.out.println("Module to analyse "+root.ID+"\u005cn");
         //root.dump("");        root.analyse();
+
+        System.out.println("O m\u00f3dulo "+root.ID+" tem "+numErrors+" erros!");
+
         Utils.getFunctions(root,module);
+        System.out.println("============================");
+        module.processFunctions();
+        System.out.println("============================");
         module.printAllModule();
    }
 
    public static Module getModule()
    {
                 return module;
+   }
+
+   public static void incErrors()
+   {
+        numErrors++;
    }
 
   static final public SimpleNode Module() throws ParseException {
@@ -1160,21 +1172,6 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
     finally { jj_save(8, xla); }
   }
 
-  static private boolean jj_3R_33() {
-    if (jj_scan_token(INTEGER)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_5() {
-    if (jj_3R_6()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_19() {
-    if (jj_scan_token(31)) return true;
-    return false;
-  }
-
   static private boolean jj_3_6() {
     if (jj_3R_8()) return true;
     return false;
@@ -1402,6 +1399,21 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
 
   static private boolean jj_3R_17() {
     if (jj_3R_21()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_33() {
+    if (jj_scan_token(INTEGER)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_5() {
+    if (jj_3R_6()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_19() {
+    if (jj_scan_token(31)) return true;
     return false;
   }
 

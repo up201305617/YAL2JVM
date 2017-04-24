@@ -55,6 +55,24 @@ public class Module
 		}
 	}
 	
+	public Function getFunctionByID(String functionID) 
+	{
+		return functions.get(functionID);
+	}
+	
+	public void processFunctions()
+	{
+		for (String id : functions.keySet()) 
+		{
+			Function f = functions.get(id);
+			f.initializeInitialNode(f);
+			IntermediateRepresentation lastNode = functions.get(id).getBody().analyseFunction(f,f.getInitialNode());
+			IntermediateRepresentation endNode = new IntermediateRepresentation("end",f);
+			//lastNode.outs.add(endNode);
+			//endNode.ins.add(lastNode);
+		}
+	}
+	
 	public void printAllModule()
 	{
 		System.out.println("///////////////////////////////////////");
