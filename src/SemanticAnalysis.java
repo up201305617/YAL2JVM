@@ -272,7 +272,6 @@ public class SemanticAnalysis
 						
 						if (!Utils.isCall(term.ID))
 						{
-							//String fullName = term.ID + "(" + getRealFunctionName(term.getChildren(), function) + ")";
 							conditionNode.rhs1Call = YAL2JVM.getModule().getFunctionByID(term.ID);
 						} 
 						else
@@ -346,11 +345,11 @@ public class SemanticAnalysis
 			switch(child.getOriginalId())
 			{
 			case YAL2JVMTreeConstants.JJTIF:
-				SimpleNode ifCondition = (SimpleNode) child.jjtGetChild(0);
-				SimpleNode ifLhs = (SimpleNode) ifCondition.jjtGetChild(0);
-				SimpleNode ifRhs = (SimpleNode) ifCondition.jjtGetChild(1);
+				SimpleNode if_node = (SimpleNode) child.jjtGetChild(0);
+				SimpleNode if_left_side = (SimpleNode) if_node.jjtGetChild(0);
+				SimpleNode if_right_side = (SimpleNode) if_node.jjtGetChild(1);
 				
-				IntermediateRepresentation conditionNodeIf = analyseCondition(ifLhs, ifRhs, function,"if");
+				IntermediateRepresentation conditionNodeIf = analyseCondition(if_left_side, if_right_side, function,"if");
 				break;
 			case YAL2JVMTreeConstants.JJTWHILE:
 				break;

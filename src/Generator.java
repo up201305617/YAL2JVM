@@ -42,4 +42,12 @@ public class Generator
 		write.println(".class public " + this.moduleName);
 		write.println(".super java/lang/Object");
 	}
+	
+	public void generateGlobalVariables()
+	{
+		for(int i=0; i<node.jjtGetNumChildren(); i++)
+		{
+			
+		}
+	}
 }
