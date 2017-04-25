@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMConstants {/*@bgen(jjtree)*/
   protected static JJTYAL2JVMState jjtree = new JJTYAL2JVMState();private static Module module;
    private static int numErrors = 0;
+   private static boolean hasErrors = true;
+   private static Generator generator;
 
    public static void main(String args [])
    {
@@ -32,6 +34,13 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
         module.processFunctions();
         System.out.println("============================");
         module.printAllModule();
+
+        if(hasErrors)
+        {
+          System.out.println("Starting JVM Generator: ");
+          generator = new Generator(module,root.ID,root);
+          generator.initiateGeneration();
+                }
    }
 
    public static Module getModule()
@@ -42,6 +51,11 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
    public static void incErrors()
    {
         numErrors++;
+   }
+
+   public static void errorFound()
+   {
+        hasErrors = true;
    }
 
   static final public SimpleNode Module() throws ParseException {
@@ -1172,26 +1186,6 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
     finally { jj_save(8, xla); }
   }
 
-  static private boolean jj_3_6() {
-    if (jj_3R_8()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_13() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_18()) {
-    jj_scanpos = xsp;
-    if (jj_3R_19()) return true;
-    }
-    return false;
-  }
-
-  static private boolean jj_3R_18() {
-    if (jj_3R_22()) return true;
-    return false;
-  }
-
   static private boolean jj_3R_12() {
     Token xsp;
     xsp = jj_scanpos;
@@ -1414,6 +1408,26 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
 
   static private boolean jj_3R_19() {
     if (jj_scan_token(31)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_6() {
+    if (jj_3R_8()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_13() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_18()) {
+    jj_scanpos = xsp;
+    if (jj_3R_19()) return true;
+    }
+    return false;
+  }
+
+  static private boolean jj_3R_18() {
+    if (jj_3R_22()) return true;
     return false;
   }
 
