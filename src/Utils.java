@@ -118,6 +118,61 @@ public class Utils
 		return false;
 	}
 	
+	public static void getGlobalVariables(SimpleNode root, Module m)
+	{
+		for (int i = 0; i < root.getChildren().length; i++) 
+		{
+			SimpleNode node = (SimpleNode) root.jjtGetChild(i);
+
+			if (node.id == YAL2JVMTreeConstants.JJTFUNCTION) 
+				break;
+			
+			if (node.id == YAL2JVMTreeConstants.JJTDECLARATION) 
+			{ 
+				int numGlobalVariables = node.jjtGetNumChildren();
+				SimpleNode left_side = (SimpleNode) node.jjtGetChild(0);
+				String varName = left_side.ID;
+				Variable var = new Variable(varName);
+
+				if (numGlobalVariables == 1) 
+				{
+					var = new Scalar(varName);
+					if (!m.addGlobalVariableToModule(var))
+					{
+						YAL2JVM.incErrors();
+						YAL2JVM.errorFound();
+						System.out.println("No módulo "+m.getModuleID()+" o atributo "+varName+" já foi declarada.");
+					}
+				} 
+				if (numGlobalVariables == 2) 
+				{
+					SimpleNode right_side = (SimpleNode) node.jjtGetChild(1);
+					int rhsChildrenNum = right_side.jjtGetNumChildren();
+
+					if(rhsChildrenNum == 0)
+					{
+						int value = Integer.parseInt(right_side.ID);
+						var = new Scalar(varName, value);
+					} 
+					
+					if(rhsChildrenNum == 1)
+					{
+						SimpleNode arraySize = (SimpleNode) right_side.jjtGetChild(0);
+						int size = Integer.parseInt(arraySize.ID);
+						var = new Array(varName, size);
+					}
+					
+					if (!m.addGlobalVariableToModule(var)) 
+					{
+						YAL2JVM.incErrors();
+						YAL2JVM.errorFound();
+						System.out.println("No módulo "+m.getModuleID()+" o atributo "+varName+" não pode ser redefenida.");
+					}
+				}
+			}
+		}
+	}
+	
 	public static boolean isCall(String call)
 	{
 		for (int i = 0; i < call.length(); i++)

@@ -28,4 +28,18 @@ public class Array extends Variable
 		REFERENCE++;
 	}
 
+	public int getSize() 
+	{
+		return size;
+	}
+
+	public int[] getArray() 
+	{
+		return array;
+	}
+
+	public int getRef()
+	{
+		return ref;
+	}
 }

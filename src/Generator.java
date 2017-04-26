@@ -1,6 +1,7 @@
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.Map.Entry;
 
 public class Generator 
 {
@@ -35,6 +36,13 @@ public class Generator
 	public void generate()
 	{
 		generateHeader();
+		generateNewLine();
+		generateGlobalVariables();
+	}
+	
+	public void generateNewLine()
+	{
+		write.println("");
 	}
 	
 	public void generateHeader()
@@ -43,11 +51,37 @@ public class Generator
 		write.println(".super java/lang/Object");
 	}
 	
+	@SuppressWarnings("unused")
 	public void generateGlobalVariables()
 	{
-		for(int i=0; i<node.jjtGetNumChildren(); i++)
+		for(Entry<String,Variable> entry : this.module.getGlobalVariables().entrySet())
 		{
+			String name = null;
+			String type = null;
+			String value = null;
 			
+			if(entry.getValue() instanceof Scalar)
+			{
+				name = entry.getKey();
+				type = Constants.JVM_SCALAR;
+				Scalar newScalar = (Scalar) entry.getValue();
+			}
+			
+			if(entry.getValue() instanceof Array)
+			{
+				name = entry.getKey();
+				type = Constants.JVM_ARRAY;
+				Array newArray = (Array) entry.getValue();
+			}
+			
+			if(value != null && !type.equals(Constants.JVM_ARRAY))
+			{
+				
+			}
+			else
+			{
+				write.println(".field static "+name+" "+type);
+			}
 		}
 	}
 }

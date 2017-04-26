@@ -1,5 +1,9 @@
 module test
 {	
+	data=[100]; 
+	a=1;
+	b;
+	
 	function i=f(a, b, c[]) 
 	{
 		i = 0;

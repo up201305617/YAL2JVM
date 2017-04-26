@@ -30,6 +30,11 @@ public class Module
 		}
 	}
 	
+	public String getModuleID() 
+	{
+		return moduleID;
+	}
+
 	public boolean isGlobalVariable(String id) 
 	{
 		return globalVariables.containsKey(id);
@@ -55,6 +60,11 @@ public class Module
 		}
 	}
 	
+	public HashMap<String, Variable> getGlobalVariables()
+	{
+		return globalVariables;
+	}
+
 	public Function getFunctionByID(String functionID) 
 	{
 		return functions.get(functionID);
