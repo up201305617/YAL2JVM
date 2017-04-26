@@ -39,7 +39,8 @@ public class IntermediateRepresentation
 	public boolean rhs2OtherModule;
 	
 	public boolean dot;
-	public String callName;
+	public String callFunctionName;
+	public String callFunctionDeclaration;
 	public String[] callArgs;
 	
 	public IntermediateRepresentation (String t, Function f)

@@ -4,6 +4,11 @@ module test
 	a=1;
 	b;
 	
+	function i=f(a,b, c[]) 
+	{
+		a=0;
+	}
+	
 	function i=f(a, b, c[]) 
 	{
 		i = 0;

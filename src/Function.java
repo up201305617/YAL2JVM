@@ -116,4 +116,23 @@ public class Function
 		System.out.println("Return Value");
 		System.out.println(this.returnValue.getVariableID()+" - "+this.returnValue.getType());
 	}
+	
+	public String getFunctionDeclaration()
+	{
+		String s = functionId;
+		
+		s += "(";
+		
+		for (int i = 0; i < arguments.size(); i++)
+		{
+			if(arguments.get(i) instanceof Scalar)
+				s += " scalar";
+			else if(arguments.get(i) instanceof Array)
+				s += " array";
+		}
+		
+		s += ")";
+		
+		return s;
+	}
 }

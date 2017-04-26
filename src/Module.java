@@ -47,17 +47,24 @@ public class Module
 
 	public boolean addFunction(Function function)
 	{
-		String key = function.getFunctionId();
-		if (!functions.containsKey(key))
+		String declaration = function.getFunctionDeclaration();
+		if (!functions.containsKey(declaration))
 		{
-			functions.put(key,function);
+			functions.put(declaration,function);
 			return true;
 		} 
 		else 
 		{
-			System.out.println("Já existe uma função com o nome " + function.getFunctionId());
+			YAL2JVM.incErrors();
+			YAL2JVM.errorFound();
+			System.out.println("Já existe uma função com o nome " + declaration);
 			return false;
 		}
+	}
+	
+	public boolean functionExists(String functionID)
+	{
+		return functions.containsKey(functionID);
 	}
 	
 	public HashMap<String, Variable> getGlobalVariables()

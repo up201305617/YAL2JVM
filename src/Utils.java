@@ -175,16 +175,4 @@ public class Utils
 			}
 		}
 	}
-	
-	public static boolean isCall(String call)
-	{
-		for (int i = 0; i < call.length(); i++)
-		{
-			if (call.charAt(i) == '.')
-			{
-				return true;
-			}
-		}
-		return false;
-	}
 }

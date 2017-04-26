@@ -78,7 +78,7 @@ public class Generator
 				Array newArray = (Array) entry.getValue();
 				if(newArray.isAssign())
 				{
-					value = newArray.getSize()+"";
+					//value = newArray.getSize()+"";
 				}
 			}
 			

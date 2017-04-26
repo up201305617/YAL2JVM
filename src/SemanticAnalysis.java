@@ -148,7 +148,7 @@ public class SemanticAnalysis
 	{
 		String scalar;
 
-		if (Utils.isCall(scalarAccess)) 
+		if (Utils.isArrayOrFunctionAccess(scalarAccess)) 
 		{
 			scalar = scalarAccess.split("\\.")[0];
 
@@ -222,6 +222,92 @@ public class SemanticAnalysis
 		}
 	}
 	
+	public String analyseFunctionCall(Node[] args, Function parentFunction, String name)
+	{	
+		String temp = "";
+		temp += name;
+		temp += "(";
+		if (args == null)
+		{
+			temp += ")";
+			return temp;
+		}
+
+		for (int i = 0; i < args.length; i++) 
+		{
+			SimpleNode arg = (SimpleNode)args[i];
+			String var = arg.ID;
+			try 
+			{
+				Integer.parseInt(var);
+				temp += " scalar";
+			} 
+			catch (NumberFormatException e) 
+			{
+				if (YAL2JVM.getModule().isGlobalVariable(var)) 
+				{
+					if (YAL2JVM.getModule().getGlobalVariableById(var) instanceof Scalar) 
+					{
+						temp += " scalar";
+						analyseScalarAccess(var, parentFunction);
+					} 
+					else 
+					{
+						temp += " array";
+						analyseArrayAccess(var, "0", parentFunction);
+					}
+				}  
+				if (parentFunction.isLocalVariable(var)) 
+				{
+					if (parentFunction.getVariableById(var) instanceof Scalar)
+					{
+						temp += " scalar";
+						analyseScalarAccess(var, parentFunction);
+					} 
+					else 
+					{
+						temp += " array";
+						analyseArrayAccess(var, "0", parentFunction);
+					}
+				}  
+				if (parentFunction.checkArguments(var)) 
+				{
+					if (parentFunction.getArgumentsById(var) instanceof Scalar) 
+					{
+						temp += " scalar";
+						analyseScalarAccess(var, parentFunction);
+					} 
+					else 
+					{
+						temp += " array";
+						analyseArrayAccess(var, "0", parentFunction);
+					}
+				} 
+				if (parentFunction.isReturnValue(var)) 
+				{
+					if (parentFunction.getReturnValue() instanceof Scalar) 
+					{
+						temp += " scalar";
+						analyseScalarAccess(var, parentFunction);
+					} 
+					else 
+					{
+						temp += " array";
+						analyseArrayAccess(var, "0", parentFunction);
+					}
+				} 
+				else 
+				{
+					temp += " " + var;
+					System.out.println("Na função "+parentFunction+"a variável "+var+" ainda  não foi declarada.");
+				}
+			}
+		}
+
+		temp += ")";
+		return temp;
+	}
+	
 	public IntermediateRepresentation analyseCondition(SimpleNode left_side, SimpleNode right_side, Function function, String type)
 	{
 		IntermediateRepresentation conditionNode = new IntermediateRepresentation(type,function);
@@ -270,7 +356,7 @@ public class SemanticAnalysis
 						conditionNode.rhs1Access = "call";
 						conditionNode.rhs1Id = term.ID;
 						
-						if (!Utils.isCall(term.ID))
+						if (!Utils.isArrayOrFunctionAccess(term.ID))
 						{
 							conditionNode.rhs1Call = YAL2JVM.getModule().getFunctionByID(term.ID);
 						} 
@@ -327,7 +413,70 @@ public class SemanticAnalysis
 	
 	public IntermediateRepresentation analyseCall(String call, Node[] args, boolean isCondition, Function parentFunction) 
 	{
-		return null;
+		boolean dot = true;
+		String declaration = null;
+		
+		if (!Utils.isArrayOrFunctionAccess(call)) 
+		{
+			dot = false;
+			declaration = analyseFunctionCall(args, parentFunction,call);
+
+			if (YAL2JVM.getModule().functionExists(declaration))
+			{
+				if (isCondition)
+				{
+					if (YAL2JVM.getModule().getFunctionByID(declaration).getReturnValue() != null) 
+					{
+						if (YAL2JVM.getModule().getFunctionByID(declaration).getReturnValue() instanceof Array)
+						{
+							YAL2JVM.errorFound();
+							YAL2JVM.incErrors();
+							System.out.println("A função "+declaration+" retorna um array.");
+							
+						}
+					} 
+					else
+					{
+						YAL2JVM.errorFound();
+						YAL2JVM.incErrors();
+						System.out.println("A função "+declaration+" não retorna nenhuma variável.");
+					}
+				}
+			} 
+			else
+			{
+				YAL2JVM.errorFound();
+				YAL2JVM.incErrors();
+				System.out.println("A função "+declaration+" não foi declarada.");
+			}
+		}
+		
+		IntermediateRepresentation callFunction = new IntermediateRepresentation("call",parentFunction);
+		
+		int numArgs;
+		
+		if(args == null)
+		{
+			numArgs = 0;
+		}
+		else
+		{
+			numArgs = args.length;
+		}
+		
+		String[] arguments = new String[numArgs];
+		
+		for (int i = 0; i < numArgs; i++) 
+		{
+			arguments[i] = ((SimpleNode)args[i]).ID;
+		}
+		
+		callFunction.callArgs= arguments;
+		callFunction.dot = dot;
+		callFunction.callFunctionName = call;
+		callFunction.callFunctionDeclaration = declaration;
+		
+		return callFunction;
 	}
 	
 	public IntermediateRepresentation analyseAssignment(SimpleNode lhs, SimpleNode rhs, Function function) 
