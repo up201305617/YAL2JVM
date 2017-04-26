@@ -137,6 +137,7 @@ public class Utils
 				if (numGlobalVariables == 1) 
 				{
 					var = new Scalar(varName);
+					var.setAssign(false);
 					if (!m.addGlobalVariableToModule(var))
 					{
 						YAL2JVM.incErrors();
@@ -153,6 +154,7 @@ public class Utils
 					{
 						int value = Integer.parseInt(right_side.ID);
 						var = new Scalar(varName, value);
+						var.setAssign(true);
 					} 
 					
 					if(rhsChildrenNum == 1)
@@ -160,6 +162,7 @@ public class Utils
 						SimpleNode arraySize = (SimpleNode) right_side.jjtGetChild(0);
 						int size = Integer.parseInt(arraySize.ID);
 						var = new Array(varName, size);
+						var.setAssign(true);
 					}
 					
 					if (!m.addGlobalVariableToModule(var)) 

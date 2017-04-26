@@ -65,6 +65,10 @@ public class Generator
 				name = entry.getKey();
 				type = Constants.JVM_SCALAR;
 				Scalar newScalar = (Scalar) entry.getValue();
+				if(newScalar.isAssign())
+				{
+					value = newScalar.getValue()+"";
+				}
 			}
 			
 			if(entry.getValue() instanceof Array)
@@ -72,11 +76,15 @@ public class Generator
 				name = entry.getKey();
 				type = Constants.JVM_ARRAY;
 				Array newArray = (Array) entry.getValue();
+				if(newArray.isAssign())
+				{
+					value = newArray.getSize()+"";
+				}
 			}
 			
 			if(value != null && !type.equals(Constants.JVM_ARRAY))
 			{
-				
+				write.println(".field static "+name+" "+type+" = "+value);
 			}
 			else
 			{

@@ -4,6 +4,7 @@ public class Variable
 {
 	private String variableID;
 	private String type;
+	private boolean assign;
 	
 	public Variable(String id) 
 	{
@@ -41,5 +42,15 @@ public class Variable
 			return true;
 		else
 			return false;
+	}
+
+	public boolean isAssign()
+	{
+		return assign;
+	}
+
+	public void setAssign(boolean assign)
+	{
+		this.assign = assign;
 	}
 }
