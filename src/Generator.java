@@ -1,6 +1,7 @@
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Map.Entry;
 
 public class Generator 
@@ -38,6 +39,8 @@ public class Generator
 		generateHeader();
 		generateNewLine();
 		generateGlobalVariables();
+		generateNewLine();
+		generateFunctions();
 	}
 	
 	public void generateNewLine()
@@ -90,6 +93,59 @@ public class Generator
 			{
 				write.println(".field static "+name+" "+type);
 			}
+		}
+	}
+	
+	public void generateFunctionDeclaration(Function f)
+	{
+		ArrayList<Variable> arguments = f.getArguments();
+		Variable returnValue = f.getReturnValue();
+		
+		if(f.getFunctionId().equals("main"))
+		{
+			write.println(".method public static main([Ljava/lang/String;)V");
+		}
+		else
+		{
+			write.print(".method public static " + f.getFunctionId() + "(");
+			
+			for (int i = 0; i < arguments.size(); i++)
+			{
+				if(arguments.get(i).getType().equals(Constants.SCALAR))
+				{
+					write.print("I");
+				}
+				if(arguments.get(i).getType().equals(Constants.ARRAY)) 
+				{
+					write.print("[I");
+				}
+			}
+			
+			write.print(")");
+			
+			if(returnValue != null)
+			{
+				if(returnValue.getType().equals(Constants.SCALAR))
+				{
+					write.println("I");
+				}
+				if(returnValue.getType().equals(Constants.ARRAY))
+				{
+					write.println("[I");
+				}
+			}
+			else
+			{
+				write.println("V");
+			}
+		}
+	}
+	
+	public void generateFunctions()
+	{
+		for(Function f : module.getAllFunctions().values())
+		{
+			generateFunctionDeclaration(f);
 		}
 	}
 }

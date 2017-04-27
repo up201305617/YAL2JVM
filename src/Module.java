@@ -113,4 +113,9 @@ public class Module
 			System.out.println(var.getVariableID());
 		}
 	}
+
+	public HashMap<String, Function> getAllFunctions() 
+	{
+		return functions;
+	}
 }

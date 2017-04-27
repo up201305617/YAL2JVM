@@ -58,11 +58,13 @@ public class Utils
 			if(returnId == YAL2JVMTreeConstants.JJTARRAY)
 			{
 				newVar = new Array(retVarNode.ID);
+				newVar.setType("Array");
 			}
 			
 			if(returnId == YAL2JVMTreeConstants.JJTSCALAR)
 			{
 				newVar = new Scalar(retVarNode.ID);
+				newVar.setType("Scalar");
 			}
 		}
 		
@@ -81,13 +83,13 @@ public class Utils
 			if(n.getOriginalId() == YAL2JVMTreeConstants.JJTSCALAR)
 			{
 				Scalar new_scalar = new Scalar(n.ID);
-				new_scalar.setType("scalar");
+				new_scalar.setType("Scalar");
 				arguments.add(new_scalar);
 			}
 			else if(n.getOriginalId() == YAL2JVMTreeConstants.JJTARRAY)
 			{
 				Array new_array = new Array(n.ID);
-				new_array.setType("array");
+				new_array.setType("Array");
 				arguments.add(new_array);
 			}
 			if(checkIfExistArray(aux,n.ID))
