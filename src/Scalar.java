@@ -1,8 +1,3 @@
-//////////////////////////////////////////////
-//IMPORTANTE
-//the scalar variables are passed by value
-///////////////////////////////////////////////////
-
 public class Scalar extends Variable
 {
 	private int value;
@@ -42,13 +37,5 @@ public class Scalar extends Variable
 	public void setType(String type)
 	{
 		this.type = type;
-	}
-	
-	public boolean whatIs(String type)
-	{
-		if(this.type.equals("Scalar"))
-			return true;
-		else
-			return false;
 	}
 }

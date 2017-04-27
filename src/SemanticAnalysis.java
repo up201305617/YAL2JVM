@@ -246,6 +246,7 @@ public class SemanticAnalysis
 			{
 				if (YAL2JVM.getModule().isGlobalVariable(var)) 
 				{
+					System.out.println("1");
 					if (YAL2JVM.getModule().getGlobalVariableById(var) instanceof Scalar) 
 					{
 						temp += " scalar";
@@ -257,8 +258,9 @@ public class SemanticAnalysis
 						analyseArrayAccess(var, "0", parentFunction);
 					}
 				}  
-				if (parentFunction.isLocalVariable(var)) 
+				else if (parentFunction.isLocalVariable(var)) 
 				{
+					System.out.println("2");
 					if (parentFunction.getVariableById(var) instanceof Scalar)
 					{
 						temp += " scalar";
@@ -270,8 +272,9 @@ public class SemanticAnalysis
 						analyseArrayAccess(var, "0", parentFunction);
 					}
 				}  
-				if (parentFunction.checkArguments(var)) 
+				else if (parentFunction.checkArguments(var)) 
 				{
+					System.out.println("3");
 					if (parentFunction.getArgumentsById(var) instanceof Scalar) 
 					{
 						temp += " scalar";
@@ -283,8 +286,9 @@ public class SemanticAnalysis
 						analyseArrayAccess(var, "0", parentFunction);
 					}
 				} 
-				if (parentFunction.isReturnValue(var)) 
+				else if (parentFunction.isReturnValue(var)) 
 				{
+					System.out.println("4");
 					if (parentFunction.getReturnValue() instanceof Scalar) 
 					{
 						temp += " scalar";
@@ -299,7 +303,9 @@ public class SemanticAnalysis
 				else 
 				{
 					temp += " " + var;
-					System.out.println("Na função "+parentFunction+"a variável "+var+" ainda  não foi declarada.");
+					YAL2JVM.errorFound();
+					YAL2JVM.incErrors();
+					System.out.println("Na função "+parentFunction.getFunctionDeclaration()+"a variável "+var+" ainda não foi declarada.");
 				}
 			}
 		}
@@ -358,7 +364,7 @@ public class SemanticAnalysis
 						
 						if (!Utils.isArrayOrFunctionAccess(term.ID))
 						{
-							conditionNode.rhs1Call = YAL2JVM.getModule().getFunctionByID(term.ID);
+							conditionNode.rhs1Call = YAL2JVM.getModule().getFunctionByID(term.ID);///
 						} 
 						else
 						{
@@ -420,7 +426,7 @@ public class SemanticAnalysis
 		{
 			dot = false;
 			declaration = analyseFunctionCall(args, parentFunction,call);
-
+			
 			if (YAL2JVM.getModule().functionExists(declaration))
 			{
 				if (isCondition)
@@ -498,9 +504,12 @@ public class SemanticAnalysis
 				SimpleNode if_left_side = (SimpleNode) if_node.jjtGetChild(0);
 				SimpleNode if_right_side = (SimpleNode) if_node.jjtGetChild(1);
 				
-				IntermediateRepresentation conditionNodeIf = analyseCondition(if_left_side, if_right_side, function,"if");
+				IntermediateRepresentation if_cond = analyseCondition(if_left_side, if_right_side, function,"if");
 				break;
 			case YAL2JVMTreeConstants.JJTWHILE:
+				break;
+			case YAL2JVMTreeConstants.JJTCALL:
+				IntermediateRepresentation call = analyseCall(child.ID, child.getChildren(), false, function);
 				break;
 			}
 		}

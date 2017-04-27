@@ -1,5 +1,3 @@
-
-
 public class Variable 
 {
 	private String variableID;

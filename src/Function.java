@@ -113,8 +113,15 @@ public class Function
 			System.out.println(this.arguments.get(i).getVariableID()+" - "+this.arguments.get(i).getType());
 		}
 		
-		System.out.println("Return Value");
-		System.out.println(this.returnValue.getVariableID()+" - "+this.returnValue.getType());
+		if(this.returnValue!=null)
+		{
+			System.out.println("Return Value");
+			System.out.println(this.returnValue.getVariableID()+" - "+this.returnValue.getType());
+		}
+		else
+		{
+			System.out.println("Não tem valor de retorno." );
+		}
 	}
 	
 	public String getFunctionDeclaration()

@@ -4,13 +4,15 @@ module test
 	a=1;
 	b;
 	
-	function i=f(a,b, c[]) 
+	function aux(a) 
 	{
 		a=0;
 	}
 	
 	function i=f(a, b, c[]) 
 	{
+		aux(k);
+		
 		i = 0;
 		Y = p;
 		

@@ -10,21 +10,31 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
 
    public static void main(String args [])
    {
-        //YAL2JVM myYAL2JVM = new YAL2JVM(System.in);        YAL2JVM myYAL2JVM = null;
-                try {
+        YAL2JVM myYAL2JVM = null;
+
+                try
+                {
                         myYAL2JVM = new YAL2JVM(new FileInputStream(args[0]));
-                } catch (FileNotFoundException e1) {
-                        // TODO Auto-generated catch block                        e1.printStackTrace();
                 }
+                catch (FileNotFoundException e1)
+                {
+                        e1.printStackTrace();
+                }
+
         SimpleNode root = null;
-                try {
+
+                try
+                {
                         root = myYAL2JVM.Module();
                         module = new Module(root.ID, root);
-                } catch (ParseException e) {
-                        // TODO Auto-generated catch block                        e.printStackTrace();
                 }
+                catch (ParseException e)
+                {
+                        e.printStackTrace();
+                }
+
                 System.out.println("\u005cn");
-                System.out.println("Module to analyse "+root.ID+"\u005cn");
+                System.out.println("M\u00f3dulo a analisar "+root.ID+"\u005cn");
                 Utils.getGlobalVariables(root,module);
         //root.dump("");        root.analyse();
 
@@ -38,9 +48,15 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
 
         if(hasErrors)
         {
-          System.out.println("Starting JVM Generator: ");
+          System.out.println("A Iniciar o Gerador JVM: ");
           generator = new Generator(module,root.ID,root);
           generator.initiateGeneration();
+          System.out.println("A gera\u00e7\u00e3o de c\u00f3digo JVM foi concluida com sucesso.");
+                }
+                else
+                {
+                  System.out.println("O m\u00f3dulo " + root.ID + " possui erros semanticos.");
+                  System.out.println("N\u00e3o \u00e9 por isso poss\u00edvel gerar o c\u00f3digo JVM.");
                 }
    }
 
@@ -1187,65 +1203,6 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
     finally { jj_save(8, xla); }
   }
 
-  static private boolean jj_3R_12() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3_7()) {
-    jj_scanpos = xsp;
-    if (jj_3R_17()) return true;
-    }
-    return false;
-  }
-
-  static private boolean jj_3_7() {
-    if (jj_3R_9()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_14() {
-    if (jj_scan_token(33)) return true;
-    if (jj_scan_token(ID)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_11() {
-    if (jj_3R_16()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_28() {
-    if (jj_3R_21()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_8() {
-    if (jj_3R_12()) return true;
-    if (jj_scan_token(ASSIGN)) return true;
-    if (jj_3R_13()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_32() {
-    if (jj_scan_token(ID)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_24() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_32()) {
-    jj_scanpos = xsp;
-    if (jj_3R_33()) return true;
-    }
-    return false;
-  }
-
-  static private boolean jj_3R_25() {
-    if (jj_scan_token(33)) return true;
-    if (jj_scan_token(SIZE)) return true;
-    return false;
-  }
-
   static private boolean jj_3R_21() {
     if (jj_scan_token(ID)) return true;
     Token xsp;
@@ -1429,6 +1386,65 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
 
   static private boolean jj_3R_18() {
     if (jj_3R_22()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_12() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3_7()) {
+    jj_scanpos = xsp;
+    if (jj_3R_17()) return true;
+    }
+    return false;
+  }
+
+  static private boolean jj_3_7() {
+    if (jj_3R_9()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_14() {
+    if (jj_scan_token(33)) return true;
+    if (jj_scan_token(ID)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_11() {
+    if (jj_3R_16()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_28() {
+    if (jj_3R_21()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_8() {
+    if (jj_3R_12()) return true;
+    if (jj_scan_token(ASSIGN)) return true;
+    if (jj_3R_13()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_32() {
+    if (jj_scan_token(ID)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_24() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_32()) {
+    jj_scanpos = xsp;
+    if (jj_3R_33()) return true;
+    }
+    return false;
+  }
+
+  static private boolean jj_3R_25() {
+    if (jj_scan_token(33)) return true;
+    if (jj_scan_token(SIZE)) return true;
     return false;
   }
 
