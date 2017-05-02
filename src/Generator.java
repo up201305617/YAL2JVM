@@ -45,7 +45,7 @@ public class Generator
 	
 	public void generateNewLine()
 	{
-		write.println("");
+		write.print("\n");
 	}
 	
 	public void generateHeader()
@@ -141,11 +141,27 @@ public class Generator
 		}
 	}
 	
+	public void generateReturn(Function f)
+	{
+		if(f.getReturnValue() != null)
+		{
+			
+		}
+		else
+		{
+			write.println("return");
+		}
+		
+		write.println(".end method");
+	}
+	
 	public void generateFunctions()
 	{
 		for(Function f : module.getAllFunctions().values())
 		{
 			generateFunctionDeclaration(f);
+			generateReturn(f);
+			generateNewLine();
 		}
 	}
 }

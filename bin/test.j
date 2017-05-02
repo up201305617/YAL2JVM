@@ -2,9 +2,15 @@
 .super java/lang/Object
 
 .field static a I = 1
-.field static b I
 .field static data [I
 
 .method public static main([Ljava/lang/String;)V
-.method public static aux(I)V
+return
+.end method
+
+.method public static aux(I)I
+.end method
+
 .method public static f(II[I)I
+.end method
+

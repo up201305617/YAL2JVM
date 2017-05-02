@@ -2,21 +2,20 @@ module test
 {	
 	data=[100]; 
 	a=1;
-	b;
 	
-	function aux(a) 
+	function i=aux(a) 
 	{
 		a=0;
 	}
 	
 	function i=f(a, b, c[]) 
 	{
-		aux(k);
+		aux(a);
 		
 		i = 0;
 		Y = p;
 		
-		if(i>h)
+		if(a<a+aux(a))
 		{
 		
 		}

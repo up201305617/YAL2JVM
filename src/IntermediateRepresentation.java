@@ -38,6 +38,9 @@ public class IntermediateRepresentation
 	public Function rhs2Call;
 	public boolean rhs2OtherModule;
 	
+	public String compOperator;
+	public String condSign;
+	
 	public boolean dot;
 	public String callFunctionName;
 	public String callFunctionDeclaration;

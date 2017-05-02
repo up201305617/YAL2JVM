@@ -75,7 +75,7 @@ public class SemanticAnalysis
 			}
 		}
 		
-		if (function.isLocalVariable(array)) 
+		else if (function.isLocalVariable(array)) 
 		{
 			if (function.getVariableById(array) instanceof Scalar)
 			{
@@ -83,7 +83,7 @@ public class SemanticAnalysis
 			}
 		} 
 		
-		if (function.checkArguments(array))
+		else if (function.checkArguments(array))
 		{
 			if (function.getArgumentsById(array) instanceof Scalar)
 			{
@@ -91,7 +91,7 @@ public class SemanticAnalysis
 			}
 		}  
 		
-		if (function.isReturnValue(array)) 
+		else if (function.isReturnValue(array)) 
 		{
 			if (function.getReturnValue() instanceof Scalar)
 			{
@@ -116,21 +116,21 @@ public class SemanticAnalysis
 					System.out.println("Na função "+function.getFunctionId() +" para aceder ao array " + index + " deve usar um scalar");
 				}
 			}  
-			if (function.isLocalVariable(index)) 
+			else if (function.isLocalVariable(index)) 
 			{
 				if (function.getVariableById(index) instanceof Array)
 				{
 					System.out.println("Na função "+function.getFunctionId() +" para aceder ao array " + index + " deve usar um scalar");
 				}
 			} 
-			if (function.checkArguments(index)) 
+			else if (function.checkArguments(index)) 
 			{
 				if (function.getArgumentsById(index) instanceof Array)
 				{
 					System.out.println("Na função "+function.getFunctionId() +" para aceder ao array " + index + " deve usar um scalar");
 				}
 			}  
-			if (function.isReturnValue(index))
+			else if (function.isReturnValue(index))
 			{
 				if (function.getReturnValue() instanceof Array)
 				{
@@ -159,21 +159,21 @@ public class SemanticAnalysis
 					System.out.println("Na função "+parentFunction.getFunctionId()+" a variável "+scalar+" não é um array e não possui o atributo tamanho");
 				}
 			}  
-			if (parentFunction.isLocalVariable(scalar)) 
+			else if (parentFunction.isLocalVariable(scalar)) 
 			{
 				if (parentFunction.getVariableById(scalar) instanceof Scalar)
 				{
 					System.out.println("Na função "+parentFunction.getFunctionId()+" a variável "+scalar+" não é um array e não possui o atributo tamanho");
 				}
 			} 
-			if (parentFunction.checkArguments(scalar)) 
+			else if (parentFunction.checkArguments(scalar)) 
 			{
 				if (parentFunction.getArgumentsById(scalar) instanceof Scalar)
 				{
 					System.out.println("Na função "+parentFunction.getFunctionId()+" a variável "+scalar+" não é um array e não possui o atributo tamanho");
 				}
 			} 
-			if (parentFunction.isReturnValue(scalar))
+			else if (parentFunction.isReturnValue(scalar))
 			{
 				if (parentFunction.getReturnValue() instanceof Scalar)
 				{
@@ -194,21 +194,21 @@ public class SemanticAnalysis
 					System.out.println("Na função "+parentFunction.getFunctionId()+" é necessário um index para aceder à variavél "+scalarAccess);
 				}
 			} 
-			if (parentFunction.isLocalVariable(scalarAccess)) 
+			else if (parentFunction.isLocalVariable(scalarAccess)) 
 			{
 				if (parentFunction.getVariableById(scalarAccess) instanceof Array)
 				{
 					System.out.println("Na função "+parentFunction.getFunctionId()+" é necessário um index para aceder à variavél "+scalarAccess);
 				}
 			} 
-			if (parentFunction.checkArguments(scalarAccess))
+			else if (parentFunction.checkArguments(scalarAccess))
 			{
 				if (parentFunction.getArgumentsById(scalarAccess) instanceof Array)
 				{
 					System.out.println("Na função "+parentFunction.getFunctionId()+" é necessário um index para aceder à variavél "+scalarAccess);
 				}
 			} 
-			if (parentFunction.isReturnValue(scalarAccess))
+			else if (parentFunction.isReturnValue(scalarAccess))
 			{
 				if (parentFunction.getReturnValue() instanceof Array)
 				{
@@ -246,7 +246,6 @@ public class SemanticAnalysis
 			{
 				if (YAL2JVM.getModule().isGlobalVariable(var)) 
 				{
-					System.out.println("1");
 					if (YAL2JVM.getModule().getGlobalVariableById(var) instanceof Scalar) 
 					{
 						temp += " scalar";
@@ -260,7 +259,6 @@ public class SemanticAnalysis
 				}  
 				else if (parentFunction.isLocalVariable(var)) 
 				{
-					System.out.println("2");
 					if (parentFunction.getVariableById(var) instanceof Scalar)
 					{
 						temp += " scalar";
@@ -274,7 +272,6 @@ public class SemanticAnalysis
 				}  
 				else if (parentFunction.checkArguments(var)) 
 				{
-					System.out.println("3");
 					if (parentFunction.getArgumentsById(var) instanceof Scalar) 
 					{
 						temp += " scalar";
@@ -288,7 +285,6 @@ public class SemanticAnalysis
 				} 
 				else if (parentFunction.isReturnValue(var)) 
 				{
-					System.out.println("4");
 					if (parentFunction.getReturnValue() instanceof Scalar) 
 					{
 						temp += " scalar";
@@ -364,7 +360,8 @@ public class SemanticAnalysis
 						
 						if (!Utils.isArrayOrFunctionAccess(term.ID))
 						{
-							conditionNode.rhs1Call = YAL2JVM.getModule().getFunctionByID(term.ID);///
+							String aux_0 = analyseFunctionCall(term.getChildren(),function,term.ID);
+							conditionNode.rhs1Call = YAL2JVM.getModule().getFunctionByID(aux_0);
 						} 
 						else
 						{
@@ -413,7 +410,136 @@ public class SemanticAnalysis
 				}
 			} 
 		}
-		
+		else if (right_side.jjtGetNumChildren() == 2) 
+		{
+			conditionNode.isOperation = true;
+			conditionNode.compOperator = right_side.ID;
+			
+			SimpleNode left_term = (SimpleNode)right_side.jjtGetChild(0);
+			SimpleNode right_term = (SimpleNode)right_side.jjtGetChild(1);
+
+			if (left_term.ID == null) 
+			{
+				SimpleNode child = (SimpleNode)left_term.jjtGetChild(0);
+
+				if (child.getOriginalId() == YAL2JVMTreeConstants.JJTCALL) 
+				{
+					conditionNode.rhs1Access = "call";
+					conditionNode.rhs1Id = child.ID;
+					
+					if (!Utils.isArrayOrFunctionAccess(child.ID)) 
+					{
+						String aux_1 = analyseFunctionCall(child.getChildren(),function,child.ID);
+						System.out.println("Testing1: "+aux_1);
+						conditionNode.rhs1Call = YAL2JVM.getModule().getFunctionByID(aux_1);
+					} 
+					else 
+					{
+						conditionNode.rhs1OtherModule = true;
+					}
+					
+					for (int i = 0; i < child.jjtGetNumChildren(); i++)
+					{
+						conditionNode.rhs1Args.add(i, ((SimpleNode)child.jjtGetChild(i)).ID);
+					}
+					
+					analyseCall(child.ID, child.getChildren(), true, function);
+				} 
+				else if (child.getOriginalId() == YAL2JVMTreeConstants.JJTARRAYACCESS)
+				{
+					SimpleNode index = (SimpleNode)child.jjtGetChild(0);
+					
+					conditionNode.rhs1Id = child.ID;
+					conditionNode.rhs1Access = "array";
+					
+					try
+					{
+						Integer.parseInt(index.ID);
+						conditionNode.rhs1ArrayAccess = "integer";
+					}
+					catch(NumberFormatException e)
+					{
+						conditionNode.rhs1ArrayAccess = "scalar";
+					}
+					conditionNode.rhs1ArrayIndexId = index.ID;
+					
+					analyseArrayAccess(child.ID, index.ID, function);
+				} 
+				else if (child.getOriginalId() == YAL2JVMTreeConstants.JJTSCALARACCESS) 
+				{
+					conditionNode.rhs1Id = child.ID;
+					conditionNode.rhs1Access = "scalar";
+					
+					analyseScalarAccess(child.ID, function);
+				}
+			} 
+			else
+			{
+				conditionNode.rhs1Id = left_term.ID;
+				conditionNode.rhs1Access = "integer";
+			}
+
+			if (right_term.ID == null) 
+			{
+				SimpleNode child = (SimpleNode)right_term.jjtGetChild(0);
+
+				if (child.getOriginalId() == YAL2JVMTreeConstants.JJTCALL) 
+				{
+					conditionNode.rhs2Access = "call";
+					conditionNode.rhs2Id = child.ID;
+					
+					if (!Utils.isArrayOrFunctionAccess(child.ID)) 
+					{
+						String aux_2 = analyseFunctionCall(child.getChildren(),function,child.ID);
+						conditionNode.rhs2Call = YAL2JVM.getModule().getFunctionByID(aux_2);
+					} 
+					else 
+					{
+						conditionNode.rhs2OtherModule = true;
+					}
+					
+					for (int i = 0; i < child.jjtGetNumChildren(); i++)
+					{
+						conditionNode.rhs2Args.add(i, ((SimpleNode)child.jjtGetChild(i)).ID);
+					}
+					
+					analyseCall(child.ID, child.getChildren(), true, function);
+				} 
+				else if (child.getOriginalId() == YAL2JVMTreeConstants.JJTARRAYACCESS)
+				{
+					SimpleNode index = (SimpleNode)child.jjtGetChild(0);
+					
+					conditionNode.rhs2Id = child.ID;
+					conditionNode.rhs2Access = "array";
+					
+					try
+					{
+						Integer.parseInt(index.ID);
+						conditionNode.rhs2ArrayAccess = "integer";
+					}
+					catch(NumberFormatException e)
+					{
+						conditionNode.rhs2ArrayAccess = "scalar";
+					}
+					
+					conditionNode.rhs2ArrayIndexId = index.ID;
+					
+					analyseArrayAccess(child.ID, index.ID, function);
+				} 
+				else if (child.getOriginalId() == YAL2JVMTreeConstants.JJTSCALARACCESS)
+				{
+					conditionNode.rhs2Id = child.ID;
+					conditionNode.rhs2Access = "scalar";
+					
+					analyseScalarAccess(child.ID, function);
+				}
+			} 
+			else 
+			{
+				conditionNode.rhs2Id = right_term.ID;
+				conditionNode.rhs2Access = "integer";
+			}
+		}
 		return conditionNode;
 	}
 	
