@@ -7,10 +7,10 @@ public class Function
 	private SimpleNode body;
 	private Variable returnValue;
 	private ArrayList<Variable> arguments;
-	private ArrayList<IntermediateRepresentation> nodes;  
+	private ArrayList<AST> nodes;  
 	private HashMap<String,Variable> variables;
 	public static int cfgNodeCount;
-	private IntermediateRepresentation initialNode;
+	private AST initialNode;
 	
 	public Function(String id, Variable returnValue, ArrayList<Variable> a, SimpleNode body)
 	{
@@ -18,13 +18,13 @@ public class Function
 		this.returnValue = returnValue;
 		this.arguments = a;
 		this.body = body;
-		this.nodes = new ArrayList<IntermediateRepresentation>();
+		this.nodes = new ArrayList<AST>();
 		this.variables = new HashMap<String,Variable>();
 	}
 	
 	public void initializeInitialNode(Function f)
 	{
-		this.initialNode = new IntermediateRepresentation("start",f);
+		this.initialNode = new AST("start",f);
 	}
 	
 	public SimpleNode getBody()
@@ -37,12 +37,12 @@ public class Function
 		this.body = body;
 	}
 
-	public IntermediateRepresentation getInitialNode()
+	public AST getInitialNode()
 	{
 		return this.initialNode;
 	}
 
-	public ArrayList<IntermediateRepresentation> getNodes() 
+	public ArrayList<AST> getNodes() 
 	{
 		return nodes;
 	}

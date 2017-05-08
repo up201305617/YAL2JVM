@@ -177,4 +177,28 @@ public class Utils
 			}
 		}
 	}
+	
+	public static boolean findVariable(Function function, String variable)
+	{
+		if (function.getReturnValue() != null && function.isReturnValue(variable)) 
+		{
+			return true;
+		} 
+		else if (function.checkArguments(variable)) 
+		{
+			return true;
+		} 
+		else if (function.isLocalVariable(variable)) 
+		{
+			return true;
+		}
+		else if (YAL2JVM.getModule().isGlobalVariable(variable)) 
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }

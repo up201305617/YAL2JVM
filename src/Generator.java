@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -8,6 +9,8 @@ public class Generator
 {
 	private Module module;
 	private PrintWriter write;
+	private File folder;
+	private File file;
 	private String moduleName;
 	private String newFileName;
 	private SimpleNode node;
@@ -24,9 +27,12 @@ public class Generator
 	{
 		try 
 		{
-			write = new PrintWriter(this.newFileName,"UTF-8");
+			this.folder = new File("./j");
+			this.folder.mkdirs();
+			this.file = new File(folder, this.newFileName);
+			this.write = new PrintWriter(file,"UTF-8");
 			generate();
-			write.close();
+			this.write.close();
 		} 
 		catch (FileNotFoundException | UnsupportedEncodingException e) 
 		{
@@ -45,13 +51,13 @@ public class Generator
 	
 	public void generateNewLine()
 	{
-		write.print("\n");
+		this.write.print("\n");
 	}
 	
 	public void generateHeader()
 	{
-		write.println(".class public " + this.moduleName);
-		write.println(".super java/lang/Object");
+		this.write.println(".class public " + this.moduleName);
+		this.write.println(".super java/lang/Object");
 	}
 	
 	@SuppressWarnings("unused")
@@ -68,6 +74,7 @@ public class Generator
 				name = entry.getKey();
 				type = Constants.JVM_SCALAR;
 				Scalar newScalar = (Scalar) entry.getValue();
+				
 				if(newScalar.isAssign())
 				{
 					value = newScalar.getValue()+"";
@@ -79,6 +86,7 @@ public class Generator
 				name = entry.getKey();
 				type = Constants.JVM_ARRAY;
 				Array newArray = (Array) entry.getValue();
+				
 				if(newArray.isAssign())
 				{
 					//value = newArray.getSize()+"";
@@ -87,11 +95,11 @@ public class Generator
 			
 			if(value != null && !type.equals(Constants.JVM_ARRAY))
 			{
-				write.println(".field static "+name+" "+type+" = "+value);
+				this.write.println(".field static "+name+" "+type+" = "+value);
 			}
 			else
 			{
-				write.println(".field static "+name+" "+type);
+				this.write.println(".field static "+name+" "+type);
 			}
 		}
 	}
@@ -103,40 +111,40 @@ public class Generator
 		
 		if(f.getFunctionId().equals("main"))
 		{
-			write.println(".method public static main([Ljava/lang/String;)V");
+			this.write.println(".method public static main([Ljava/lang/String;)V");
 		}
 		else
 		{
-			write.print(".method public static " + f.getFunctionId() + "(");
+			this.write.print(".method public static " + f.getFunctionId() + "(");
 			
 			for (int i = 0; i < arguments.size(); i++)
 			{
 				if(arguments.get(i).getType().equals(Constants.SCALAR))
 				{
-					write.print("I");
+					this.write.print("I");
 				}
 				if(arguments.get(i).getType().equals(Constants.ARRAY)) 
 				{
-					write.print("[I");
+					this.write.print("[I");
 				}
 			}
 			
-			write.print(")");
+			this.write.print(")");
 			
 			if(returnValue != null)
 			{
 				if(returnValue.getType().equals(Constants.SCALAR))
 				{
-					write.println("I");
+					this.write.println("I");
 				}
 				if(returnValue.getType().equals(Constants.ARRAY))
 				{
-					write.println("[I");
+					this.write.println("[I");
 				}
 			}
 			else
 			{
-				write.println("V");
+				this.write.println("V");
 			}
 		}
 	}
@@ -149,10 +157,10 @@ public class Generator
 		}
 		else
 		{
-			write.println("return");
+			this.write.println("return");
 		}
 		
-		write.println(".end method");
+		this.write.println(".end method");
 	}
 	
 	public void generateFunctions()

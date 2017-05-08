@@ -310,9 +310,9 @@ public class SemanticAnalysis
 		return temp;
 	}
 	
-	public IntermediateRepresentation analyseCondition(SimpleNode left_side, SimpleNode right_side, Function function, String type)
+	public AST analyseCondition(SimpleNode left_side, SimpleNode right_side, Function function, String type)
 	{
-		IntermediateRepresentation conditionNode = new IntermediateRepresentation(type,function);
+		AST conditionNode = new AST(type,function);
 		
 		if(left_side.getOriginalId() == YAL2JVMTreeConstants.JJTARRAYACCESS)
 		{
@@ -543,7 +543,7 @@ public class SemanticAnalysis
 		return conditionNode;
 	}
 	
-	public IntermediateRepresentation analyseCall(String call, Node[] args, boolean isCondition, Function parentFunction) 
+	public AST analyseCall(String call, Node[] args, boolean isCondition, Function parentFunction) 
 	{
 		boolean dot = true;
 		String declaration = null;
@@ -583,7 +583,7 @@ public class SemanticAnalysis
 			}
 		}
 		
-		IntermediateRepresentation callFunction = new IntermediateRepresentation("call",parentFunction);
+		AST callFunction = new AST(Constants.CALL,parentFunction);
 		
 		int numArgs;
 		
@@ -611,13 +611,50 @@ public class SemanticAnalysis
 		return callFunction;
 	}
 	
-	public IntermediateRepresentation analyseAssignment(SimpleNode lhs, SimpleNode rhs, Function function) 
+	public AST analyseAssignment(SimpleNode left_side, SimpleNode right_side, Function function) 
 	{
+		AST assigmentNode = new AST(Constants.ASSIGNMENT,function);		
 		boolean isOperation = false;
-		return null;
+		
+		//ANALYSE LEFT SIDE
+		if(left_side.getOriginalId() == YAL2JVMTreeConstants.JJTARRAYACCESS) 
+		{
+			assigmentNode.lhsAccess = "array";
+			assigmentNode.lhsId = left_side.ID;
+			SimpleNode arrayIndex = (SimpleNode)(left_side.jjtGetChild(0));
+			try
+			{
+				Integer.parseInt(arrayIndex.ID);
+				assigmentNode.lhsArrayIndexId = arrayIndex.ID;
+				assigmentNode.lhsArrayAccessType = "integer";
+			} 
+			catch (NumberFormatException e)
+			{
+				assigmentNode.lhsArrayIndexId  = arrayIndex.ID;
+				assigmentNode.lhsArrayAccessType = "scalar";
+			}
+		} 
+		else if(left_side.getOriginalId() == YAL2JVMTreeConstants.JJTSCALARACCESS)
+		{
+			if(Utils.isArrayOrFunctionAccess((left_side.ID)))
+			{
+				assigmentNode.lhsAccess = "size";
+				assigmentNode.lhsId = left_side.ID.split(".")[0];
+				System.out.println(assigmentNode.lhsId);
+			}
+			else
+			{
+				assigmentNode.lhsAccess = "scalar";
+				assigmentNode.lhsId = left_side.ID;
+			}
+		}
+		
+		//ANALYSE RIGTH SIDE
+		
+		return assigmentNode;
 	}
 
-	public IntermediateRepresentation analyseFunction(Function function, IntermediateRepresentation parentNode)
+	public AST analyseFunction(Function function, AST parentNode)
 	{
 		for(int i=0; i<sn.getChildren().length;i++)
 		{
@@ -630,12 +667,12 @@ public class SemanticAnalysis
 				SimpleNode if_left_side = (SimpleNode) if_node.jjtGetChild(0);
 				SimpleNode if_right_side = (SimpleNode) if_node.jjtGetChild(1);
 				
-				IntermediateRepresentation if_cond = analyseCondition(if_left_side, if_right_side, function,"if");
+				AST if_cond = analyseCondition(if_left_side, if_right_side, function,"if");
 				break;
 			case YAL2JVMTreeConstants.JJTWHILE:
 				break;
 			case YAL2JVMTreeConstants.JJTCALL:
-				IntermediateRepresentation call = analyseCall(child.ID, child.getChildren(), false, function);
+				AST call = analyseCall(child.ID, child.getChildren(), false, function);
 				break;
 			}
 		}

@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 
-public class IntermediateRepresentation
+public class AST
 {	
 	public String type;
-	public ArrayList<IntermediateRepresentation> parents = new ArrayList<IntermediateRepresentation>();
-	public ArrayList<IntermediateRepresentation> children = new ArrayList<IntermediateRepresentation>();
+	public ArrayList<AST> parents = new ArrayList<AST>();
+	public ArrayList<AST> children = new ArrayList<AST>();
 	public static int cfgNodeCount;
 	public int nodeNumber;
 	
@@ -46,11 +46,11 @@ public class IntermediateRepresentation
 	public String callFunctionDeclaration;
 	public String[] callArgs;
 	
-	public IntermediateRepresentation (String t, Function f)
+	public AST (String t, Function f)
 	{
 		type = t;
-		parents = new ArrayList<IntermediateRepresentation>();
-		children = new ArrayList<IntermediateRepresentation>();
+		parents = new ArrayList<AST>();
+		children = new ArrayList<AST>();
 		rhs1Args = new ArrayList<String>();
 		rhs2Args = new ArrayList<String>();
 		nodeNumber = Function.cfgNodeCount;

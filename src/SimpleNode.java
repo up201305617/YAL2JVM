@@ -91,7 +91,7 @@ public void jjtSetValue(Object value) { this.value = value; }
 	  return id;
   }
   
-  public IntermediateRepresentation analyseFunction(Function function, IntermediateRepresentation parentNode)
+  public AST analyseFunction(Function function, AST parentNode)
   {
 	  
 	  sa = new SemanticAnalysis(this);
