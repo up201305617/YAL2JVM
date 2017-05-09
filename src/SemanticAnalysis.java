@@ -621,7 +621,9 @@ public class SemanticAnalysis
 		{
 			assigmentNode.lhsAccess = "array";
 			assigmentNode.lhsId = left_side.ID;
+			
 			SimpleNode arrayIndex = (SimpleNode)(left_side.jjtGetChild(0));
+			
 			try
 			{
 				Integer.parseInt(arrayIndex.ID);
@@ -649,12 +651,154 @@ public class SemanticAnalysis
 			}
 		}
 		
-		//ANALYSE RIGTH SIDE
+		//ANALYSE RIGTH SIDE 1
+		
+		SimpleNode right_side_1 = (SimpleNode)right_side.jjtGetChild(0);
+		
+		if (right_side_1.getOriginalId() == YAL2JVMTreeConstants.JJTTERM) 
+		{
+			if (right_side_1.ID != null)
+			{
+				assigmentNode.rhs1Id = right_side_1.ID;
+				assigmentNode.rhs1Access = "integer";
+			} 
+			else 
+			{
+				SimpleNode term = (SimpleNode)right_side_1.jjtGetChild(0);
+				
+				if (term.getOriginalId() == YAL2JVMTreeConstants.JJTCALL) 
+				{
+					assigmentNode.rhs1Access = "call";
+					assigmentNode.rhs1Id = term.ID;
+					
+					for (int i = 0; i < term.jjtGetNumChildren(); i++)
+					{
+						assigmentNode.rhs1Args.add(((SimpleNode)term.jjtGetChild(i)).ID);
+					}
+				}
+				else if (term.getOriginalId() == YAL2JVMTreeConstants.JJTARRAYACCESS)
+				{
+					assigmentNode.rhs1Access = "array";
+					assigmentNode.rhs1Id = term.ID;
+					
+					SimpleNode arrayIndex = (SimpleNode)(term.jjtGetChild(0));
+					
+					try
+					{
+						Integer.parseInt(arrayIndex.ID);
+						assigmentNode.rhs1ArrayIndexId = arrayIndex.ID;
+						assigmentNode.rhs1ArrayAccess = "integer";
+					}
+					catch (NumberFormatException e)
+					{
+						assigmentNode.rhs1ArrayIndexId = arrayIndex.ID;
+						assigmentNode.rhs1ArrayAccess = "scalar";
+					}
+				}
+				else if (term.getOriginalId() == YAL2JVMTreeConstants.JJTSCALARACCESS) 
+				{
+					if(Utils.isArrayOrFunctionAccess(term.ID))
+					{
+						assigmentNode.rhs1Access = "size";
+						assigmentNode.rhs1Id = term.ID.split(".")[0];
+					}
+					else
+					{
+						assigmentNode.rhs1Access = "scalar";
+						assigmentNode.rhs1Id = term.ID;
+					}
+				} 
+			}
+		} 
+		else if (right_side_1.getOriginalId() == YAL2JVMTreeConstants.JJTARRAYSIZE) 
+		{
+			assigmentNode.rhs1Access = "arraysize";
+			assigmentNode.rhs1Id = right_side_1.ID;
+		}
+		
+		//ANALYSE RIGTH SIDE 2
+		
+		if (right_side.jjtGetNumChildren() == 2) 
+		{
+			assigmentNode.operation = right_side.ID;
+			assigmentNode.isOperation = true;
+			System.out.println(assigmentNode.operation);
+			
+			SimpleNode right_side_2 = (SimpleNode)right_side.jjtGetChild(1);
+			
+			if (right_side_2.getOriginalId() == YAL2JVMTreeConstants.JJTTERM)
+			{
+				if (right_side_2.ID != null)
+				{
+					assigmentNode.rhs2Id = right_side_2.ID;
+					assigmentNode.rhs2Access = "integer";
+				}
+				else 
+				{
+					SimpleNode term = (SimpleNode)right_side_2.jjtGetChild(0);
+					
+					if (term.getOriginalId() == YAL2JVMTreeConstants.JJTCALL) 
+					{
+						assigmentNode.rhs2Access = "call";
+						assigmentNode.rhs2Id = term.ID;
+						
+						for (int i = 0; i < term.jjtGetNumChildren(); i++)
+						{
+							assigmentNode.rhs2Args.add(((SimpleNode)term.jjtGetChild(i)).ID);
+						}
+					} 
+					else if (term.getOriginalId() == YAL2JVMTreeConstants.JJTARRAYACCESS) 
+					{
+						assigmentNode.rhs2Access = "array";
+						assigmentNode.rhs2Id = term.ID;
+						
+						SimpleNode arrayIndex = (SimpleNode)(term.jjtGetChild(0));
+						
+						try
+						{
+							Integer.parseInt(arrayIndex.ID);
+							assigmentNode.rhs2ArrayIndexId = arrayIndex.ID;
+							assigmentNode.rhs2ArrayAccess = "integer";
+						} 
+						catch (NumberFormatException e) 
+						{
+							assigmentNode.rhs2ArrayIndexId = arrayIndex.ID;
+							assigmentNode.rhs2ArrayAccess = "scalar";
+						}
+					} 
+					else if (term.getOriginalId() == YAL2JVMTreeConstants.JJTSCALARACCESS)
+					{
+						if(Utils.isArrayOrFunctionAccess(term.ID))
+						{
+							assigmentNode.rhs2Access = "size";
+							assigmentNode.rhs2Id = term.ID.split(".")[0];
+						}
+						else
+						{
+							assigmentNode.rhs2Access = "scalar";
+							assigmentNode.rhs2Id = term.ID;
+						}
+					} 
+				}
+			}
+			else if (right_side_2.getOriginalId() == YAL2JVMTreeConstants.JJTARRAYSIZE)
+			{
+				assigmentNode.rhs2Access = "arraysize";
+				assigmentNode.rhs2Id = right_side_2.ID;
+			}
+		}
+		
+		findErrors(function,assigmentNode);
 		
 		return assigmentNode;
 	}
+	
+	public void findErrors(Function function, AST assigmentNode)
+	{
+		
+	}
 
-	public AST analyseFunction(Function function, AST parentNode)
+	public AST analyseFunction(Function function, AST root, Node[] children)
 	{
 		for(int i=0; i<sn.getChildren().length;i++)
 		{
@@ -673,6 +817,12 @@ public class SemanticAnalysis
 				break;
 			case YAL2JVMTreeConstants.JJTCALL:
 				AST call = analyseCall(child.ID, child.getChildren(), false, function);
+				break;
+			case YAL2JVMTreeConstants.JJTASSIGNEMENT:
+				SimpleNode ass_left_side = (SimpleNode)child.jjtGetChild(0); 
+				SimpleNode ass_right_side = (SimpleNode)child.jjtGetChild(1); 
+				
+				AST assignment = analyseAssignment(ass_left_side, ass_right_side, function);
 				break;
 			}
 		}

@@ -85,8 +85,6 @@ public class Module
 			f.initializeInitialNode(f);
 			AST lastNode = functions.get(id).getBody().analyseFunction(f,f.getInitialNode());
 			AST endNode = new AST("end",f);
-			//lastNode.outs.add(endNode);
-			//endNode.ins.add(lastNode);
 		}
 	}
 	

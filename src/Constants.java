@@ -13,6 +13,7 @@ public class Constants
 	//AST
 	public static String ASSIGNMENT = "assignment";
 	public static String CALL = "call";
+	public static String IF = "if";
 	
 	//Access
 	public static String ARRAY_ACCESS = "array";

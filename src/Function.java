@@ -11,6 +11,7 @@ public class Function
 	private HashMap<String,Variable> variables;
 	public static int cfgNodeCount;
 	private AST initialNode;
+	private HashMap<String,Integer> allVariables;
 	
 	public Function(String id, Variable returnValue, ArrayList<Variable> a, SimpleNode body)
 	{
@@ -20,6 +21,7 @@ public class Function
 		this.body = body;
 		this.nodes = new ArrayList<AST>();
 		this.variables = new HashMap<String,Variable>();
+		this.allVariables = new HashMap<String,Integer>();
 	}
 	
 	public void initializeInitialNode(Function f)
@@ -141,5 +143,28 @@ public class Function
 		s += ")";
 		
 		return s;
+	}
+	
+	public void buildVariablesIndex()
+	{
+		int index = 0;
+		
+		for (int i = 0; i < arguments.size(); i++)
+		{
+			index++;
+			allVariables.put(arguments.get(i).getVariableID(),index);
+		}
+		
+		if(returnValue != null)
+		{
+			index++;
+			allVariables.put(returnValue.getVariableID(),index);
+		}
+		
+		for (String key : variables.keySet())
+		{
+			index++;
+			allVariables.put(variables.get(key).getVariableID(),index);
+		}
 	}
 }

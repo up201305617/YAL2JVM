@@ -201,4 +201,10 @@ public class Utils
 			return false;
 		}
 	}
+	
+	public static void error()
+	{
+		YAL2JVM.errorFound();
+		YAL2JVM.incErrors();
+	}
 }

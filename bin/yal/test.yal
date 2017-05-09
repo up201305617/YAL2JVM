@@ -5,6 +5,7 @@ module test
 	
 	function i=aux(a) 
 	{
+		a = 1 + 1;
 		a=0;
 	}
 	
