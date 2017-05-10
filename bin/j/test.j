@@ -10,15 +10,24 @@
 return
 .end method
 
+.method public static testing()[I
+.limit locals 1
+.limit stack 2
+
+areturn 
+.end method
+
 .method public static aux(I)I
 .limit locals 2
 .limit stack 2
 
+ireturn 
 .end method
 
 .method public static f(II[I)I
 .limit locals 4
 .limit stack 2
 
+ireturn 
 .end method
 

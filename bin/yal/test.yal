@@ -9,6 +9,11 @@ module test
 		a=0;
 	}
 	
+	function w[]=testing()
+	{
+		t = a+1;
+	}
+	
 	function i=f(a, b, c[]) 
 	{
 		aux(a);

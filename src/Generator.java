@@ -161,7 +161,17 @@ public class Generator
 	{
 		if(f.getReturnValue() != null)
 		{
+			Variable retVar = f.getReturnValue();
 			
+			if(retVar.getType() == "Scalar")
+			{
+				this.write.println("ireturn");
+			}
+			
+			if(retVar.getType() == "Array")
+			{
+				this.write.println("areturn");
+			}
 		}
 		else
 		{
