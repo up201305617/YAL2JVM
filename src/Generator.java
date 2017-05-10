@@ -108,10 +108,14 @@ public class Generator
 	{
 		ArrayList<Variable> arguments = f.getArguments();
 		Variable returnValue = f.getReturnValue();
+		f.setVarNum();
+		int num = f.getVarNum();
 		
 		if(f.getFunctionId().equals("main"))
 		{
 			this.write.println(".method public static main([Ljava/lang/String;)V");
+			this.write.println(".limit locals 1");
+			this.write.println(".limit stack 1");
 		}
 		else
 		{
@@ -146,6 +150,10 @@ public class Generator
 			{
 				this.write.println("V");
 			}
+			
+			this.write.println(".limit locals " + num);
+			this.write.println(".limit stack 2");
+			this.write.println();
 		}
 	}
 	

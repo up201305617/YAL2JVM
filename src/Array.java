@@ -14,7 +14,7 @@ public class Array extends Variable
 	public Array(String id, int size)
 	{
 		super(id);
-		this.size = size;
+		this.array = new int[size];
 	}
 
 	public int getSize() 

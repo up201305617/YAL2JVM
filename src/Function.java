@@ -9,9 +9,10 @@ public class Function
 	private ArrayList<Variable> arguments;
 	private ArrayList<AST> nodes;  
 	private HashMap<String,Variable> variables;
-	public static int cfgNodeCount;
+	private int nodeCount;
 	private AST initialNode;
 	private HashMap<String,Integer> allVariables;
+	private int varNum;
 	
 	public Function(String id, Variable returnValue, ArrayList<Variable> a, SimpleNode body)
 	{
@@ -166,5 +167,61 @@ public class Function
 			index++;
 			allVariables.put(variables.get(key).getVariableID(),index);
 		}
+	}
+	
+	public void setVarNum()
+	{
+		int temp_num=0;
+		temp_num = this.arguments.size() + this.variables.size();
+		
+		if(this.returnValue != null)
+		{
+			temp_num++;
+		}
+		
+		this.varNum = temp_num;
+	}
+	
+	public int getVarNum()
+	{
+		return this.varNum;
+	}
+	
+	public Variable returnVarById(String id)
+	{
+		Variable var;
+		
+		if (this.returnValue != null && this.isReturnValue(id)) 
+		{
+			var = this.returnValue;
+		} 
+		else if (this.checkArguments(id)) 
+		{
+			var = this.getArgumentsById(id);
+		}
+		else if (this.isLocalVariable(id))
+		{
+			var = this.getVariableById(id);
+		} 
+		else if (YAL2JVM.getModule().isGlobalVariable(id))
+		{
+			var = YAL2JVM.getModule().getGlobalVariableById(id);
+		}
+		else 
+		{
+			var = null;
+		}
+		
+		return var;
+	}
+	
+	public void incNodeCount()
+	{
+		this.nodeCount++;
+	}
+	
+	public int getNodeCount()
+	{
+		return this.nodeCount;
 	}
 }

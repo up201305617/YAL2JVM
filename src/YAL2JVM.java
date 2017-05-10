@@ -51,7 +51,7 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
                 System.out.println("\u005cn");
                 System.out.println("M\u00f3dulo a analisar "+root.ID+"\u005cn");
                 Utils.getGlobalVariables(root,module);
-        //root.dump("");        root.analyse();
+        root.analyse();
 
         System.out.println("O m\u00f3dulo "+root.ID+" tem "+numErrors+" erros!");
 

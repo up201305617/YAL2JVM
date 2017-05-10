@@ -11,7 +11,7 @@ public class AST
 	public boolean isOperation;
 	public String operation;
 	
-	public String lhsId;
+	public String left_side_id;
 	public String lhsScope;
 	public String lhsAccess;
 	public String lhsType;
@@ -24,7 +24,7 @@ public class AST
 	public String rhs1Type;
 	public String rhs1ArrayIndexId;
 	public String rhs1ArrayAccess;
-	public ArrayList<String> rhs1Args;
+	public ArrayList<String> right_side_1_args_id;
 	public Function rhs1Call;
 	public boolean rhs1OtherModule;
 	
@@ -34,7 +34,7 @@ public class AST
 	public String rhs2Type;
 	public String rhs2ArrayIndexId;
 	public String rhs2ArrayAccess;
-	public ArrayList<String> rhs2Args;
+	public ArrayList<String> right_side_2_args_id;
 	public Function rhs2Call;
 	public boolean rhs2OtherModule;
 	
@@ -51,11 +51,10 @@ public class AST
 		type = t;
 		parents = new ArrayList<AST>();
 		children = new ArrayList<AST>();
-		rhs1Args = new ArrayList<String>();
-		rhs2Args = new ArrayList<String>();
-		nodeNumber = Function.cfgNodeCount;
-		Function.cfgNodeCount++;
+		right_side_1_args_id = new ArrayList<String>();
+		right_side_2_args_id = new ArrayList<String>();
+		nodeNumber = f.getNodeCount();
+		f.incNodeCount();
 		f.getNodes().add(this);
 	}
-
 }

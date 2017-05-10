@@ -95,7 +95,7 @@ public void jjtSetValue(Object value) { this.value = value; }
   {
 	  
 	  sa = new SemanticAnalysis(this);
-	  return sa.analyseFunction(function,parentNode, this.children);
+	  return sa.analyseFunctionBuildAST(function,parentNode, this.children);
   }
 }
 
