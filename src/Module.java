@@ -116,4 +116,16 @@ public class Module
 	{
 		return functions;
 	}
+	
+	public boolean findFunctioByName(String name)
+	{
+		for (String key : functions.keySet())
+		{
+			if(Utils.splitByDot(key).equals(name))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 }

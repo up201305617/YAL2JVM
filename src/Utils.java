@@ -184,4 +184,63 @@ public class Utils
 		YAL2JVM.incErrors();
 		System.out.println(message);
 	}
+	
+	public static String buildFunctionDeclaration(Function function, String name, ArrayList<String> args, String varId)
+	{
+		String declaration = name;
+		declaration += "(";
+		
+		for (int i = 0; i < args.size(); i++)
+		{
+			String arg = args.get(i);
+			
+			try
+			{
+				Integer.parseInt(arg);
+				declaration += " scalar";
+			} 
+			catch (NumberFormatException e) 
+			{
+				Variable var = function.returnVarById(arg);
+				
+				if(var == null)
+				{
+					String error_message = "Na função "+function+" o argumento "+arg+
+							" do lado direito da atribuição da variavel "+varId+" não existe!";
+
+					Utils.error(error_message);
+				}
+				else
+				{
+					if(var.getType().equals("scalar"))
+					{
+						declaration += " scalar";
+					}
+					else if(var.getType().equals("array"))
+					{
+						declaration += " array";
+					}
+				}
+			}
+		}
+		
+		declaration += ")";
+		
+		return declaration;
+	}
+	
+	public static String splitByDot(String string)
+	{
+		String name = "";
+		
+		for (int i = 0; i < string.length(); i++) 
+		{
+			if(string.charAt(i) == '(')
+				break;
+			else
+				name += string.charAt(i);
+		}
+		
+		return name;
+	}
 }

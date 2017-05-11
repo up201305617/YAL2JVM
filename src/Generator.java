@@ -163,7 +163,6 @@ public class Generator
 		{
 			Variable retVar = f.getReturnValue();
 			int var_index = f.getAllVariables().get(retVar.getVariableID());
-			System.out.println("Index: "+var_index+" "+f.getFunctionId());
 			
 			if(retVar.getType() == "Scalar")
 			{
