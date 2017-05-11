@@ -162,14 +162,34 @@ public class Generator
 		if(f.getReturnValue() != null)
 		{
 			Variable retVar = f.getReturnValue();
+			int var_index = f.getAllVariables().get(retVar.getVariableID());
+			System.out.println("Index: "+var_index+" "+f.getFunctionId());
 			
 			if(retVar.getType() == "Scalar")
 			{
+				if(var_index <= 3)
+				{
+					this.write.println("iload_" + var_index);
+				}
+				else
+				{
+					this.write.println("iload " + var_index);
+				}
+				
 				this.write.println("ireturn");
 			}
 			
 			if(retVar.getType() == "Array")
 			{
+				if(var_index <= 3)
+				{
+					this.write.println("aload_" + var_index);
+				}
+				else
+				{
+					this.write.println("aload " + var_index);
+				}
+				
 				this.write.println("areturn");
 			}
 		}
@@ -185,6 +205,7 @@ public class Generator
 	{
 		for(Function f : module.getAllFunctions().values())
 		{
+			f.buildVariablesIndex();
 			generateFunctionDeclaration(f);
 			generateReturn(f);
 			generateNewLine();

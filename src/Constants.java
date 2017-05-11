@@ -20,4 +20,5 @@ public class Constants
 	public static String SCALAR_ACCESS = "scalar";
 	public static String SIZE_ACCESS = "size";
 	public static String INTEGER_ACCESS = "integer";
+	public static String ARRAY_SIZE = "arraysize";
 }

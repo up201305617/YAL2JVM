@@ -14,20 +14,23 @@ return
 .limit locals 1
 .limit stack 2
 
-areturn 
+aload_1
+areturn
 .end method
 
 .method public static aux(I)I
 .limit locals 2
 .limit stack 2
 
-ireturn 
+iload_2
+ireturn
 .end method
 
 .method public static f(II[I)I
 .limit locals 4
 .limit stack 2
 
-ireturn 
+iload 4
+ireturn
 .end method
 

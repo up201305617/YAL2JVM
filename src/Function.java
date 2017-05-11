@@ -215,6 +215,30 @@ public class Function
 		return var;
 	}
 	
+	public boolean findVariable(String variable)
+	{
+		if (this.returnValue != null && this.isReturnValue(variable)) 
+		{
+			return true;
+		} 
+		else if (this.checkArguments(variable)) 
+		{
+			return true;
+		} 
+		else if (this.isLocalVariable(variable)) 
+		{
+			return true;
+		}
+		else if (YAL2JVM.getModule().isGlobalVariable(variable)) 
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	public void incNodeCount()
 	{
 		this.nodeCount++;
@@ -223,5 +247,10 @@ public class Function
 	public int getNodeCount()
 	{
 		return this.nodeCount;
+	}
+
+	public HashMap<String, Integer> getAllVariables()
+	{
+		return allVariables;
 	}
 }

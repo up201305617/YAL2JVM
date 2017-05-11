@@ -18,7 +18,7 @@ public class AST
 	public String lhsArrayIndexId;
 	public String lhsArrayAccessType;
 	
-	public String rhs1Id;
+	public String righ_side_1_id;
 	public String rhs1Scope;
 	public String rhs1Access;
 	public String rhs1Type;
@@ -28,7 +28,7 @@ public class AST
 	public Function rhs1Call;
 	public boolean rhs1OtherModule;
 	
-	public String rhs2Id;
+	public String righ_side_2_id;
 	public String rhs2Scope;
 	public String rhs2Access;
 	public String rhs2Type;

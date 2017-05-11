@@ -358,7 +358,7 @@ public class SemanticAnalysis
 					if (term.getOriginalId() == YAL2JVMTreeConstants.JJTCALL)
 					{
 						conditionNode.rhs1Access = "call";
-						conditionNode.rhs1Id = term.ID;
+						conditionNode.righ_side_1_id = term.ID;
 						
 						if (!Utils.isArrayOrFunctionAccess(term.ID))
 						{
@@ -382,7 +382,7 @@ public class SemanticAnalysis
 					{
 						SimpleNode index = (SimpleNode)term.jjtGetChild(0);
 						
-						conditionNode.rhs1Id = term.ID;
+						conditionNode.righ_side_1_id = term.ID;
 						conditionNode.rhs1Access = "array";
 						try
 						{
@@ -399,7 +399,7 @@ public class SemanticAnalysis
 					} 
 					if (term.getOriginalId() == YAL2JVMTreeConstants.JJTSCALARACCESS) 
 					{
-						conditionNode.rhs1Id = term.ID;
+						conditionNode.righ_side_1_id = term.ID;
 						conditionNode.rhs1Access = "scalar";
 						
 						analyseScalarAccess(term.ID, function);
@@ -407,7 +407,7 @@ public class SemanticAnalysis
 				} 
 				else 
 				{
-					conditionNode.rhs1Id = right_side_child.ID;
+					conditionNode.righ_side_1_id = right_side_child.ID;
 					conditionNode.rhs1Access = "integer";
 				}
 			} 
@@ -427,7 +427,7 @@ public class SemanticAnalysis
 				if (child.getOriginalId() == YAL2JVMTreeConstants.JJTCALL) 
 				{
 					conditionNode.rhs1Access = "call";
-					conditionNode.rhs1Id = child.ID;
+					conditionNode.righ_side_1_id = child.ID;
 					
 					if (!Utils.isArrayOrFunctionAccess(child.ID)) 
 					{
@@ -451,7 +451,7 @@ public class SemanticAnalysis
 				{
 					SimpleNode index = (SimpleNode)child.jjtGetChild(0);
 					
-					conditionNode.rhs1Id = child.ID;
+					conditionNode.righ_side_1_id = child.ID;
 					conditionNode.rhs1Access = "array";
 					
 					try
@@ -469,7 +469,7 @@ public class SemanticAnalysis
 				} 
 				else if (child.getOriginalId() == YAL2JVMTreeConstants.JJTSCALARACCESS) 
 				{
-					conditionNode.rhs1Id = child.ID;
+					conditionNode.righ_side_1_id = child.ID;
 					conditionNode.rhs1Access = "scalar";
 					
 					analyseScalarAccess(child.ID, function);
@@ -477,7 +477,7 @@ public class SemanticAnalysis
 			} 
 			else
 			{
-				conditionNode.rhs1Id = left_term.ID;
+				conditionNode.righ_side_1_id = left_term.ID;
 				conditionNode.rhs1Access = "integer";
 			}
 
@@ -488,7 +488,7 @@ public class SemanticAnalysis
 				if (child.getOriginalId() == YAL2JVMTreeConstants.JJTCALL) 
 				{
 					conditionNode.rhs2Access = "call";
-					conditionNode.rhs2Id = child.ID;
+					conditionNode.righ_side_2_id = child.ID;
 					
 					if (!Utils.isArrayOrFunctionAccess(child.ID)) 
 					{
@@ -511,7 +511,7 @@ public class SemanticAnalysis
 				{
 					SimpleNode index = (SimpleNode)child.jjtGetChild(0);
 					
-					conditionNode.rhs2Id = child.ID;
+					conditionNode.righ_side_2_id = child.ID;
 					conditionNode.rhs2Access = "array";
 					
 					try
@@ -530,7 +530,7 @@ public class SemanticAnalysis
 				} 
 				else if (child.getOriginalId() == YAL2JVMTreeConstants.JJTSCALARACCESS)
 				{
-					conditionNode.rhs2Id = child.ID;
+					conditionNode.righ_side_2_id = child.ID;
 					conditionNode.rhs2Access = "scalar";
 					
 					analyseScalarAccess(child.ID, function);
@@ -538,7 +538,7 @@ public class SemanticAnalysis
 			} 
 			else 
 			{
-				conditionNode.rhs2Id = right_term.ID;
+				conditionNode.righ_side_2_id = right_term.ID;
 				conditionNode.rhs2Access = "integer";
 			}
 		}
@@ -661,7 +661,7 @@ public class SemanticAnalysis
 		{
 			if (right_side_1.ID != null)
 			{
-				assigmentNode.rhs1Id = right_side_1.ID;
+				assigmentNode.righ_side_1_id = right_side_1.ID;
 				assigmentNode.rhs1Access = "integer";
 			} 
 			else 
@@ -671,7 +671,7 @@ public class SemanticAnalysis
 				if (term.getOriginalId() == YAL2JVMTreeConstants.JJTCALL) 
 				{
 					assigmentNode.rhs1Access = "call";
-					assigmentNode.rhs1Id = term.ID;
+					assigmentNode.righ_side_1_id = term.ID;
 					
 					for (int i = 0; i < term.jjtGetNumChildren(); i++)
 					{
@@ -681,7 +681,7 @@ public class SemanticAnalysis
 				else if (term.getOriginalId() == YAL2JVMTreeConstants.JJTARRAYACCESS)
 				{
 					assigmentNode.rhs1Access = "array";
-					assigmentNode.rhs1Id = term.ID;
+					assigmentNode.righ_side_1_id = term.ID;
 					
 					SimpleNode arrayIndex = (SimpleNode)(term.jjtGetChild(0));
 					
@@ -702,12 +702,12 @@ public class SemanticAnalysis
 					if(Utils.isArrayOrFunctionAccess(term.ID))
 					{
 						assigmentNode.rhs1Access = "size";
-						assigmentNode.rhs1Id = term.ID.split(".")[0];
+						assigmentNode.righ_side_1_id = term.ID.split(".")[0];
 					}
 					else
 					{
 						assigmentNode.rhs1Access = "scalar";
-						assigmentNode.rhs1Id = term.ID;
+						assigmentNode.righ_side_1_id = term.ID;
 					}
 				} 
 			}
@@ -715,7 +715,7 @@ public class SemanticAnalysis
 		else if (right_side_1.getOriginalId() == YAL2JVMTreeConstants.JJTARRAYSIZE) 
 		{
 			assigmentNode.rhs1Access = "arraysize";
-			assigmentNode.rhs1Id = right_side_1.ID;
+			assigmentNode.righ_side_1_id = right_side_1.ID;
 		}
 		
 		//ANALYSE RIGTH SIDE 2
@@ -732,7 +732,7 @@ public class SemanticAnalysis
 			{
 				if (right_side_2.ID != null)
 				{
-					assigmentNode.rhs2Id = right_side_2.ID;
+					assigmentNode.righ_side_2_id = right_side_2.ID;
 					assigmentNode.rhs2Access = "integer";
 				}
 				else 
@@ -742,7 +742,7 @@ public class SemanticAnalysis
 					if (term.getOriginalId() == YAL2JVMTreeConstants.JJTCALL) 
 					{
 						assigmentNode.rhs2Access = "call";
-						assigmentNode.rhs2Id = term.ID;
+						assigmentNode.righ_side_2_id = term.ID;
 						
 						for (int i = 0; i < term.jjtGetNumChildren(); i++)
 						{
@@ -752,7 +752,7 @@ public class SemanticAnalysis
 					else if (term.getOriginalId() == YAL2JVMTreeConstants.JJTARRAYACCESS) 
 					{
 						assigmentNode.rhs2Access = "array";
-						assigmentNode.rhs2Id = term.ID;
+						assigmentNode.righ_side_2_id = term.ID;
 						
 						SimpleNode arrayIndex = (SimpleNode)(term.jjtGetChild(0));
 						
@@ -773,12 +773,12 @@ public class SemanticAnalysis
 						if(Utils.isArrayOrFunctionAccess(term.ID))
 						{
 							assigmentNode.rhs2Access = "size";
-							assigmentNode.rhs2Id = term.ID.split(".")[0];
+							assigmentNode.righ_side_2_id = term.ID.split(".")[0];
 						}
 						else
 						{
 							assigmentNode.rhs2Access = "scalar";
-							assigmentNode.rhs2Id = term.ID;
+							assigmentNode.righ_side_2_id = term.ID;
 						}
 					} 
 				}
@@ -786,10 +786,10 @@ public class SemanticAnalysis
 			else if (right_side_2.getOriginalId() == YAL2JVMTreeConstants.JJTARRAYSIZE)
 			{
 				assigmentNode.rhs2Access = "arraysize";
-				assigmentNode.rhs2Id = right_side_2.ID;
+				assigmentNode.righ_side_2_id = right_side_2.ID;
 			}
 		}
-		
+	
 		findErrors(function,assigmentNode);
 		
 		return assigmentNode;
@@ -797,7 +797,70 @@ public class SemanticAnalysis
 	
 	public void findErrors(Function function, AST assigmentNode)
 	{
+		boolean new_var = function.findVariable(assigmentNode.left_side_id);
 		
+		if(new_var)
+		{
+			Variable v = function.returnVarById(assigmentNode.left_side_id);
+			
+			switch (assigmentNode.lhsAccess) 
+			{	
+			case "array":
+			
+				if (!v.getType().equals(Constants.ARRAY))
+				{
+					String error_message = "Na função "+function+" a variável "+assigmentNode.lhsAccess+
+							 " do lado esquerdo da atribuição não é um array!";
+					
+					Utils.error(error_message);
+				}
+				else 
+				{
+					if (assigmentNode.lhsArrayIndexId != null && !assigmentNode.lhsArrayAccessType.equals(Constants.INTEGER_ACCESS))
+					{
+						if (!function.findVariable(assigmentNode.lhsArrayIndexId))
+						{
+							String error_message = "Na função "+function+" a variável "+assigmentNode.lhsArrayIndexId+
+									" do lado esquerdo da atribuição usada como index da variável "+ assigmentNode.left_side_id +
+									" não existe!";
+							
+							Utils.error(error_message);
+						}
+						else 
+						{
+							Variable index = function.returnVarById(assigmentNode.lhsArrayIndexId);
+							
+							if (!index.getType().equals(Constants.SCALAR)) 
+							{
+								String error_message = "Na função "+function+" a variável usada como index da variável "+
+										assigmentNode.left_side_id + " do lado esquerdo da atribuição não é do tipo Scalar!";
+								
+								Utils.error(error_message);
+							}
+						}
+					}
+				}
+				break;
+			
+			case "scalar":
+				
+				if(!assigmentNode.rhs1Access.equals(Constants.ARRAY_SIZE))
+				{
+					Variable var = function.returnVarById(assigmentNode.left_side_id);
+					
+					if(var.getType().equals("array"))
+					{
+						String error_message = "Na função "+function+" a variável "+assigmentNode.left_side_id+
+								" do lado esquerdo da atribuição não é do tipo Scalar!";
+						
+						Utils.error(error_message);
+					}
+				}
+				
+				break;
+			}
+
+		}		
 	}
 
 	public AST analyseFunctionBuildAST(Function function, AST root, Node[] children)
@@ -821,7 +884,7 @@ public class SemanticAnalysis
 				AST call = analyseCall(child.ID, child.getChildren(), false, function);
 				break;
 			case YAL2JVMTreeConstants.JJTASSIGNEMENT:
-				SimpleNode ass_left_side = (SimpleNode)child.jjtGetChild(0); 
+				SimpleNode ass_left_side = (SimpleNode)child.jjtGetChild(0);
 				SimpleNode ass_right_side = (SimpleNode)child.jjtGetChild(1); 
 				
 				AST assignment = analyseAssignment(ass_left_side, ass_right_side, function);
