@@ -724,6 +724,7 @@ public class SemanticAnalysis
 		{
 			assigmentNode.operation = right_side.ID;
 			assigmentNode.isOperation = true;
+			
 			System.out.println(assigmentNode.operation);
 			
 			SimpleNode right_side_2 = (SimpleNode)right_side.jjtGetChild(1);
@@ -798,9 +799,13 @@ public class SemanticAnalysis
 	public void findErrors(Function function, AST assigmentNode)
 	{
 		//LEFT SIDE
-		boolean new_var = function.findVariable(assigmentNode.left_side_id);
+		boolean new_var = false;
 		
-		if(new_var)
+		if(!function.findVariable(assigmentNode.left_side_id))
+		{
+			new_var=true;
+		}
+		else
 		{
 			Variable v = function.returnVarById(assigmentNode.left_side_id);
 			
@@ -923,7 +928,7 @@ public class SemanticAnalysis
 				} 
 				else if (assigmentNode.rhs1Access.equals(Constants.SCALAR_ACCESS)) 
 				{
-					if (assigmentNode.rhs1Type.equals("array")) 
+					if (assigmentNode.rhs1Type.equals(Constants.ARRAY)) 
 					{
 						String error_message = "Na função "+function+" a variável "+
 								assigmentNode.righ_side_1_id+ " do lado direito da atribuição da variável "+
@@ -982,6 +987,120 @@ public class SemanticAnalysis
 			{
 				assigmentNode.rhs1OtherModule = true;
 			}
+		}
+		
+		//RIGHT SIDE 2
+		
+		if (assigmentNode.isOperation)
+		{
+			if (!assigmentNode.rhs2Access.equals(Constants.INTEGER_ACCESS) && !assigmentNode.rhs1Access.equals(Constants.CALL)) 
+			{
+				if (!function.findVariable(assigmentNode.righ_side_2_id))
+				{
+					String error_message = "Na função "+function+" a variável "+assigmentNode.righ_side_2_id+
+							" do lado direito da atribuição da variável " +assigmentNode.left_side_id+
+							" não existe!";
+					
+					Utils.error(error_message);
+				} 
+				else 
+				{
+					assigmentNode.rhs2Type = function.returnVarById(assigmentNode.righ_side_2_id).getType();
+					
+					if (assigmentNode.rhs2Access.equals("array"))
+					{
+						if (assigmentNode.rhs2ArrayIndexId != null && !assigmentNode.rhs2ArrayAccess.equals(Constants.INTEGER_ACCESS))
+						{
+							if (!function.findVariable(assigmentNode.rhs2ArrayIndexId)) 
+							{
+								String error_message = "Na função "+function+" a variável "+assigmentNode.rhs2ArrayIndexId+
+										" do lado direito da atribuição da variável "+assigmentNode.left_side_id+
+										" não existe!";
+								
+								Utils.error(error_message);
+							} 
+							else 
+							{
+								Variable v = function.returnVarById(assigmentNode.rhs2ArrayIndexId);
+								
+								if (!v.getType().equals(Constants.SCALAR))
+								{
+									String error_message = "Na função "+function+" o index usado para a variável "+
+											assigmentNode.righ_side_2_id+ " do lado direito da atribuição da variável "+
+											assigmentNode.left_side_id+" não é um Scalar!";
+									
+									Utils.error(error_message);
+								}
+							}
+						}
+					} 
+					else if (assigmentNode.rhs2Access.equals(Constants.SCALAR_ACCESS)) 
+					{
+						if (assigmentNode.rhs2Type.equals(Constants.ARRAY))
+						{
+							String error_message = "Na função "+function+" a variável "+
+									assigmentNode.righ_side_2_id+ " do lado direito da atribuição da variável "+
+									assigmentNode.left_side_id+" não é um Scalar!";
+							
+							Utils.error(error_message);
+						}
+					} 
+					else if (assigmentNode.rhs2Access.equals(Constants.SIZE_ACCESS))
+					{
+						Variable v = function.returnVarById(assigmentNode.righ_side_2_id);
+						
+						if (!v.getType().equals(Constants.ARRAY)) 
+						{	
+							String error_message = "Na função "+function+" a variável "+
+									assigmentNode.righ_side_2_id+ " do lado direito da atribuição da variável "+
+									assigmentNode.left_side_id+" não é um Array!";
+							
+							Utils.error(error_message);
+						}
+					}
+				}
+			}
+			else if(assigmentNode.rhs2Access.equals(Constants.CALL))
+			{
+				if (!Utils.isArrayOrFunctionAccess(assigmentNode.righ_side_2_id))
+				{
+					if(!YAL2JVM.getModule().findFunctioByName(assigmentNode.righ_side_2_id))
+					{
+						String error_message = "Na função "+function+" a chamada à função "+assigmentNode.righ_side_2_id+
+								" do lado direito da atribuição da variável "+assigmentNode.left_side_id+" não pertence ao módulo!";
+						
+						Utils.error(error_message);
+					}
+					else
+					{
+						String declaration = Utils.buildFunctionDeclaration(function, assigmentNode.righ_side_2_id, assigmentNode.right_side_2_args_id,assigmentNode.left_side_id);
+						
+						System.out.println(declaration);
+						
+						if(!YAL2JVM.getModule().functionExists(declaration))
+						{
+							String error_message = "Na função "+function+" os argumentos da chamada à função "+
+									assigmentNode.righ_side_2_id + " do lado direito da atribuição da variável "+assigmentNode.left_side_id+
+									" não correspondem aos argumentos da função com o mesmo nome!";
+							
+							Utils.error(error_message);
+						}
+						else
+						{
+							assigmentNode.rhs1Call = YAL2JVM.getModule().getFunctionByID(declaration);
+						}
+					}
+				}
+			}
+			else
+			{
+				assigmentNode.rhs2OtherModule = true;
+			}
+		}
+		
+		if(new_var)
+		{
+			function.addVariable(assigmentNode.rhs1Access, assigmentNode.left_side_id, assigmentNode.righ_side_1_id);
 		}
 	}
 

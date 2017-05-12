@@ -253,4 +253,16 @@ public class Function
 	{
 		return allVariables;
 	}
+	
+	public void addVariable(String access, String id, String size)
+	{
+		if(access.equals(Constants.ARRAY_SIZE))
+		{
+			this.variables.put(id, new Array(id,Integer.parseInt(size)));
+		}
+		else
+		{
+			this.variables.put(id, new Scalar(id));
+		}
+	}
 }

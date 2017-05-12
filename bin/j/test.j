@@ -11,7 +11,7 @@ return
 .end method
 
 .method public static testing()[I
-.limit locals 1
+.limit locals 2
 .limit stack 2
 
 aload_1
@@ -27,7 +27,7 @@ ireturn
 .end method
 
 .method public static f(II[I)I
-.limit locals 4
+.limit locals 5
 .limit stack 2
 
 iload 4
