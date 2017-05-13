@@ -121,7 +121,7 @@ public class Module
 	{
 		for (String key : functions.keySet())
 		{
-			if(Utils.splitByDot(key).equals(name))
+			if(Utils.splitByArgumets(key).equals(name))
 			{
 				return true;
 			}

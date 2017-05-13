@@ -363,11 +363,11 @@ public class SemanticAnalysis
 						if (!Utils.isArrayOrFunctionAccess(term.ID))
 						{
 							String aux_0 = analyseFunctionCall(term.getChildren(),function,term.ID);
-							conditionNode.rhs1Call = YAL2JVM.getModule().getFunctionByID(aux_0);
+							conditionNode.right_side_1_function = YAL2JVM.getModule().getFunctionByID(aux_0);
 						} 
 						else
 						{
-							conditionNode.rhs1OtherModule = true;
+							conditionNode.other_module_1 = true;
 						}
 						
 						for (int i = 0; i < term.jjtGetNumChildren(); i++)
@@ -433,11 +433,11 @@ public class SemanticAnalysis
 					{
 						String aux_1 = analyseFunctionCall(child.getChildren(),function,child.ID);
 						System.out.println("Testing1: "+aux_1);
-						conditionNode.rhs1Call = YAL2JVM.getModule().getFunctionByID(aux_1);
+						conditionNode.right_side_1_function = YAL2JVM.getModule().getFunctionByID(aux_1);
 					} 
 					else 
 					{
-						conditionNode.rhs1OtherModule = true;
+						conditionNode.other_module_1 = true;
 					}
 					
 					for (int i = 0; i < child.jjtGetNumChildren(); i++)
@@ -493,11 +493,11 @@ public class SemanticAnalysis
 					if (!Utils.isArrayOrFunctionAccess(child.ID)) 
 					{
 						String aux_2 = analyseFunctionCall(child.getChildren(),function,child.ID);
-						conditionNode.rhs2Call = YAL2JVM.getModule().getFunctionByID(aux_2);
+						conditionNode.right_side_2_function = YAL2JVM.getModule().getFunctionByID(aux_2);
 					} 
 					else 
 					{
-						conditionNode.rhs2OtherModule = true;
+						conditionNode.other_module_2 = true;
 					}
 					
 					for (int i = 0; i < child.jjtGetNumChildren(); i++)
@@ -615,41 +615,41 @@ public class SemanticAnalysis
 	
 	public AST analyseAssignment(SimpleNode left_side, SimpleNode right_side, Function function) 
 	{
-		AST assigmentNode = new AST(Constants.ASSIGNMENT,function);		
+		AST assignmentNode = new AST(Constants.ASSIGNMENT,function);		
 		boolean isOperation = false;
 		
 		//ANALYSE LEFT SIDE
 		if(left_side.getOriginalId() == YAL2JVMTreeConstants.JJTARRAYACCESS) 
 		{
-			assigmentNode.lhsAccess = "array";
-			assigmentNode.left_side_id = left_side.ID;
+			assignmentNode.lhsAccess = "array";
+			assignmentNode.left_side_id = left_side.ID;
 			
 			SimpleNode arrayIndex = (SimpleNode)(left_side.jjtGetChild(0));
 			
 			try
 			{
 				Integer.parseInt(arrayIndex.ID);
-				assigmentNode.lhsArrayIndexId = arrayIndex.ID;
-				assigmentNode.lhsArrayAccessType = "integer";
+				assignmentNode.lhsArrayIndexId = arrayIndex.ID;
+				assignmentNode.lhsArrayAccessType = "integer";
 			} 
 			catch (NumberFormatException e)
 			{
-				assigmentNode.lhsArrayIndexId  = arrayIndex.ID;
-				assigmentNode.lhsArrayAccessType = "scalar";
+				assignmentNode.lhsArrayIndexId  = arrayIndex.ID;
+				assignmentNode.lhsArrayAccessType = "scalar";
 			}
 		} 
 		else if(left_side.getOriginalId() == YAL2JVMTreeConstants.JJTSCALARACCESS)
 		{
 			if(Utils.isArrayOrFunctionAccess((left_side.ID)))
 			{
-				assigmentNode.lhsAccess = "size";
-				assigmentNode.left_side_id = left_side.ID.split(".")[0];
-				System.out.println(assigmentNode.left_side_id);
+				assignmentNode.lhsAccess = "size";
+				assignmentNode.left_side_id = left_side.ID.split(".")[0];
+				System.out.println(assignmentNode.left_side_id);
 			}
 			else
 			{
-				assigmentNode.lhsAccess = "scalar";
-				assigmentNode.left_side_id = left_side.ID;
+				assignmentNode.lhsAccess = "scalar";
+				assignmentNode.left_side_id = left_side.ID;
 			}
 		}
 		
@@ -661,8 +661,8 @@ public class SemanticAnalysis
 		{
 			if (right_side_1.ID != null)
 			{
-				assigmentNode.righ_side_1_id = right_side_1.ID;
-				assigmentNode.rhs1Access = "integer";
+				assignmentNode.righ_side_1_id = right_side_1.ID;
+				assignmentNode.rhs1Access = "integer";
 			} 
 			else 
 			{
@@ -670,62 +670,62 @@ public class SemanticAnalysis
 				
 				if (term.getOriginalId() == YAL2JVMTreeConstants.JJTCALL) 
 				{
-					assigmentNode.rhs1Access = "call";
-					assigmentNode.righ_side_1_id = term.ID;
+					assignmentNode.rhs1Access = "call";
+					assignmentNode.righ_side_1_id = term.ID;
 					
 					for (int i = 0; i < term.jjtGetNumChildren(); i++)
 					{
-						assigmentNode.right_side_1_args_id.add(((SimpleNode)term.jjtGetChild(i)).ID);
+						assignmentNode.right_side_1_args_id.add(((SimpleNode)term.jjtGetChild(i)).ID);
 					}
 				}
 				else if (term.getOriginalId() == YAL2JVMTreeConstants.JJTARRAYACCESS)
 				{
-					assigmentNode.rhs1Access = "array";
-					assigmentNode.righ_side_1_id = term.ID;
+					assignmentNode.rhs1Access = "array";
+					assignmentNode.righ_side_1_id = term.ID;
 					
 					SimpleNode arrayIndex = (SimpleNode)(term.jjtGetChild(0));
 					
 					try
 					{
 						Integer.parseInt(arrayIndex.ID);
-						assigmentNode.rhs1ArrayIndexId = arrayIndex.ID;
-						assigmentNode.rhs1ArrayAccess = "integer";
+						assignmentNode.rhs1ArrayIndexId = arrayIndex.ID;
+						assignmentNode.rhs1ArrayAccess = "integer";
 					}
 					catch (NumberFormatException e)
 					{
-						assigmentNode.rhs1ArrayIndexId = arrayIndex.ID;
-						assigmentNode.rhs1ArrayAccess = "scalar";
+						assignmentNode.rhs1ArrayIndexId = arrayIndex.ID;
+						assignmentNode.rhs1ArrayAccess = "scalar";
 					}
 				}
 				else if (term.getOriginalId() == YAL2JVMTreeConstants.JJTSCALARACCESS) 
 				{
 					if(Utils.isArrayOrFunctionAccess(term.ID))
 					{
-						assigmentNode.rhs1Access = "size";
-						assigmentNode.righ_side_1_id = term.ID.split(".")[0];
+						assignmentNode.rhs1Access = "size";
+						assignmentNode.righ_side_1_id = term.ID.split(".")[0];
 					}
 					else
 					{
-						assigmentNode.rhs1Access = "scalar";
-						assigmentNode.righ_side_1_id = term.ID;
+						assignmentNode.rhs1Access = "scalar";
+						assignmentNode.righ_side_1_id = term.ID;
 					}
 				} 
 			}
 		} 
 		else if (right_side_1.getOriginalId() == YAL2JVMTreeConstants.JJTARRAYSIZE) 
 		{
-			assigmentNode.rhs1Access = "arraysize";
-			assigmentNode.righ_side_1_id = right_side_1.ID;
+			assignmentNode.rhs1Access = "arraysize";
+			assignmentNode.righ_side_1_id = right_side_1.ID;
 		}
 		
 		//ANALYSE RIGTH SIDE 2
 		
 		if (right_side.jjtGetNumChildren() == 2) 
 		{
-			assigmentNode.operation = right_side.ID;
-			assigmentNode.isOperation = true;
+			assignmentNode.operation = right_side.ID;
+			assignmentNode.isOperation = true;
 			
-			System.out.println(assigmentNode.operation);
+			System.out.println(assignmentNode.operation);
 			
 			SimpleNode right_side_2 = (SimpleNode)right_side.jjtGetChild(1);
 			
@@ -733,8 +733,8 @@ public class SemanticAnalysis
 			{
 				if (right_side_2.ID != null)
 				{
-					assigmentNode.righ_side_2_id = right_side_2.ID;
-					assigmentNode.rhs2Access = "integer";
+					assignmentNode.righ_side_2_id = right_side_2.ID;
+					assignmentNode.rhs2Access = "integer";
 				}
 				else 
 				{
@@ -742,104 +742,108 @@ public class SemanticAnalysis
 					
 					if (term.getOriginalId() == YAL2JVMTreeConstants.JJTCALL) 
 					{
-						assigmentNode.rhs2Access = "call";
-						assigmentNode.righ_side_2_id = term.ID;
+						assignmentNode.rhs2Access = "call";
+						assignmentNode.righ_side_2_id = term.ID;
 						
 						for (int i = 0; i < term.jjtGetNumChildren(); i++)
 						{
-							assigmentNode.right_side_2_args_id.add(((SimpleNode)term.jjtGetChild(i)).ID);
+							assignmentNode.right_side_2_args_id.add(((SimpleNode)term.jjtGetChild(i)).ID);
 						}
 					} 
 					else if (term.getOriginalId() == YAL2JVMTreeConstants.JJTARRAYACCESS) 
 					{
-						assigmentNode.rhs2Access = "array";
-						assigmentNode.righ_side_2_id = term.ID;
+						assignmentNode.rhs2Access = "array";
+						assignmentNode.righ_side_2_id = term.ID;
 						
 						SimpleNode arrayIndex = (SimpleNode)(term.jjtGetChild(0));
 						
 						try
 						{
 							Integer.parseInt(arrayIndex.ID);
-							assigmentNode.rhs2ArrayIndexId = arrayIndex.ID;
-							assigmentNode.rhs2ArrayAccess = "integer";
+							assignmentNode.rhs2ArrayIndexId = arrayIndex.ID;
+							assignmentNode.rhs2ArrayAccess = "integer";
 						} 
 						catch (NumberFormatException e) 
 						{
-							assigmentNode.rhs2ArrayIndexId = arrayIndex.ID;
-							assigmentNode.rhs2ArrayAccess = "scalar";
+							assignmentNode.rhs2ArrayIndexId = arrayIndex.ID;
+							assignmentNode.rhs2ArrayAccess = "scalar";
 						}
 					} 
 					else if (term.getOriginalId() == YAL2JVMTreeConstants.JJTSCALARACCESS)
 					{
 						if(Utils.isArrayOrFunctionAccess(term.ID))
 						{
-							assigmentNode.rhs2Access = "size";
-							assigmentNode.righ_side_2_id = term.ID.split(".")[0];
+							assignmentNode.rhs2Access = "size";
+							assignmentNode.righ_side_2_id = term.ID.split(".")[0];
 						}
 						else
 						{
-							assigmentNode.rhs2Access = "scalar";
-							assigmentNode.righ_side_2_id = term.ID;
+							assignmentNode.rhs2Access = "scalar";
+							assignmentNode.righ_side_2_id = term.ID;
 						}
 					} 
 				}
 			}
 			else if (right_side_2.getOriginalId() == YAL2JVMTreeConstants.JJTARRAYSIZE)
 			{
-				assigmentNode.rhs2Access = "arraysize";
-				assigmentNode.righ_side_2_id = right_side_2.ID;
+				assignmentNode.rhs2Access = "arraysize";
+				assignmentNode.righ_side_2_id = right_side_2.ID;
 			}
 		}
 	
-		findErrors(function,assigmentNode);
+		findErrors(function,assignmentNode);
 		
-		return assigmentNode;
+		assignmentNode.left_side_scope = function.getScopes(assignmentNode.left_side_id);
+		assignmentNode.right_side_1_scope = function.getScopes(assignmentNode.righ_side_1_id);
+		assignmentNode.right_side_2_scope = function.getScopes(assignmentNode.righ_side_2_id);
+		
+		return assignmentNode;
 	}
 	
-	public void findErrors(Function function, AST assigmentNode)
+	public void findErrors(Function function, AST assignmentNode)
 	{
 		//LEFT SIDE
 		boolean new_var = false;
 		
-		if(!function.findVariable(assigmentNode.left_side_id))
+		if(!function.findVariable(assignmentNode.left_side_id))
 		{
 			new_var=true;
 		}
 		else
 		{
-			Variable v = function.returnVarById(assigmentNode.left_side_id);
+			Variable v = function.returnVarById(assignmentNode.left_side_id);
 			
-			switch (assigmentNode.lhsAccess) 
+			switch (assignmentNode.lhsAccess) 
 			{	
 			case "array":
 			
 				if (!v.getType().equals(Constants.ARRAY))
 				{
-					String error_message = "Na função "+function+" a variável "+assigmentNode.lhsAccess+
-							 " do lado esquerdo da atribuição não é um array!";
+					String error_message = "Na função "+function+" a variável "+assignmentNode.lhsAccess+
+							 " do lado esquerdo do assignment não é um array!";
 					
 					Utils.error(error_message);
 				}
 				else 
 				{
-					if (assigmentNode.lhsArrayIndexId != null && !assigmentNode.lhsArrayAccessType.equals(Constants.INTEGER_ACCESS))
+					if (assignmentNode.lhsArrayIndexId != null && !assignmentNode.lhsArrayAccessType.equals(Constants.INTEGER_ACCESS))
 					{
-						if (!function.findVariable(assigmentNode.lhsArrayIndexId))
+						if (!function.findVariable(assignmentNode.lhsArrayIndexId))
 						{
-							String error_message = "Na função "+function+" a variável "+assigmentNode.lhsArrayIndexId+
-									" do lado esquerdo da atribuição usada como index da variável "+ assigmentNode.left_side_id +
+							String error_message = "Na função "+function+" a variável "+assignmentNode.lhsArrayIndexId+
+									" do lado esquerdo do assignment usada como index da variável "+ assignmentNode.left_side_id +
 									" não existe!";
 							
 							Utils.error(error_message);
 						}
 						else 
 						{
-							Variable index = function.returnVarById(assigmentNode.lhsArrayIndexId);
+							Variable index = function.returnVarById(assignmentNode.lhsArrayIndexId);
 							
 							if (!index.getType().equals(Constants.SCALAR)) 
 							{
 								String error_message = "Na função "+function+" a variável usada como index da variável "+
-										assigmentNode.left_side_id + " do lado esquerdo da atribuição não é do tipo Scalar!";
+										assignmentNode.left_side_id + " do lado esquerdo do assignment não é do tipo Scalar!";
 								
 								Utils.error(error_message);
 							}
@@ -850,14 +854,14 @@ public class SemanticAnalysis
 			
 			case "scalar":
 				
-				if(!assigmentNode.rhs1Access.equals(Constants.ARRAY_SIZE))
+				if(!assignmentNode.rhs1Access.equals(Constants.ARRAY_SIZE))
 				{
-					Variable var = function.returnVarById(assigmentNode.left_side_id);
+					Variable var = function.returnVarById(assignmentNode.left_side_id);
 					
 					if(var.getType().equals(Constants.ARRAY))
 					{
-						String error_message = "Na função "+function+" a variável "+assigmentNode.left_side_id+
-								" do lado esquerdo da atribuição não é do tipo Scalar!";
+						String error_message = "Na função "+function+" a variável "+assignmentNode.left_side_id+
+								" do lado esquerdo do assignment não é do tipo Scalar!";
 						
 						Utils.error(error_message);
 					}
@@ -870,242 +874,247 @@ public class SemanticAnalysis
 		
 		//RIGTH SIDE 1
 		
-		if(assigmentNode.rhs1Access.equals(Constants.ARRAY_SIZE))
+		if(assignmentNode.rhs1Access.equals(Constants.ARRAY_SIZE))
 		{
 			if(!new_var)
 			{
-				Variable lhsVar = function.returnVarById(assigmentNode.left_side_id);
+				Variable lhsVar = function.returnVarById(assignmentNode.left_side_id);
 				
 				if(!lhsVar.getType().equals(Constants.ARRAY))
 				{
-					String error_message = "Na função "+function+" a variável "+assigmentNode.left_side_id+
-							" do lado esquerdo da atribuição não é do tipo Array!";
+					String error_message = "Na função "+function+" a variável "+assignmentNode.left_side_id+
+							" do lado esquerdo do assignment não é do tipo Array!";
 					
 					Utils.error(error_message);
 				}
 			}
 		}
-		else if (!assigmentNode.rhs1Access.equals(Constants.INTEGER_ACCESS) && !assigmentNode.rhs1Access.equals(Constants.CALL)) 
+		else if (!assignmentNode.rhs1Access.equals(Constants.INTEGER_ACCESS) && !assignmentNode.rhs1Access.equals(Constants.CALL)) 
 		{
-			if (!function.findVariable(assigmentNode.righ_side_1_id))
+			if (!function.findVariable(assignmentNode.righ_side_1_id))
 			{
-				String error_message = "Na função "+function+" a variável "+assigmentNode.righ_side_1_id+
-						" do lado direito da atribuição da variável " +assigmentNode.left_side_id+
+				String error_message = "Na função "+function+" a variável "+assignmentNode.righ_side_1_id+
+						" do lado direito do assignment da variável " +assignmentNode.left_side_id+
 						" não existe!";
 				
 				Utils.error(error_message);
 			}
 			else 
 			{
-				assigmentNode.rhs1Type = function.returnVarById(assigmentNode.righ_side_1_id).getType();
+				assignmentNode.rhs1Type = function.returnVarById(assignmentNode.righ_side_1_id).getType();
 				
-				if (assigmentNode.rhs1Access.equals(Constants.ARRAY_ACCESS)) 
+				if (assignmentNode.rhs1Access.equals(Constants.ARRAY_ACCESS)) 
 				{
-					if (assigmentNode.rhs1ArrayIndexId != null && !assigmentNode.rhs1ArrayAccess.equals(Constants.INTEGER_ACCESS))
+					if (assignmentNode.rhs1ArrayIndexId != null && !assignmentNode.rhs1ArrayAccess.equals(Constants.INTEGER_ACCESS))
 					{
-						if (!function.findVariable(assigmentNode.rhs1ArrayIndexId)) 
+						if (!function.findVariable(assignmentNode.rhs1ArrayIndexId)) 
 						{
-							String error_message = "Na função "+function+" a variável "+assigmentNode.rhs1ArrayIndexId+
-									" do lado direito da atribuição da variável "+assigmentNode.left_side_id+
+							String error_message = "Na função "+function+" a variável "+assignmentNode.rhs1ArrayIndexId+
+									" do lado direito do assignment da variável "+assignmentNode.left_side_id+
 									" não existe!";
 							
 							Utils.error(error_message);
 						} 
 						else 
 						{
-							Variable v = function.returnVarById(assigmentNode.rhs1ArrayIndexId);
+							Variable v = function.returnVarById(assignmentNode.rhs1ArrayIndexId);
 							
 							if (!v.getType().equals(Constants.SCALAR)) 
 							{
 								String error_message = "Na função "+function+" o index usado para a variável "+
-										assigmentNode.righ_side_1_id+ " do lado direito da atribuição da variável "+
-										assigmentNode.left_side_id+" não é um Scalar!";
+										assignmentNode.righ_side_1_id+ " do lado direito do assignment da variável "+
+										assignmentNode.left_side_id+" não é um Scalar!";
 								
 								Utils.error(error_message);
 							}
 						}
 					}
 				} 
-				else if (assigmentNode.rhs1Access.equals(Constants.SCALAR_ACCESS)) 
+				else if (assignmentNode.rhs1Access.equals(Constants.SCALAR_ACCESS)) 
 				{
-					if (assigmentNode.rhs1Type.equals(Constants.ARRAY)) 
+					if (assignmentNode.rhs1Type.equals(Constants.ARRAY)) 
 					{
 						String error_message = "Na função "+function+" a variável "+
-								assigmentNode.righ_side_1_id+ " do lado direito da atribuição da variável "+
-								assigmentNode.left_side_id+" não é um Scalar!";
+								assignmentNode.righ_side_1_id+ " do lado direito do assignment da variável "+
+								assignmentNode.left_side_id+" não é um Scalar!";
 						
 						Utils.error(error_message);
 					}
 				} 
-				else if (assigmentNode.rhs1Access.equals(Constants.SIZE_ACCESS)) 
+				else if (assignmentNode.rhs1Access.equals(Constants.SIZE_ACCESS)) 
 				{
-					Variable v = function.returnVarById(assigmentNode.righ_side_1_id);
+					Variable v = function.returnVarById(assignmentNode.righ_side_1_id);
 					
 					if (!v.getType().equals(Constants.ARRAY)) 
 					{
 						String error_message = "Na função "+function+" a variável "+
-								assigmentNode.righ_side_1_id+ " do lado direito da atribuição da variável "+
-								assigmentNode.left_side_id+" não é um Array!";
+								assignmentNode.righ_side_1_id+ " do lado direito do assignment da variável "+
+								assignmentNode.left_side_id+" não é um Array!";
 						
 						Utils.error(error_message);
 					}
 				}
 			}
 		}
-		else if(assigmentNode.rhs1Access.equals(Constants.CALL))
+		else if(assignmentNode.rhs1Access.equals(Constants.CALL))
 		{
-			if (!Utils.isArrayOrFunctionAccess(assigmentNode.righ_side_1_id))
+			if (!Utils.isArrayOrFunctionAccess(assignmentNode.righ_side_1_id))
 			{
-				if(!YAL2JVM.getModule().findFunctioByName(assigmentNode.righ_side_1_id))
+				if(!YAL2JVM.getModule().findFunctioByName(assignmentNode.righ_side_1_id))
 				{
-					String error_message = "Na função "+function+" a chamada à função "+assigmentNode.righ_side_1_id+
-							" do lado direito da atribuição da variável "+assigmentNode.left_side_id+" não pertence ao módulo!";
+					String error_message = "Na função "+function+" a chamada à função "+assignmentNode.righ_side_1_id+
+							" do lado direito do assignment da variável "+assignmentNode.left_side_id+" não pertence ao módulo!";
 					
 					Utils.error(error_message);
 				}
 				else
 				{
-					String declaration = Utils.buildFunctionDeclaration(function, assigmentNode.righ_side_1_id, assigmentNode.right_side_1_args_id,assigmentNode.left_side_id);
+					String declaration = Utils.buildFunctionDeclaration(function, assignmentNode.righ_side_1_id, assignmentNode.right_side_1_args_id,assignmentNode.left_side_id);
 					
 					System.out.println(declaration);
 					
 					if(!YAL2JVM.getModule().functionExists(declaration))
 					{
 						String error_message = "Na função "+function+" os argumentos da chamada à função "+
-								assigmentNode.righ_side_1_id + " do lado direito da atribuição da variável "+assigmentNode.left_side_id+
+								assignmentNode.righ_side_1_id + " do lado direito do assignment da variável "+assignmentNode.left_side_id+
 								" não correspondem aos argumentos da função com o mesmo nome!";
 						
 						Utils.error(error_message);
 					}
 					else
 					{
-						assigmentNode.rhs1Call = YAL2JVM.getModule().getFunctionByID(declaration);
+						assignmentNode.right_side_1_function = YAL2JVM.getModule().getFunctionByID(declaration);
 					}
 				}
 			}
 			else
 			{
-				assigmentNode.rhs1OtherModule = true;
+				assignmentNode.other_module_1 = true;
 			}
 		}
 		
 		//RIGHT SIDE 2
 		
-		if (assigmentNode.isOperation)
+		if (assignmentNode.isOperation)
 		{
-			if (!assigmentNode.rhs2Access.equals(Constants.INTEGER_ACCESS) && !assigmentNode.rhs1Access.equals(Constants.CALL)) 
+			if (!assignmentNode.rhs2Access.equals(Constants.INTEGER_ACCESS) && !assignmentNode.rhs1Access.equals(Constants.CALL)) 
 			{
-				if (!function.findVariable(assigmentNode.righ_side_2_id))
+				if (!function.findVariable(assignmentNode.righ_side_2_id))
 				{
-					String error_message = "Na função "+function+" a variável "+assigmentNode.righ_side_2_id+
-							" do lado direito da atribuição da variável " +assigmentNode.left_side_id+
+					String error_message = "Na função "+function+" a variável "+assignmentNode.righ_side_2_id+
+							" do lado direito do assignment da variável " +assignmentNode.left_side_id+
 							" não existe!";
 					
 					Utils.error(error_message);
 				} 
 				else 
 				{
-					assigmentNode.rhs2Type = function.returnVarById(assigmentNode.righ_side_2_id).getType();
+					assignmentNode.rhs2Type = function.returnVarById(assignmentNode.righ_side_2_id).getType();
 					
-					if (assigmentNode.rhs2Access.equals("array"))
+					if (assignmentNode.rhs2Access.equals("array"))
 					{
-						if (assigmentNode.rhs2ArrayIndexId != null && !assigmentNode.rhs2ArrayAccess.equals(Constants.INTEGER_ACCESS))
+						if (assignmentNode.rhs2ArrayIndexId != null && !assignmentNode.rhs2ArrayAccess.equals(Constants.INTEGER_ACCESS))
 						{
-							if (!function.findVariable(assigmentNode.rhs2ArrayIndexId)) 
+							if (!function.findVariable(assignmentNode.rhs2ArrayIndexId)) 
 							{
-								String error_message = "Na função "+function+" a variável "+assigmentNode.rhs2ArrayIndexId+
-										" do lado direito da atribuição da variável "+assigmentNode.left_side_id+
+								String error_message = "Na função "+function+" a variável "+assignmentNode.rhs2ArrayIndexId+
+										" do lado direito do assignment da variável "+assignmentNode.left_side_id+
 										" não existe!";
 								
 								Utils.error(error_message);
 							} 
 							else 
 							{
-								Variable v = function.returnVarById(assigmentNode.rhs2ArrayIndexId);
+								Variable v = function.returnVarById(assignmentNode.rhs2ArrayIndexId);
 								
 								if (!v.getType().equals(Constants.SCALAR))
 								{
 									String error_message = "Na função "+function+" o index usado para a variável "+
-											assigmentNode.righ_side_2_id+ " do lado direito da atribuição da variável "+
-											assigmentNode.left_side_id+" não é um Scalar!";
+											assignmentNode.righ_side_2_id+ " do lado direito do assignment da variável "+
+											assignmentNode.left_side_id+" não é um Scalar!";
 									
 									Utils.error(error_message);
 								}
 							}
 						}
 					} 
-					else if (assigmentNode.rhs2Access.equals(Constants.SCALAR_ACCESS)) 
+					else if (assignmentNode.rhs2Access.equals(Constants.SCALAR_ACCESS)) 
 					{
-						if (assigmentNode.rhs2Type.equals(Constants.ARRAY))
+						if (assignmentNode.rhs2Type.equals(Constants.ARRAY))
 						{
 							String error_message = "Na função "+function+" a variável "+
-									assigmentNode.righ_side_2_id+ " do lado direito da atribuição da variável "+
-									assigmentNode.left_side_id+" não é um Scalar!";
+									assignmentNode.righ_side_2_id+ " do lado direito do assignment da variável "+
+									assignmentNode.left_side_id+" não é um Scalar!";
 							
 							Utils.error(error_message);
 						}
 					} 
-					else if (assigmentNode.rhs2Access.equals(Constants.SIZE_ACCESS))
+					else if (assignmentNode.rhs2Access.equals(Constants.SIZE_ACCESS))
 					{
-						Variable v = function.returnVarById(assigmentNode.righ_side_2_id);
+						Variable v = function.returnVarById(assignmentNode.righ_side_2_id);
 						
 						if (!v.getType().equals(Constants.ARRAY)) 
 						{	
 							String error_message = "Na função "+function+" a variável "+
-									assigmentNode.righ_side_2_id+ " do lado direito da atribuição da variável "+
-									assigmentNode.left_side_id+" não é um Array!";
+									assignmentNode.righ_side_2_id+ " do lado direito do assignment da variável "+
+									assignmentNode.left_side_id+" não é um Array!";
 							
 							Utils.error(error_message);
 						}
 					}
 				}
 			}
-			else if(assigmentNode.rhs2Access.equals(Constants.CALL))
+			else if(assignmentNode.rhs2Access.equals(Constants.CALL))
 			{
-				if (!Utils.isArrayOrFunctionAccess(assigmentNode.righ_side_2_id))
+				if (!Utils.isArrayOrFunctionAccess(assignmentNode.righ_side_2_id))
 				{
-					if(!YAL2JVM.getModule().findFunctioByName(assigmentNode.righ_side_2_id))
+					if(!YAL2JVM.getModule().findFunctioByName(assignmentNode.righ_side_2_id))
 					{
-						String error_message = "Na função "+function+" a chamada à função "+assigmentNode.righ_side_2_id+
-								" do lado direito da atribuição da variável "+assigmentNode.left_side_id+" não pertence ao módulo!";
+						String error_message = "Na função "+function+" a chamada à função "+assignmentNode.righ_side_2_id+
+								" do lado direito do assignment da variável "+assignmentNode.left_side_id+" não pertence ao módulo!";
 						
 						Utils.error(error_message);
 					}
 					else
 					{
-						String declaration = Utils.buildFunctionDeclaration(function, assigmentNode.righ_side_2_id, assigmentNode.right_side_2_args_id,assigmentNode.left_side_id);
+						String declaration = Utils.buildFunctionDeclaration(function, assignmentNode.righ_side_2_id, assignmentNode.right_side_2_args_id,assignmentNode.left_side_id);
 						
 						System.out.println(declaration);
 						
 						if(!YAL2JVM.getModule().functionExists(declaration))
 						{
 							String error_message = "Na função "+function+" os argumentos da chamada à função "+
-									assigmentNode.righ_side_2_id + " do lado direito da atribuição da variável "+assigmentNode.left_side_id+
+									assignmentNode.righ_side_2_id + " do lado direito do assignment da variável "+assignmentNode.left_side_id+
 									" não correspondem aos argumentos da função com o mesmo nome!";
 							
 							Utils.error(error_message);
 						}
 						else
 						{
-							assigmentNode.rhs1Call = YAL2JVM.getModule().getFunctionByID(declaration);
+							assignmentNode.right_side_1_function = YAL2JVM.getModule().getFunctionByID(declaration);
 						}
 					}
 				}
 			}
 			else
 			{
-				assigmentNode.rhs2OtherModule = true;
+				assignmentNode.other_module_2 = true;
 			}
 		}
 		
 		if(new_var)
 		{
-			function.addVariable(assigmentNode.rhs1Access, assigmentNode.left_side_id, assigmentNode.righ_side_1_id);
+			function.addVariable(assignmentNode.rhs1Access, assignmentNode.left_side_id, assignmentNode.righ_side_1_id);
 		}
 	}
 
 	public AST analyseFunctionBuildAST(Function function, AST root, Node[] children)
 	{
+		if(children == null)
+		{
+			return root;
+		}
+		
 		for(int i=0; i<sn.getChildren().length;i++)
 		{
 			SimpleNode child = (SimpleNode) sn.getChildren()[i];

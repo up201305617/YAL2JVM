@@ -21,4 +21,11 @@ public class Constants
 	public static String SIZE_ACCESS = "size";
 	public static String INTEGER_ACCESS = "integer";
 	public static String ARRAY_SIZE = "arraysize";
+	
+	//SCOPES
+	public static String RETURN = "return";
+	public static String GLOBAL = "global";
+	public static String LOCAL = "local";
+	public static String ARGUMENT = "argument";
+	public static String NEW = "new";
 }

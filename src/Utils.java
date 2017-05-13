@@ -229,7 +229,7 @@ public class Utils
 		return declaration;
 	}
 	
-	public static String splitByDot(String string)
+	public static String splitByArgumets(String string)
 	{
 		String name = "";
 		

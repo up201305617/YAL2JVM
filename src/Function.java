@@ -265,4 +265,28 @@ public class Function
 			this.variables.put(id, new Scalar(id));
 		}
 	}
+	
+	public String getScopes(String id) 
+	{
+		if (this.returnValue != null && this.isReturnValue(id)) 
+		{
+			return Constants.RETURN;
+		}
+		else if (this.checkArguments(id))
+		{
+			return Constants.ARGUMENT;
+		}
+		else if (this.isLocalVariable(id))
+		{
+			return Constants.LOCAL;
+		} 
+		else if (YAL2JVM.getModule().isGlobalVariable(id)) 
+		{
+			return Constants.GLOBAL;
+		} 
+		else 
+		{
+			return Constants.NEW;
+		}
+	}
 }
