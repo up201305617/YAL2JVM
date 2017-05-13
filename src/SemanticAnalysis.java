@@ -7,11 +7,6 @@ public class SemanticAnalysis
 		this.sn = sn;
 	}
 	
-	public void initiateAnalysis()
-	{
-		this.analyseGlobalVariables();
-	}
-	
 	public void analyseGlobalVariables()
 	{
 		for(int i=0; i<sn.getChildren().length; i++)

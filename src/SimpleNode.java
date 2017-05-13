@@ -80,10 +80,10 @@ public void jjtSetValue(Object value) { this.value = value; }
     }
   }
   
-  public void analyse()
+  public void analyseGlobals()
   {
 	  sa = new SemanticAnalysis(this);
-	  sa.initiateAnalysis();
+	  sa.analyseGlobalVariables();
   }
 
   public int getOriginalId()
@@ -93,9 +93,7 @@ public void jjtSetValue(Object value) { this.value = value; }
   
   public AST analyseFunction(Function function, AST parentNode)
   {
-	  
 	  sa = new SemanticAnalysis(this);
-	  //System.out.println(function.getFunctionId());
 	  return sa.analyseFunctionBuildAST(function,parentNode, this.children);
   }
 }

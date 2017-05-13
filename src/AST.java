@@ -3,8 +3,8 @@ import java.util.ArrayList;
 public class AST
 {	
 	public String type;
-	public ArrayList<AST> parents = new ArrayList<AST>();
-	public ArrayList<AST> children = new ArrayList<AST>();
+	public ArrayList<AST> parents;
+	public ArrayList<AST> children;
 	public static int cfgNodeCount;
 	public int nodeNumber;
 	
