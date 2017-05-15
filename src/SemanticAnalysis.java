@@ -718,7 +718,7 @@ public class SemanticAnalysis
 		if (right_side.jjtGetNumChildren() == 2) 
 		{
 			assignmentNode.operation = right_side.ID;
-			assignmentNode.isOperation = true;
+			isOperation = true;
 			
 			System.out.println(assignmentNode.operation);
 			
@@ -786,8 +786,9 @@ public class SemanticAnalysis
 			}
 		}
 	
-		findErrors(function,assignmentNode);
+		findErrors(function,assignmentNode,isOperation);
 		
+		assignmentNode.isOperation = isOperation;
 		assignmentNode.left_side.scope = function.getScopes(assignmentNode.left_side.id);
 		assignmentNode.right_side_1.scope = function.getScopes(assignmentNode.right_side_1.id);
 		assignmentNode.right_side_2.scope = function.getScopes(assignmentNode.right_side_2.id);
@@ -795,7 +796,7 @@ public class SemanticAnalysis
 		return assignmentNode;
 	}
 	
-	public void findErrors(Function function, AST assignmentNode)
+	public void findErrors(Function function, AST assignmentNode, boolean isOperation)
 	{
 		//LEFT SIDE
 		boolean new_var = false;
@@ -990,7 +991,7 @@ public class SemanticAnalysis
 		
 		//RIGHT SIDE 2
 		
-		if (assignmentNode.isOperation)
+		if (isOperation)
 		{
 			if (!assignmentNode.right_side_2.access.equals(Constants.INTEGER_ACCESS) && !assignmentNode.right_side_1.access.equals(Constants.CALL)) 
 			{
