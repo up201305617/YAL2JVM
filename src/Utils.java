@@ -212,11 +212,11 @@ public class Utils
 				}
 				else
 				{
-					if(var.getType().equals("scalar"))
+					if(var.getType().equals(Constants.SCALAR))
 					{
 						declaration += " scalar";
 					}
-					else if(var.getType().equals("array"))
+					else if(var.getType().equals(Constants.ARRAY))
 					{
 						declaration += " array";
 					}

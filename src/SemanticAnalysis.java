@@ -600,6 +600,10 @@ public class SemanticAnalysis
 			arguments[i] = ((SimpleNode)args[i]).ID;
 		}
 		
+		System.out.println(arguments);
+		System.out.println(call);
+		System.out.println(declaration);
+		
 		callFunction.call.args= arguments;
 		callFunction.call.dot = dot;
 		callFunction.call.functionName = call;

@@ -213,6 +213,24 @@ public class Generator
 		this.write.println(".end method");
 	}
 	
+	public void generatePushIntToStack(String n)
+	{
+		int value = Integer.parseInt(n);
+		
+		if(value == -1)
+		{
+			this.write.println("iconst_m1");
+		}
+		else if(value <= 5 && value >= 0)
+		{
+			this.write.println("iconst_" + value);
+		}
+		else
+		{
+			this.write.println("ldc "+value);
+		}
+	}
+	
 	public void generateFunctions()
 	{
 		for(Function f : module.getAllFunctions().values())
