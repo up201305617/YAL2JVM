@@ -1111,6 +1111,8 @@ public class SemanticAnalysis
 			return root;
 		}
 		
+		AST current = root;
+		
 		for(int i=0; i<sn.getChildren().length;i++)
 		{
 			SimpleNode child = (SimpleNode) sn.getChildren()[i];
@@ -1127,16 +1129,31 @@ public class SemanticAnalysis
 			case YAL2JVMTreeConstants.JJTWHILE:
 				break;
 			case YAL2JVMTreeConstants.JJTCALL:
+				
 				AST call = analyseCall(child.ID, child.getChildren(), false, function);
+				
+				call.parents.add(current);
+				current.children.add(call);
+				current = call;
+				
 				break;
+			
 			case YAL2JVMTreeConstants.JJTASSIGNEMENT:
+				
 				SimpleNode ass_left_side = (SimpleNode)child.jjtGetChild(0);
 				SimpleNode ass_right_side = (SimpleNode)child.jjtGetChild(1); 
 				
 				AST assignment = analyseAssignment(ass_left_side, ass_right_side, function);
+				
+				current.children.add(assignment);
+				assignment.parents.add(current);
+				
+				current = assignment;
+				
 				break;
 			}
 		}
+		
 		return null;
 	}
 }
