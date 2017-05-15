@@ -2,6 +2,6 @@ module hello
 {	
 	function main() 
 	{
-		io.println("Hello World!");
+		a=1;
 	}
 }

@@ -86,11 +86,6 @@ public class Generator
 				name = entry.getKey();
 				type = Constants.JVM_ARRAY;
 				Array newArray = (Array) entry.getValue();
-				
-				if(newArray.isAssign())
-				{
-					//value = newArray.getSize()+"";
-				}
 			}
 			
 			if(value != null && !type.equals(Constants.JVM_ARRAY))
@@ -197,6 +192,24 @@ public class Generator
 			this.write.println("return");
 		}
 		
+		this.write.println(".end method");
+	}
+	
+	public void generateConstructor()
+	{
+		this.write.println(".method static public <clinit>()V ");
+		
+		if(this.module.getGlobalVariables().size() != 0)
+		{
+			
+		}
+		else
+		{
+			this.write.println(".limit stack 0");
+			this.write.println(".limit locals 0");
+		}
+		
+		this.write.println("return");
 		this.write.println(".end method");
 	}
 	
