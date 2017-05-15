@@ -5,8 +5,6 @@ public class AST
 	public String type;
 	public ArrayList<AST> parents;
 	public ArrayList<AST> children;
-	public static int cfgNodeCount;
-	public int nodeNumber;
 	
 	public boolean isOperation;
 	public String operation;
@@ -30,7 +28,6 @@ public class AST
 		call = new Call();
 		right_side_1.initializeArray();
 		right_side_2.initializeArray();
-		nodeNumber = f.getNodeCount();
 		f.incNodeCount();
 		f.getNodes().add(this);
 	}

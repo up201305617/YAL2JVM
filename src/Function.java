@@ -20,6 +20,7 @@ public class Function
 		this.returnValue = returnValue;
 		this.arguments = a;
 		this.body = body;
+		this.nodeCount = 0;
 		this.nodes = new ArrayList<AST>();
 		this.variables = new HashMap<String,Variable>();
 		this.allVariables = new HashMap<String,Integer>();
