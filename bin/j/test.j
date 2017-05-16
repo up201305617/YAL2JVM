@@ -7,6 +7,7 @@
 .method public static main([Ljava/lang/String;)V
 .limit locals 1
 .limit stack 1
+ldc ""Hello""
 return
 .end method
 
@@ -30,7 +31,8 @@ ireturn
 .limit locals 5
 .limit stack 2
 
-iload 4
+ldc "a"
+invokestatic test/aux(I)Iiload 4
 ireturn
 .end method
 

@@ -86,8 +86,9 @@ public class Module
 			f.initializeInitialNode(f);
 			AST last = functions.get(id).getBody().analyseFunction(f,f.getInitialNode());
 			AST end = new AST("end",f);
-			//last.children.add(end);
-			//end.parents.add(last);
+			//System.out.println(last);
+			last.children.add(end);
+			end.parents.add(last);
 			f.buildVariablesIndex();
 		}
 	}

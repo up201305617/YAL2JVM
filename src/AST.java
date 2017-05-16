@@ -17,6 +17,8 @@ public class AST
 	public String compOperator;
 	public String condSign;
 	
+	public boolean visited;
+	
 	public AST (String t, Function f)
 	{
 		type = t;

@@ -1,7 +1,7 @@
 
 public class Call 
 {
-	public boolean dot;
+	public boolean other_module;
 	public String functionName;
 	public String functionDeclaration;
 	public String[] args;

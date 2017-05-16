@@ -243,4 +243,32 @@ public class Utils
 		
 		return name;
 	}
+	
+	public static String splitByDotModule(String string)
+	{
+		String module = null;
+		
+		for (int i = string.length()-1; i >= 0; i--) 
+		{
+			if(string.charAt(i) == '.')
+			{
+				module = string.substring(0, i);
+			}
+		}
+		return module;
+	}
+	
+	public static String splitByDotFunction(String string)
+	{
+		String function = null;
+		
+		for (int i = string.length()-1; i >= 0; i--) 
+		{
+			if(string.charAt(i) == '.')
+			{
+				function = string.substring(i+1, string.length());
+			}
+		}
+		return function;
+	}
 }

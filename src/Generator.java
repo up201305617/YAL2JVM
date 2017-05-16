@@ -14,6 +14,7 @@ public class Generator
 	private String moduleName;
 	private String newFileName;
 	private SimpleNode node;
+	private AST endIfNode;
 	
 	public Generator(Module m, String name, SimpleNode n)
 	{
@@ -213,7 +214,7 @@ public class Generator
 		this.write.println(".end method");
 	}
 	
-	public void generatePushIntToStack(String n)
+	public void pushIntToStack(String n)
 	{
 		int value = Integer.parseInt(n);
 		
@@ -231,12 +232,203 @@ public class Generator
 		}
 	}
 	
+	public void loadScalarFromStack(String varId, int varNum, String scope)
+	{
+		if(scope.equals(Constants.GLOBAL))
+		{
+			this.write.println("getstatic " + moduleName + "/" + varId + " I");
+		}
+		else
+		{
+			if(varNum <= 3)
+			{
+				this.write.println("iload_" + varNum);
+			}
+			else
+			{
+				this.write.println("iload " + varNum);
+			}
+		}
+	}
+	
+	public void loadArrayFromStack(String varId, int varNum, String scope)
+	{
+		if(scope.equals("global"))
+		{
+			this.write.println("getstatic " + moduleName + "/" + varId + " [I");
+		}
+		else
+		{
+			if(varNum <= 3)
+			{
+				this.write.println("aload_" + varNum);
+			}
+			else
+			{
+				this.write.println("aload " + varNum);
+			}
+		}
+	}
+	
+	public void generateCall(Function f, AST ast)
+	{
+		for (int i = 0; i < ast.call.args.length; i++) 
+		{
+			try
+			{
+				Integer.parseInt(ast.call.args[i]);
+				pushIntToStack(ast.call.args[i]);
+			}
+			catch(NumberFormatException e)
+			{
+				Variable var;
+				String scope;
+				int varNum;
+				System.out.println(ast.call.args[i]);
+				System.out.println(ast.call.functionName);
+				
+				if(!ast.call.functionName.equals("io.println"))
+				{
+					System.out.println("entroe");
+					
+					var = f.returnVarById(ast.call.args[i]);
+					scope = f.getScopes(ast.call.args[i]);
+					varNum = f.getAllVariables().get(var.getVariableID());
+					
+					if(var.getType().equals(Constants.SCALAR))
+					{
+						loadScalarFromStack(ast.call.args[i], varNum, scope);
+					}
+					else if(var.getType().equals(Constants.ARRAY))
+					{
+						loadArrayFromStack(ast.call.args[i], varNum, scope);
+					}
+				}
+				else
+				{
+					this.write.println("ldc "+ast.call.args[i]);
+				}
+			}
+		}
+		
+		Function call = null;
+		
+		if(ast.call.other_module)
+		{
+			this.write.print("invokestatic " + Utils.splitByDotModule(ast.call.functionName)+ "/"+
+					Utils.splitByDotFunction(ast.call.functionName));
+		}
+		else
+		{
+			this.write.print("invokestatic " + moduleName + "/" + ast.call.functionName);
+			call = YAL2JVM.getModule().getFunctionByID(ast.call.functionDeclaration);
+		}
+		
+		this.write.print("(");
+		
+		if(call!=null)
+		{
+			for (int i = 0; i < call.getArguments().size(); i++) 
+			{
+				Variable var = call.getArguments().get(i);
+				
+				if(var.getType().equals(Constants.SCALAR))
+				{
+					this.write.print("I");
+				}
+				else if(var.getType().equals(Constants.ARRAY))
+				{
+					this.write.print("[I");
+				}
+			}
+			
+			Variable returnVar = call.getReturnValue();
+			
+			if(returnVar == null)
+			{
+				this.write.println("V");
+			}
+			else
+			{
+				if(returnVar.getType().equals(Constants.SCALAR))
+				{
+					this.write.print("I");
+				}
+				else if(returnVar.getType().equals(Constants.ARRAY))
+				{
+					this.write.print("[I");
+				}
+			}
+			this.write.print(")");	
+		}
+		else if(ast.call.functionName.equals("io.println"))
+		{
+			for(int i=0; i<ast.call.args.length;i++)
+			{
+				Variable var = f.returnVarById(ast.call.args[i]);
+				
+				if(var!=null)
+				{
+					if(var.getType().equals(Constants.SCALAR))
+					{
+						this.write.print("I");
+					}
+					else if(var.getType().equals(Constants.ARRAY))
+					{
+						this.write.print("[I");
+					}
+				}
+				else
+				{
+					this.write.print("Ljava/lang/String;");
+				}
+				
+			}
+			
+			this.write.print(")");	
+			this.write.print("V");
+		}
+		
+		this.write.println("");
+	}
+	
+	public void generateBody(Function f, AST ast)
+	{
+		switch(ast.type)
+		{
+		case "call":
+			System.out.println("Call");
+			generateCall(f,ast);
+			break;
+			
+		default:
+			ast.visited = true;
+			
+			for (int i = 0; i < ast.children.size(); i++)
+			{
+				if(!ast.children.get(i).visited)
+				{
+					if(!ast.children.get(i).type.equals("endif"))
+					{
+						generateBody(f, ast.children.get(i));
+					}
+					else
+					{
+						endIfNode = ast.children.get(i);
+					}
+				}
+			}
+			break;
+		}
+	}
+	
 	public void generateFunctions()
 	{
 		for(Function f : module.getAllFunctions().values())
 		{
 			f.buildVariablesIndex();
 			generateFunctionDeclaration(f);
+			generateBody(f,f.getInitialNode());
 			generateReturn(f);
 			generateNewLine();
 		}
