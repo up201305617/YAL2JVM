@@ -440,23 +440,28 @@ public class Generator
 			break;
 			
 		default:
-			ast.visited = true;
-			
-			for (int i = 0; i < ast.children.size(); i++)
+			nextNode(f,ast);
+			break;
+		}
+	}
+	
+	public void nextNode(Function f, AST ast)
+	{
+		ast.visited = true;
+		
+		for (int i = 0; i < ast.children.size(); i++)
+		{
+			if(!ast.children.get(i).visited)
 			{
-				if(!ast.children.get(i).visited)
+				if(!ast.children.get(i).type.equals("endif"))
 				{
-					if(!ast.children.get(i).type.equals("endif"))
-					{
-						generateBody(f, ast.children.get(i));
-					}
-					else
-					{
-						endIfNode = ast.children.get(i);
-					}
+					generateBody(f, ast.children.get(i));
+				}
+				else
+				{
+					endIfNode = ast.children.get(i);
 				}
 			}
-			break;
 		}
 	}
 	
