@@ -438,7 +438,10 @@ public class Generator
 			System.out.println("Call");
 			generateCall(f,ast);
 			break;
-			
+		case "assignment":
+			System.out.println("Assignment");
+			generateAssignment(f, ast);
+			break;
 		default:
 			nextNode(f,ast);
 			break;
@@ -467,7 +470,23 @@ public class Generator
 	
 	public void generateAssignment(Function f, AST ast)
 	{
+		int righ_side_1_index = f.getAllVariables().get(ast.right_side_1.id);
 		
+		//RIGHT_SIDE_1
+		
+		if(ast.right_side_1.access.equals("integer"))
+		{ 
+			pushIntToStack(ast.right_side_1.id);
+			
+		}
+		else if(ast.right_side_1.access.equals("scalar"))
+		{ 
+			loadArrayFromStack(ast.right_side_1.id, righ_side_1_index, ast.right_side_1.scope);
+		}
+		
+		//RIGHT_SIDE_2
+		//OPERATION
+		//LEFT_SIDE
 	}
 
 	public void generateFunctions()
