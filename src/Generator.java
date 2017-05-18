@@ -270,6 +270,44 @@ public class Generator
 		}
 	}
 	
+	public void storeScalarToStack(String id, int varNum, String scope)
+	{
+		if(scope.equals("global"))
+		{
+			this.write.println("putstatic " + moduleName + "/" + id + " I");
+		}
+		else
+		{
+			if(varNum <= 3)
+			{
+				this.write.println("istore_" + varNum);
+			}
+			else
+			{
+				this.write.println("istore " + varNum);
+			}
+		}
+	}
+	
+	public void storeArrayToStack(String id, int varNum, String scope)
+	{
+		if(scope.equals("global"))
+		{
+			this.write.println("putstatic " + moduleName + "/" + id + " [I");
+		}
+		else
+		{
+			if(varNum <= 3)
+			{
+				this.write.println("astore_" + varNum);
+			}
+			else
+			{
+				this.write.println("astore " + varNum);
+			}
+		}
+	}
+	
 	public void generateCall(Function f, AST ast)
 	{
 		for (int i = 0; i < ast.call.args.length; i++) 
@@ -422,6 +460,11 @@ public class Generator
 		}
 	}
 	
+	public void generateAssignment(Function f, AST ast)
+	{
+		
+	}
+
 	public void generateFunctions()
 	{
 		for(Function f : module.getAllFunctions().values())
