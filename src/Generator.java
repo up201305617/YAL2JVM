@@ -470,7 +470,9 @@ public class Generator
 	
 	public void generateAssignment(Function f, AST ast)
 	{
-		int righ_side_1_index = f.getAllVariables().get(ast.right_side_1.id);
+		int righ_side_1_var_index;
+		int righ_side_2_var_index;
+		int left_side_var_index;
 		
 		//RIGHT_SIDE_1
 		
@@ -481,11 +483,14 @@ public class Generator
 		}
 		else if(ast.right_side_1.access.equals("scalar"))
 		{ 
-			loadArrayFromStack(ast.right_side_1.id, righ_side_1_index, ast.right_side_1.scope);
+			righ_side_1_var_index = f.getAllVariables().get(ast.right_side_1.id);
+			loadArrayFromStack(ast.right_side_1.id, righ_side_1_var_index, ast.right_side_1.scope);
 		}
-		
+
 		//RIGHT_SIDE_2
+		
 		//OPERATION
+		
 		//LEFT_SIDE
 	}
 

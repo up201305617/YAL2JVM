@@ -5,8 +5,7 @@
 .method public static main([Ljava/lang/String;)V
 .limit locals 1
 .limit stack 1
-ldc "Hello"
-invokestatic io/println(Ljava/lang/String;)V
+iconst_1
 return
 .end method
 
