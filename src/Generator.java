@@ -443,9 +443,9 @@ public class Generator
 			generateAssignment(f, ast);
 			break;
 		default:
-			nextNode(f,ast);
 			break;
 		}
+		nextNode(f,ast);
 	}
 	
 	public void nextNode(Function f, AST ast)
@@ -458,6 +458,7 @@ public class Generator
 			{
 				if(!ast.children.get(i).type.equals("endif"))
 				{
+					System.out.println(ast.children.get(i).type);
 					generateBody(f, ast.children.get(i));
 				}
 				else
