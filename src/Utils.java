@@ -2,6 +2,8 @@ import java.util.ArrayList;
 
 public class Utils 
 {
+	private static ArrayList<String> errorsArray = new ArrayList<String>();
+	
 	//io.print("")
 	public static boolean isArrayOrFunctionAccess(String id) 
 	{
@@ -94,11 +96,13 @@ public class Utils
 			}
 			if(checkIfExistArray(aux,n.ID))
 			{
-				System.out.println("A função " + functionId + " tem o argumento " + n.ID + " mais que uma vez");
+				String error_message = "A função " + functionId + " tem o argumento " + n.ID + " mais que uma vez.";
+				Utils.error(error_message);
 			}
 			else if(returnVar != null && n.ID.equals(returnVar.getVariableID()))
 			{
-				System.out.println("A função " + functionId + " tem o argumento " + n.ID + " com o mesmo nome da variável de retorno");
+				String error_message = "A função " + functionId + " tem o argumento " + n.ID + " com o mesmo nome da variável de retorno.";
+				Utils.error(error_message);
 			}
 			else 
 			{
@@ -142,9 +146,8 @@ public class Utils
 					var.setAssign(false);
 					if (!m.addGlobalVariableToModule(var))
 					{
-						YAL2JVM.incErrors();
-						YAL2JVM.errorFound();
-						System.out.println("No módulo "+m.getModuleID()+" o atributo "+varName+" já foi declarada.");
+						String error_message = "No módulo "+m.getModuleID()+" o atributo "+varName+" já foi declarada.";
+						Utils.error(error_message);
 					}
 				} 
 				if (numGlobalVariables == 2) 
@@ -169,9 +172,8 @@ public class Utils
 					
 					if (!m.addGlobalVariableToModule(var)) 
 					{
-						YAL2JVM.incErrors();
-						YAL2JVM.errorFound();
-						System.out.println("No módulo "+m.getModuleID()+" o atributo "+varName+" não pode ser redefenida.");
+						String error_message = "No módulo "+m.getModuleID()+" o atributo "+varName+" não pode ser redefenida.";
+						Utils.error(error_message);
 					}
 				}
 			}
@@ -182,6 +184,7 @@ public class Utils
 	{
 		YAL2JVM.errorFound();
 		YAL2JVM.incErrors();
+		errorsArray.add(message);
 		System.out.println(message);
 	}
 	
