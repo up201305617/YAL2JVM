@@ -3,11 +3,13 @@
 
 
 .method public static main([Ljava/lang/String;)V
-.limit locals 1
-.limit stack 1
+.limit locals 2
+.limit stack 5
 iconst_1
-ldc "Hello"
-invokestatic io/println(Ljava/lang/String;)V
+istore_1
+ldc "A= "
+iload_1
+invokestatic io/println(Ljava/lang/String;I)V
 return
 .end method
 

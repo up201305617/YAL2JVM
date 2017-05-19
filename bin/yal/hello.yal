@@ -3,6 +3,6 @@ module hello
 	function main() 
 	{
 		a=1;
-		io.println("Hello");
+		io.println("A= ",a);
 	}
 }

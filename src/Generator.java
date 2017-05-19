@@ -109,9 +109,10 @@ public class Generator
 		
 		if(f.getFunctionId().equals("main"))
 		{
+			num++;
 			this.write.println(".method public static main([Ljava/lang/String;)V");
-			this.write.println(".limit locals 1");
-			this.write.println(".limit stack 1");
+			this.write.println(".limit locals " + num);
+			this.write.println(".limit stack 5");
 		}
 		else
 		{
@@ -326,9 +327,7 @@ public class Generator
 				System.out.println(ast.call.functionName);
 				
 				if(!ast.call.functionName.equals("io.println"))
-				{
-					System.out.println("entroe");
-					
+				{	
 					var = f.returnVarById(ast.call.args[i]);
 					scope = f.getScopes(ast.call.args[i]);
 					varNum = f.getAllVariables().get(var.getVariableID());
@@ -344,7 +343,27 @@ public class Generator
 				}
 				else
 				{
-					this.write.println("ldc "+ast.call.args[i]);
+					var = f.returnVarById(ast.call.args[i]);
+					
+					if(var!=null)
+					{
+						if(var.getType().equals(Constants.SCALAR))
+						{
+							scope = f.getScopes(ast.call.args[i]);
+							varNum = f.getAllVariables().get(var.getVariableID());
+							loadScalarFromStack(ast.call.args[i], varNum, scope);
+						}
+						else if(var.getType().equals(Constants.ARRAY))
+						{
+							scope = f.getScopes(ast.call.args[i]);
+							varNum = f.getAllVariables().get(var.getVariableID());
+							loadArrayFromStack(ast.call.args[i], varNum, scope);
+						}
+					}
+					else
+					{
+						this.write.println("ldc "+ast.call.args[i]);
+					}
 				}
 			}
 		}
@@ -493,6 +512,20 @@ public class Generator
 		//OPERATION
 		
 		//LEFT_SIDE
+		left_side_var_index = f.getAllVariables().get(ast.left_side.id);
+		
+		if(ast.left_side.access.equals("scalar"))
+		{
+			if(ast.right_side_1.access.equals("arraysize"))
+			{ 
+				this.write.println("newarray int");
+				storeArrayToStack(ast.left_side.id, left_side_var_index, ast.left_side.scope);
+			}
+			else
+			{
+				storeScalarToStack(ast.left_side.id, left_side_var_index, ast.left_side.scope);
+			}
+		}
 	}
 
 	public void generateFunctions()
