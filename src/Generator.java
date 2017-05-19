@@ -309,6 +309,25 @@ public class Generator
 		}
 	}
 	
+	public void makeOperation(String op)
+	{
+		switch (op) 
+		{
+		case "+":
+			this.write.println("iadd");
+			break;
+		case "-":
+			this.write.println("isub");
+			break;
+		case "*":
+			this.write.println("imul");
+			break;
+		case "/":
+			this.write.println("idiv");
+			break;
+		}
+	}
+	
 	public void generateCall(Function f, AST ast)
 	{
 		for (int i = 0; i < ast.call.args.length; i++) 
@@ -416,6 +435,7 @@ public class Generator
 					this.write.print("[I");
 				}
 			}
+			
 			this.write.print(")");	
 		}
 		else if(ast.call.functionName.equals("io.println"))
@@ -506,10 +526,26 @@ public class Generator
 			righ_side_1_var_index = f.getAllVariables().get(ast.right_side_1.id);
 			loadArrayFromStack(ast.right_side_1.id, righ_side_1_var_index, ast.right_side_1.scope);
 		}
-
-		//RIGHT_SIDE_2
 		
-		//OPERATION
+		if(ast.isOperation)
+		{
+			//RIGHT_SIDE_2
+			
+			if(ast.right_side_2.access.equals(Constants.INTEGER_ACCESS))
+			{
+				pushIntToStack(ast.right_side_2.id);
+				
+			}
+			else if(ast.right_side_2.access.equals(Constants.SCALAR_ACCESS))
+			{
+				righ_side_2_var_index = f.getAllVariables().get(ast.right_side_2.id);
+				loadArrayFromStack(ast.right_side_1.id, righ_side_2_var_index, ast.right_side_2.scope);
+			}
+			
+			//OPERATION
+			
+			makeOperation(ast.operation);
+		}
 		
 		//LEFT_SIDE
 		left_side_var_index = f.getAllVariables().get(ast.left_side.id);

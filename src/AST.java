@@ -5,9 +5,6 @@ public class AST
 	public String type;
 	public ArrayList<AST> parents;
 	public ArrayList<AST> children;
-	
-	public boolean isOperation;
-	public String operation;
 
 	public Side left_side;
 	public Side right_side_1;
@@ -16,6 +13,8 @@ public class AST
 	
 	public String compOperator;
 	public String condSign;
+	public String operation;
+	public boolean isOperation;
 	
 	public boolean visited;
 	

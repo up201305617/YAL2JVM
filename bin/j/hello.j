@@ -6,8 +6,10 @@
 .limit locals 2
 .limit stack 5
 iconst_1
+iconst_1
+iadd
 istore_1
-ldc "A= "
+ldc "A = "
 iload_1
 invokestatic io/println(Ljava/lang/String;I)V
 return
