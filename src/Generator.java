@@ -437,7 +437,7 @@ public class Generator
 				}
 				else
 				{
-					this.write.print("Ljava/lang/String;");
+					this.write.print(Constants.STRING);
 				}
 				
 			}
@@ -454,11 +454,11 @@ public class Generator
 		switch(ast.type)
 		{
 		case "call":
-			System.out.println("Call");
+			//System.out.println("Call");
 			generateCall(f,ast);
 			break;
 		case "assignment":
-			System.out.println("Assignment");
+			//System.out.println("Assignment");
 			generateAssignment(f, ast);
 			break;
 		default:
@@ -475,7 +475,7 @@ public class Generator
 		{
 			if(!ast.children.get(i).visited)
 			{
-				if(!ast.children.get(i).type.equals("endif"))
+				if(!ast.children.get(i).type.equals(Constants.END_IF))
 				{
 					System.out.println(ast.children.get(i).type);
 					generateBody(f, ast.children.get(i));
@@ -496,12 +496,12 @@ public class Generator
 		
 		//RIGHT_SIDE_1
 		
-		if(ast.right_side_1.access.equals("integer"))
+		if(ast.right_side_1.access.equals(Constants.INTEGER_ACCESS))
 		{ 
 			pushIntToStack(ast.right_side_1.id);
 			
 		}
-		else if(ast.right_side_1.access.equals("scalar"))
+		else if(ast.right_side_1.access.equals(Constants.SCALAR_ACCESS))
 		{ 
 			righ_side_1_var_index = f.getAllVariables().get(ast.right_side_1.id);
 			loadArrayFromStack(ast.right_side_1.id, righ_side_1_var_index, ast.right_side_1.scope);
@@ -514,9 +514,9 @@ public class Generator
 		//LEFT_SIDE
 		left_side_var_index = f.getAllVariables().get(ast.left_side.id);
 		
-		if(ast.left_side.access.equals("scalar"))
+		if(ast.left_side.access.equals(Constants.SCALAR_ACCESS))
 		{
-			if(ast.right_side_1.access.equals("arraysize"))
+			if(ast.right_side_1.access.equals(Constants.ARRAY_SIZE))
 			{ 
 				this.write.println("newarray int");
 				storeArrayToStack(ast.left_side.id, left_side_var_index, ast.left_side.scope);

@@ -9,11 +9,13 @@ public class Constants
 	//Data Structures
 	public static String ARRAY = "Array";
 	public static String SCALAR = "Scalar";
+	public static String STRING =  "Ljava/lang/String;";
 	
 	//AST
 	public static String ASSIGNMENT = "assignment";
 	public static String CALL = "call";
 	public static String IF = "if";
+	public static String END_IF = "endif";
 	
 	//Access
 	public static String ARRAY_ACCESS = "array";
