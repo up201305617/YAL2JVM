@@ -16,6 +16,7 @@ public class Constants
 	public static String CALL = "call";
 	public static String IF = "if";
 	public static String END_IF = "endif";
+	public static String WHILE = "while";
 	
 	//Access
 	public static String ARRAY_ACCESS = "array";

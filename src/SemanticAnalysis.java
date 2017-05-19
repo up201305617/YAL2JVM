@@ -1130,8 +1130,28 @@ public class SemanticAnalysis
 				
 				AST if_cond = analyseCondition(if_left_side, if_right_side, function,"if");
 				break;
+			
 			case YAL2JVMTreeConstants.JJTWHILE:
+				
+				SimpleNode while_node = (SimpleNode) child.jjtGetChild(0);
+				SimpleNode while_left_side = (SimpleNode) while_node.jjtGetChild(0);
+				SimpleNode while_right_side = (SimpleNode) while_node.jjtGetChild(1);
+				
+				AST while_ast = analyseCondition(while_left_side, while_right_side, function,Constants.WHILE);
+				
+				while_ast.condSign = while_node.ID;
+				current.children.add(while_ast);
+				while_ast.parents.add(current);
+				current = while_ast;
+				
+				SimpleNode while_body = (SimpleNode) child.jjtGetChild(1);
+				AST last_while = analyseFunctionBuildAST(function,while_ast,while_body.getChildren());
+				
+				current.parents.add(last_while);
+				last_while.children.add(current);
+				
 				break;
+			
 			case YAL2JVMTreeConstants.JJTCALL:
 				
 				AST call = analyseCall(child.ID, child.getChildren(), false, function);
