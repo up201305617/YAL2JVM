@@ -59,12 +59,11 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
         System.out.println("============================");
         module.analyseFunctions();
         System.out.println("============================");
-        module.printAllModule();
-
+        //module.printAllModule();
         if(hasErrors)
         {
           System.out.println("A Iniciar o Gerador JVM: ");
-          generator = new Generator(module,root.ID,root);
+          generator = new Generator(module,root.ID);
           generator.initiateGeneration();
           System.out.println("A gera\u00e7\u00e3o de c\u00f3digo JVM foi concluida com sucesso.");
                 }

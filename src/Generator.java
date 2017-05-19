@@ -13,17 +13,20 @@ public class Generator
 	private File file;
 	private String moduleName;
 	private String newFileName;
-	private SimpleNode node;
 	private AST endIfNode;
 	
-	public Generator(Module m, String name, SimpleNode n)
+	public Generator(Module m, String name)
 	{
 		this.module = m;
 		this.moduleName = name;
 		this.newFileName = name+".j";
-		this.node = n;
 	}
 	
+	public AST getEndIfNode() 
+	{
+		return endIfNode;
+	}
+
 	public void initiateGeneration()
 	{
 		try 
@@ -502,7 +505,7 @@ public class Generator
 				}
 				else
 				{
-					endIfNode = ast.children.get(i);
+					this.endIfNode = ast.children.get(i);
 				}
 			}
 		}
