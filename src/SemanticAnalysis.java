@@ -427,7 +427,6 @@ public class SemanticAnalysis
 					if (!Utils.isArrayOrFunctionAccess(child.ID)) 
 					{
 						String aux_1 = analyseFunctionCall(child.getChildren(),function,child.ID);
-						System.out.println("Testing1: "+aux_1);
 						conditionNode.right_side_1.function = YAL2JVM.getModule().getFunctionByID(aux_1);
 					} 
 					else 
@@ -600,10 +599,6 @@ public class SemanticAnalysis
 			arguments[i] = ((SimpleNode)args[i]).ID;
 		}
 		
-		//System.out.println(arguments);
-		//System.out.println(call);
-		//System.out.println(declaration);
-		
 		callFunction.call.args= arguments;
 		callFunction.call.other_module = dot;
 		callFunction.call.functionName = call;
@@ -615,6 +610,7 @@ public class SemanticAnalysis
 	public AST analyseAssignment(SimpleNode left_side, SimpleNode right_side, Function function) 
 	{
 		AST assignmentNode = new AST(Constants.ASSIGNMENT,function);		
+		
 		boolean isOperation = false;
 		
 		//ANALYSE LEFT SIDE
@@ -643,7 +639,6 @@ public class SemanticAnalysis
 			{
 				assignmentNode.left_side.access = "size";
 				assignmentNode.left_side.id = left_side.ID.split(".")[0];
-				System.out.println(assignmentNode.left_side.id);
 			}
 			else
 			{
@@ -723,8 +718,6 @@ public class SemanticAnalysis
 		{
 			assignmentNode.operation = right_side.ID;
 			isOperation = true;
-			
-			System.out.println(assignmentNode.operation);
 			
 			SimpleNode right_side_2 = (SimpleNode)right_side.jjtGetChild(1);
 			
@@ -971,8 +964,6 @@ public class SemanticAnalysis
 				{
 					String declaration = Utils.buildFunctionDeclaration(function, assignmentNode.right_side_1.id, assignmentNode.right_side_1.args_id,assignmentNode.left_side.id);
 					
-					System.out.println(declaration);
-					
 					if(!YAL2JVM.getModule().functionExists(declaration))
 					{
 						String error_message = "Na função "+function+" os argumentos da chamada à função "+
@@ -1078,8 +1069,6 @@ public class SemanticAnalysis
 					else
 					{
 						String declaration = Utils.buildFunctionDeclaration(function, assignmentNode.right_side_2.id, assignmentNode.right_side_2.args_id,assignmentNode.left_side.id);
-						
-						System.out.println(declaration);
 						
 						if(!YAL2JVM.getModule().functionExists(declaration))
 						{

@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Map.Entry;
 
 public class Generator 
@@ -200,13 +201,27 @@ public class Generator
 		this.write.println(".end method");
 	}
 	
+	public int countArrayFields()
+	{
+		int count = 0;
+		for(Map.Entry<String, Variable> entry : this.module.getGlobalVariables().entrySet())
+		{
+			if(entry.getValue().getType().equals(Constants.ARRAY))
+			{
+				count++;
+			}
+		}
+		return count;
+	}
+	
 	public void generateConstructor()
 	{
 		this.write.println(".method static public <clinit>()V ");
 		
 		if(this.module.getGlobalVariables().size() != 0)
 		{
-			
+			this.write.println(".limit stack 2");
+			this.write.println(".limit locals "+countArrayFields());
 		}
 		else
 		{

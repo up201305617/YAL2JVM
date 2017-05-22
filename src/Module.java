@@ -82,11 +82,9 @@ public class Module
 		for (String id : functions.keySet()) 
 		{
 			Function f = functions.get(id);
-			System.out.println(f.getFunctionId());
 			f.initializeInitialNode(f);
 			AST last = functions.get(id).getBody().analyseFunction(f,f.getInitialNode());
 			AST end = new AST("end",f);
-			//System.out.println(last);
 			last.children.add(end);
 			end.parents.add(last);
 			f.buildVariablesIndex();
