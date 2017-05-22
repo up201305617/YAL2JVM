@@ -138,6 +138,15 @@ public class Utils
 		
 		if(errorsArray.size()!=0)
 		{
+			if(errorsArray.size()==1)
+			{
+				write.println("Foi encontrado 1 erro no módulo "+moduleName+".");
+			}
+			else
+			{
+				write.println("Foram encontrados "+errorsArray.size()+" erros no módulo "+moduleName+".");
+			}
+			
 			for(int i = 0;i<errorsArray.size();i++)
 			{
 				write.println(errorsArray.get(i));
