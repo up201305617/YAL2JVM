@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 public class Utils 
@@ -122,5 +126,28 @@ public class Utils
 			}
 		}
 		return function;
+	}
+	
+	public static void createLogFile(String moduleName) throws FileNotFoundException, UnsupportedEncodingException
+	{
+		File folder = new File("./log");
+		folder.mkdirs();
+		String fileName = moduleName+"_log.log";
+		File file = new File(folder,fileName);
+		PrintWriter write = new PrintWriter(file,"UTF-8");
+		
+		if(errorsArray.size()!=0)
+		{
+			for(int i = 0;i<errorsArray.size();i++)
+			{
+				write.println(errorsArray.get(i));
+			}
+		}
+		else
+		{
+			write.println("Não foram encontrados erros no módulo "+moduleName+".");
+		}
+	
+		write.close();
 	}
 }

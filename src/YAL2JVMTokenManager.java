@@ -2,6 +2,7 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 
 /** Token Manager. */
 public class YAL2JVMTokenManager implements YAL2JVMConstants

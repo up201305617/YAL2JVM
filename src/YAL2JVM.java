@@ -2,6 +2,7 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 
 public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMConstants {/*@bgen(jjtree)*/
   protected static JJTYAL2JVMState jjtree = new JJTYAL2JVMState();private static Module module;
@@ -72,6 +73,21 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
                   System.out.println("O m\u00f3dulo " + root.ID + " possui erros semanticos.");
                   System.out.println("N\u00e3o \u00e9 por isso poss\u00edvel gerar o c\u00f3digo JVM.");
                 }
+
+                try
+                {
+                        Utils.createLogFile(root.ID);
+                }
+                catch (FileNotFoundException e)
+                {
+                        e.printStackTrace();
+                }
+                catch (UnsupportedEncodingException e)
+                {
+                        e.printStackTrace();
+                }
+
+                System.out.println("Foi criado um ficheiro .log com os resultados da an\u00e1lise.");
    }
 
    public static Module getModule()
@@ -1193,59 +1209,6 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
     finally { jj_save(8, xla); }
   }
 
-  static private boolean jj_3R_15() {
-    if (jj_3R_20()) return true;
-    return false;
-  }
-
-  static private boolean jj_3_4() {
-    if (jj_3R_6()) return true;
-    return false;
-  }
-
-  static private boolean jj_3_2() {
-    if (jj_3R_7()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_20() {
-    if (jj_3R_23()) return true;
-    return false;
-  }
-
-  static private boolean jj_3_9() {
-    if (jj_3R_9()) return true;
-    return false;
-  }
-
-  static private boolean jj_3_3() {
-    if (jj_3R_6()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_7() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3_3()) {
-    jj_scanpos = xsp;
-    if (jj_3R_11()) return true;
-    }
-    if (jj_scan_token(ASSIGN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_10() {
-    if (jj_scan_token(ID)) return true;
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_14()) jj_scanpos = xsp;
-    if (jj_scan_token(LPAR)) return true;
-    xsp = jj_scanpos;
-    if (jj_3R_15()) jj_scanpos = xsp;
-    if (jj_scan_token(RPAR)) return true;
-    return false;
-  }
-
   static private boolean jj_3_1() {
     if (jj_3R_6()) return true;
     return false;
@@ -1435,6 +1398,59 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
 
   static private boolean jj_3R_29() {
     if (jj_scan_token(ID)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_15() {
+    if (jj_3R_20()) return true;
+    return false;
+  }
+
+  static private boolean jj_3_4() {
+    if (jj_3R_6()) return true;
+    return false;
+  }
+
+  static private boolean jj_3_2() {
+    if (jj_3R_7()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_20() {
+    if (jj_3R_23()) return true;
+    return false;
+  }
+
+  static private boolean jj_3_9() {
+    if (jj_3R_9()) return true;
+    return false;
+  }
+
+  static private boolean jj_3_3() {
+    if (jj_3R_6()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_7() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3_3()) {
+    jj_scanpos = xsp;
+    if (jj_3R_11()) return true;
+    }
+    if (jj_scan_token(ASSIGN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_10() {
+    if (jj_scan_token(ID)) return true;
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_14()) jj_scanpos = xsp;
+    if (jj_scan_token(LPAR)) return true;
+    xsp = jj_scanpos;
+    if (jj_3R_15()) jj_scanpos = xsp;
+    if (jj_scan_token(RPAR)) return true;
     return false;
   }
 
