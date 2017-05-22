@@ -3,6 +3,8 @@ module hello
 	function main() 
 	{
 		a=1+1;
+		b = io.read();
 		io.println("A = ",a);
+		io.println("Read = ",b);
 	}
 }

@@ -331,6 +331,41 @@ public class Generator
 		}
 	}
 	
+	public String buildFunctionInvocationOtherModule(Function f, String name, ArrayList<String> args)
+	{
+		Variable var;
+		String invocation = "";
+		invocation += name;
+		invocation += "(";
+		
+		for(int i = 0; i<args.size();i++)
+		{
+			try
+			{
+				Integer.parseInt(args.get(i));
+				invocation += "I";
+			}
+			catch(NumberFormatException e)
+			{
+				var = f.returnVarById(args.get(i));
+				
+				if(var.getType().equals(Constants.SCALAR))
+				{
+					invocation += "I";
+				}
+				else if(var.getType().equals(Constants.ARRAY))
+				{
+					invocation += "[I";
+				}
+			}
+		}
+		
+		invocation += ")";
+		invocation += "I";
+		
+		return invocation;
+	}
+	
 	public void generateCall(Function f, AST ast)
 	{
 		for (int i = 0; i < ast.call.args.length; i++) 
@@ -527,7 +562,71 @@ public class Generator
 		else if(ast.right_side_1.access.equals(Constants.SCALAR_ACCESS))
 		{ 
 			righ_side_1_var_index = f.getAllVariables().get(ast.right_side_1.id);
+			loadScalarFromStack(ast.right_side_1.id, righ_side_1_var_index, ast.right_side_1.scope);
+		}
+		else if(ast.right_side_1.access.equals(Constants.ARRAY_ACCESS))
+		{
+			righ_side_1_var_index = f.getAllVariables().get(ast.right_side_1.id);
 			loadArrayFromStack(ast.right_side_1.id, righ_side_1_var_index, ast.right_side_1.scope);
+			
+			if(ast.right_side_1.arrayAccessType.equals(Constants.INTEGER_ACCESS))
+			{
+				pushIntToStack(ast.right_side_1.arrayIndexId);
+			}
+			else if(ast.right_side_1.arrayAccessType.equals(Constants.SCALAR_ACCESS))
+			{
+				loadScalarFromStack(ast.right_side_1.arrayIndexId,f.getAllVariables().get(ast.right_side_1.arrayIndexId),f.getScopes(ast.right_side_1.arrayIndexId));
+			}
+			this.write.println("iaload");
+		}
+		else if(ast.right_side_1.access.equals(Constants.CALL))
+		{
+			String invocation = "";
+			
+			if(ast.right_side_1.other_module)
+			{
+				invocation = buildFunctionInvocationOtherModule(f, Utils.splitByDotFunction(ast.right_side_1.id), ast.right_side_1.args_id);
+			}
+			else
+			{
+				
+			}
+			
+			for (int i = 0; i < ast.right_side_1.args_id.size(); i++) 
+			{
+				Variable var;
+				String atual_var = ast.right_side_1.args_id.get(i);
+				
+				try 
+				{
+					Integer.parseInt(atual_var);
+					pushIntToStack(atual_var);
+				} 
+				catch (NumberFormatException e)
+				{
+					var = f.returnVarById(atual_var);
+					String scope = f.getScopes(atual_var);
+					int varNum = f.getAllVariables().get(atual_var);
+					
+					if(var.getType().equals("scalar"))
+					{
+						loadScalarFromStack(atual_var, varNum, scope);
+					}
+					else if(var.getType().equals("array"))
+					{
+						loadArrayFromStack(atual_var, varNum, scope);
+					}
+				}
+			}
+			
+			if(ast.right_side_1.other_module)
+			{
+				this.write.println("invokestatic "+Utils.splitByDotModule(ast.right_side_1.id)+"/"+invocation);
+			}
+			else
+			{
+				
+			}
 		}
 		
 		if(ast.isOperation)
