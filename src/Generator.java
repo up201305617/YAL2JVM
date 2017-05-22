@@ -52,6 +52,7 @@ public class Generator
 		generateGlobalVariables();
 		generateNewLine();
 		generateFunctions();
+		//generateClinit();
 	}
 	
 	public void generateNewLine()
@@ -214,7 +215,7 @@ public class Generator
 		return count;
 	}
 	
-	public void generateConstructor()
+	public void generateClinit()
 	{
 		this.write.println(".method static public <clinit>()V ");
 		
