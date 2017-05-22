@@ -701,17 +701,72 @@ public class Generator
 			}
 			else if(ast.right_side_2.access.equals(Constants.ARRAY_ACCESS))
 			{
+				righ_side_2_var_index = f.getAllVariables().get(ast.right_side_2.id);
+				loadArrayFromStack(ast.right_side_2.id, righ_side_2_var_index, ast.right_side_2.scope);
 				
+				if(ast.right_side_2.array_access_type.equals(Constants.INTEGER_ACCESS))
+				{
+					pushIntToStack(ast.right_side_2.array_index);
+				}
+				else if(ast.right_side_2.array_access_type.equals(Constants.SCALAR_ACCESS))
+				{
+					loadScalarFromStack(ast.right_side_2.array_index,f.getAllVariables().get(ast.right_side_2.array_index),f.getScopes(ast.right_side_2.array_index));
+				}
+				this.write.println("iaload");
 			}
 			else if(ast.right_side_2.access.equals(Constants.CALL))
 			{
+				String invocation = "";
 				
+				if(ast.right_side_2.other_module)
+				{
+					invocation = buildFunctionInvocationOtherModule(f, Utils.splitByDotFunction(ast.right_side_2.id), ast.right_side_2.args_id);
+				}
+				else
+				{
+					invocation = buildFunctionInvocationSameModule(ast.right_side_2.function, ast.right_side_2.id, ast.right_side_2.function.getArguments());
+				}
+				
+				for (int i = 0; i < ast.right_side_2.args_id.size(); i++) 
+				{
+					Variable var;
+					String atual_var = ast.right_side_2.args_id.get(i);
+					
+					try 
+					{
+						Integer.parseInt(atual_var);
+						pushIntToStack(atual_var);
+					} 
+					catch (NumberFormatException e)
+					{
+						var = f.returnVarById(atual_var);
+						String scope = f.getScopes(atual_var);
+						int varNum = f.getAllVariables().get(atual_var);
+						
+						if(var.getType().equals(Constants.SCALAR))
+						{
+							loadScalarFromStack(atual_var, varNum, scope);
+						}
+						else if(var.getType().equals(Constants.ARRAY))
+						{
+							loadArrayFromStack(atual_var, varNum, scope);
+						}
+					}
+				}
+				
+				if(ast.right_side_2.other_module)
+				{
+					this.write.println("invokestatic "+Utils.splitByDotModule(ast.right_side_2.id)+"/"+invocation);
+				}
+				else
+				{
+					this.write.println("invokestatic "+moduleName+"/"+invocation);
+				}
 			}
 			else if(ast.right_side_2.access.equals(Constants.SIZE_ACCESS))
 			{
 				if(righ_side_2_var_index!=-1)
 				{
-
 					loadArrayFromStack(ast.right_side_2.id, righ_side_2_var_index,ast.right_side_2.scope);
 					this.write.println("arraylength");
 				}
@@ -739,7 +794,21 @@ public class Generator
 		}
 		else if(ast.left_side.access.equals(Constants.ARRAY_ACCESS))
 		{
+			loadArrayFromStack(ast.left_side.id,left_side_var_index, ast.left_side.scope);
 			
+			this.write.println("swap");
+			
+			if(ast.left_side.array_access_type.equals(Constants.INTEGER_ACCESS))
+			{
+				pushIntToStack(ast.left_side.array_index);
+			}
+			else if(ast.left_side.array_access_type.equals(Constants.SCALAR_ACCESS))
+			{
+				loadScalarFromStack(ast.left_side.array_index, f.getAllVariables().get(ast.left_side.array_index), f.getScopes(ast.left_side.array_index));
+			}
+			
+			this.write.println("swap");
+			this.write.println("iastore");
 		}
 	}
 
