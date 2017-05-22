@@ -334,7 +334,9 @@ public class Generator
 	public String buildFunctionInvocationOtherModule(Function f, String name, ArrayList<String> args)
 	{
 		Variable var;
+		
 		String invocation = "";
+		
 		invocation += name;
 		invocation += "(";
 		
@@ -362,6 +364,48 @@ public class Generator
 		
 		invocation += ")";
 		invocation += "I";
+		
+		return invocation;
+	}
+	
+	public String buildFunctionInvocationSameModule(Function f, String name, ArrayList<Variable> args)
+	{
+		String invocation = "";
+		
+		invocation += name;
+		invocation += "(";
+		
+		for (int i = 0; i < args.size(); i++) 
+		{
+			if(f.getArguments().get(i).getType().equals(Constants.SCALAR))
+			{
+				invocation += "I";
+			}
+			else if(f.getArguments().get(i).getType().equals(Constants.ARRAY))
+			{
+				invocation += "[I";
+			}
+		}
+		
+		invocation += ")";
+		
+		Variable ret = f.getReturnValue();
+		
+		if(ret == null)
+		{
+			invocation += "V";
+		}
+		else
+		{
+			if(ret.getType().equals(Constants.SCALAR))
+			{
+				invocation += "I";
+			}
+			else if(ret.getType().equals(Constants.ARRAY))
+			{
+				invocation += "[I";
+			}
+		}
 		
 		return invocation;
 	}
@@ -548,9 +592,9 @@ public class Generator
 	
 	public void generateAssignment(Function f, AST ast)
 	{
-		int righ_side_1_var_index;
-		int righ_side_2_var_index;
-		int left_side_var_index;
+		int righ_side_1_var_index = -1;
+		int righ_side_2_var_index = -1;
+		int left_side_var_index = -1;
 		
 		//RIGHT_SIDE_1
 		
@@ -589,7 +633,7 @@ public class Generator
 			}
 			else
 			{
-				
+				invocation = buildFunctionInvocationSameModule(ast.right_side_1.function, ast.right_side_1.id, ast.right_side_1.function.getArguments());
 			}
 			
 			for (int i = 0; i < ast.right_side_1.args_id.size(); i++) 
@@ -608,11 +652,11 @@ public class Generator
 					String scope = f.getScopes(atual_var);
 					int varNum = f.getAllVariables().get(atual_var);
 					
-					if(var.getType().equals("scalar"))
+					if(var.getType().equals(Constants.SCALAR))
 					{
 						loadScalarFromStack(atual_var, varNum, scope);
 					}
-					else if(var.getType().equals("array"))
+					else if(var.getType().equals(Constants.ARRAY))
 					{
 						loadArrayFromStack(atual_var, varNum, scope);
 					}
@@ -625,8 +669,20 @@ public class Generator
 			}
 			else
 			{
-				
+				this.write.println("invokestatic "+moduleName+"/"+invocation);
 			}
+		}
+		else if(ast.right_side_1.access.equals(Constants.SIZE_ACCESS))
+		{ 
+			if(righ_side_1_var_index!=-1)
+			{
+				loadArrayFromStack(ast.right_side_1.id, righ_side_1_var_index,ast.right_side_1.scope);
+				this.write.println("arraylength");
+			}
+		}
+		else if(ast.right_side_1.access.equals(Constants.ARRAY_SIZE))
+		{
+			pushIntToStack(ast.right_side_1.id);
 		}
 		
 		if(ast.isOperation)
