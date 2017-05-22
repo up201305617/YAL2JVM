@@ -149,7 +149,7 @@ public class Function
 	
 	public void buildVariablesIndex()
 	{
-		int index = 0;
+		int index = -1;
 		
 		for (int i = 0; i < arguments.size(); i++)
 		{

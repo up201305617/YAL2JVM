@@ -817,6 +817,7 @@ public class Generator
 		for(Function f : module.getAllFunctions().values())
 		{
 			f.buildVariablesIndex();
+			System.out.println(f.getAllVariables());
 			generateFunctionDeclaration(f);
 			generateBody(f,f.getInitialNode());
 			generateReturn(f);
