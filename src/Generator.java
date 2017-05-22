@@ -424,8 +424,6 @@ public class Generator
 				Variable var;
 				String scope;
 				int varNum;
-				System.out.println(ast.call.args[i]);
-				System.out.println(ast.call.functionName);
 				
 				if(!ast.call.functionName.equals("io.println"))
 				{	
@@ -556,11 +554,9 @@ public class Generator
 		switch(ast.type)
 		{
 		case "call":
-			//System.out.println("Call");
 			generateCall(f,ast);
 			break;
 		case "assignment":
-			//System.out.println("Assignment");
 			generateAssignment(f, ast);
 			break;
 		default:
@@ -579,7 +575,6 @@ public class Generator
 			{
 				if(!ast.children.get(i).type.equals(Constants.END_IF))
 				{
-					System.out.println(ast.children.get(i).type);
 					generateBody(f, ast.children.get(i));
 				}
 				else
@@ -817,7 +812,6 @@ public class Generator
 		for(Function f : module.getAllFunctions().values())
 		{
 			f.buildVariablesIndex();
-			System.out.println(f.getAllVariables());
 			generateFunctionDeclaration(f);
 			generateBody(f,f.getInitialNode());
 			generateReturn(f);

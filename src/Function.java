@@ -9,7 +9,6 @@ public class Function
 	private ArrayList<Variable> arguments;
 	private ArrayList<AST> nodes;  
 	private HashMap<String,Variable> variables;
-	private int nodeCount;
 	private AST initialNode;
 	private HashMap<String,Integer> allVariables;
 	private int varNum;
@@ -20,7 +19,6 @@ public class Function
 		this.returnValue = returnValue;
 		this.arguments = a;
 		this.body = body;
-		this.nodeCount = 0;
 		this.nodes = new ArrayList<AST>();
 		this.variables = new HashMap<String,Variable>();
 		this.allVariables = new HashMap<String,Integer>();
@@ -238,16 +236,6 @@ public class Function
 		{
 			return false;
 		}
-	}
-	
-	public void incNodeCount()
-	{
-		this.nodeCount++;
-	}
-	
-	public int getNodeCount()
-	{
-		return this.nodeCount;
 	}
 
 	public HashMap<String, Integer> getAllVariables()

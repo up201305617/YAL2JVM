@@ -29,7 +29,6 @@ public class AST
 		call = new Call();
 		right_side_1.initializeArray();
 		right_side_2.initializeArray();
-		f.incNodeCount();
 		f.getNodes().add(this);
 	}
 }
