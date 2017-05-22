@@ -613,13 +613,13 @@ public class Generator
 			righ_side_1_var_index = f.getAllVariables().get(ast.right_side_1.id);
 			loadArrayFromStack(ast.right_side_1.id, righ_side_1_var_index, ast.right_side_1.scope);
 			
-			if(ast.right_side_1.arrayAccessType.equals(Constants.INTEGER_ACCESS))
+			if(ast.right_side_1.array_access_type.equals(Constants.INTEGER_ACCESS))
 			{
-				pushIntToStack(ast.right_side_1.arrayIndexId);
+				pushIntToStack(ast.right_side_1.array_index);
 			}
-			else if(ast.right_side_1.arrayAccessType.equals(Constants.SCALAR_ACCESS))
+			else if(ast.right_side_1.array_access_type.equals(Constants.SCALAR_ACCESS))
 			{
-				loadScalarFromStack(ast.right_side_1.arrayIndexId,f.getAllVariables().get(ast.right_side_1.arrayIndexId),f.getScopes(ast.right_side_1.arrayIndexId));
+				loadScalarFromStack(ast.right_side_1.array_index,f.getAllVariables().get(ast.right_side_1.array_index),f.getScopes(ast.right_side_1.array_index));
 			}
 			this.write.println("iaload");
 		}

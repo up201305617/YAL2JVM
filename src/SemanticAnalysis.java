@@ -319,14 +319,14 @@ public class SemanticAnalysis
 			try
 			{
 				Integer.parseInt(index.ID);
-				conditionNode.left_side.arrayAccessType = "integer";
+				conditionNode.left_side.array_access_type = "integer";
 			}
 			catch(NumberFormatException e)
 			{
-				conditionNode.left_side.arrayAccessType = "scalar";
+				conditionNode.left_side.array_access_type = "scalar";
 			}
 			
-			conditionNode.left_side.arrayIndexId = index.ID;
+			conditionNode.left_side.array_index = index.ID;
 			
 			analyseArrayAccess(left_side.ID, index.ID, function);
 		}
@@ -382,13 +382,13 @@ public class SemanticAnalysis
 						try
 						{
 							Integer.parseInt(index.ID);
-							conditionNode.right_side_1.arrayAccessType = "integer";
+							conditionNode.right_side_1.array_access_type = "integer";
 						}
 						catch(NumberFormatException e)
 						{
-							conditionNode.right_side_1.arrayAccessType = "scalar";
+							conditionNode.right_side_1.array_access_type = "scalar";
 						}
-						conditionNode.right_side_1.arrayIndexId = index.ID;
+						conditionNode.right_side_1.array_index = index.ID;
 						
 						analyseArrayAccess(term.ID, index.ID, function);
 					} 
@@ -452,13 +452,13 @@ public class SemanticAnalysis
 					try
 					{
 						Integer.parseInt(index.ID);
-						conditionNode.right_side_1.arrayAccessType = "integer";
+						conditionNode.right_side_1.array_access_type = "integer";
 					}
 					catch(NumberFormatException e)
 					{
-						conditionNode.right_side_1.arrayAccessType = "scalar";
+						conditionNode.right_side_1.array_access_type = "scalar";
 					}
-					conditionNode.right_side_1.arrayIndexId = index.ID;
+					conditionNode.right_side_1.array_index = index.ID;
 					
 					analyseArrayAccess(child.ID, index.ID, function);
 				} 
@@ -512,14 +512,14 @@ public class SemanticAnalysis
 					try
 					{
 						Integer.parseInt(index.ID);
-						conditionNode.right_side_2.arrayAccessType = "integer";
+						conditionNode.right_side_2.array_access_type = "integer";
 					}
 					catch(NumberFormatException e)
 					{
-						conditionNode.right_side_2.arrayAccessType = "scalar";
+						conditionNode.right_side_2.array_access_type = "scalar";
 					}
 					
-					conditionNode.right_side_2.arrayIndexId = index.ID;
+					conditionNode.right_side_2.array_index = index.ID;
 					
 					analyseArrayAccess(child.ID, index.ID, function);
 				} 
@@ -628,13 +628,13 @@ public class SemanticAnalysis
 			try
 			{
 				Integer.parseInt(arrayIndex.ID);
-				assignmentNode.left_side.arrayIndexId = arrayIndex.ID;
-				assignmentNode.left_side.arrayAccessType = "integer";
+				assignmentNode.left_side.array_index = arrayIndex.ID;
+				assignmentNode.left_side.array_access_type = "integer";
 			} 
 			catch (NumberFormatException e)
 			{
-				assignmentNode.left_side.arrayIndexId  = arrayIndex.ID;
-				assignmentNode.left_side.arrayAccessType = "scalar";
+				assignmentNode.left_side.array_index  = arrayIndex.ID;
+				assignmentNode.left_side.array_access_type = "scalar";
 			}
 		} 
 		else if(left_side.getOriginalId() == YAL2JVMTreeConstants.JJTSCALARACCESS)
@@ -687,13 +687,13 @@ public class SemanticAnalysis
 					try
 					{
 						Integer.parseInt(arrayIndex.ID);
-						assignmentNode.right_side_1.arrayIndexId = arrayIndex.ID;
-						assignmentNode.right_side_1.arrayAccessType = "integer";
+						assignmentNode.right_side_1.array_index = arrayIndex.ID;
+						assignmentNode.right_side_1.array_access_type = "integer";
 					}
 					catch (NumberFormatException e)
 					{
-						assignmentNode.right_side_1.arrayIndexId = arrayIndex.ID;
-						assignmentNode.right_side_1.arrayAccessType = "scalar";
+						assignmentNode.right_side_1.array_index = arrayIndex.ID;
+						assignmentNode.right_side_1.array_access_type = "scalar";
 					}
 				}
 				else if (term.getOriginalId() == YAL2JVMTreeConstants.JJTSCALARACCESS) 
@@ -759,13 +759,13 @@ public class SemanticAnalysis
 						try
 						{
 							Integer.parseInt(arrayIndex.ID);
-							assignmentNode.right_side_2.arrayIndexId = arrayIndex.ID;
-							assignmentNode.right_side_2.arrayAccessType = "integer";
+							assignmentNode.right_side_2.array_index = arrayIndex.ID;
+							assignmentNode.right_side_2.array_access_type = "integer";
 						} 
 						catch (NumberFormatException e) 
 						{
-							assignmentNode.right_side_2.arrayIndexId = arrayIndex.ID;
-							assignmentNode.right_side_2.arrayAccessType = "scalar";
+							assignmentNode.right_side_2.array_index = arrayIndex.ID;
+							assignmentNode.right_side_2.array_access_type = "scalar";
 						}
 					} 
 					else if (term.getOriginalId() == YAL2JVMTreeConstants.JJTSCALARACCESS)
@@ -826,11 +826,11 @@ public class SemanticAnalysis
 				}
 				else 
 				{
-					if (assignmentNode.left_side.arrayIndexId != null && !assignmentNode.left_side.arrayAccessType.equals(Constants.INTEGER_ACCESS))
+					if (assignmentNode.left_side.array_index != null && !assignmentNode.left_side.array_access_type.equals(Constants.INTEGER_ACCESS))
 					{
-						if (!function.findVariable(assignmentNode.left_side.arrayIndexId))
+						if (!function.findVariable(assignmentNode.left_side.array_index))
 						{
-							String error_message = "Na função "+function+" a variável "+assignmentNode.left_side.arrayIndexId+
+							String error_message = "Na função "+function+" a variável "+assignmentNode.left_side.array_index+
 									" do lado esquerdo do assignment usada como index da variável "+ assignmentNode.left_side.id +
 									" não existe!";
 							
@@ -838,7 +838,7 @@ public class SemanticAnalysis
 						}
 						else 
 						{
-							Variable index = function.returnVarById(assignmentNode.left_side.arrayIndexId);
+							Variable index = function.returnVarById(assignmentNode.left_side.array_index);
 							
 							if (!index.getType().equals(Constants.SCALAR)) 
 							{
@@ -905,11 +905,11 @@ public class SemanticAnalysis
 				
 				if (assignmentNode.right_side_1.access.equals(Constants.ARRAY_ACCESS)) 
 				{
-					if (assignmentNode.right_side_1.arrayIndexId != null && !assignmentNode.right_side_1.arrayAccessType.equals(Constants.INTEGER_ACCESS))
+					if (assignmentNode.right_side_1.array_index != null && !assignmentNode.right_side_1.array_access_type.equals(Constants.INTEGER_ACCESS))
 					{
-						if (!function.findVariable(assignmentNode.right_side_1.arrayIndexId)) 
+						if (!function.findVariable(assignmentNode.right_side_1.array_index)) 
 						{
-							String error_message = "Na função "+function+" a variável "+assignmentNode.right_side_1.arrayIndexId+
+							String error_message = "Na função "+function+" a variável "+assignmentNode.right_side_1.array_index+
 									" do lado direito do assignment da variável "+assignmentNode.left_side.id+
 									" não existe!";
 							
@@ -917,7 +917,7 @@ public class SemanticAnalysis
 						} 
 						else 
 						{
-							Variable v = function.returnVarById(assignmentNode.right_side_1.arrayIndexId);
+							Variable v = function.returnVarById(assignmentNode.right_side_1.array_index);
 							
 							if (!v.getType().equals(Constants.SCALAR)) 
 							{
@@ -1013,11 +1013,11 @@ public class SemanticAnalysis
 					
 					if (assignmentNode.right_side_2.access.equals("array"))
 					{
-						if (assignmentNode.right_side_2.arrayIndexId != null && !assignmentNode.right_side_2.arrayAccessType.equals(Constants.INTEGER_ACCESS))
+						if (assignmentNode.right_side_2.array_index != null && !assignmentNode.right_side_2.array_access_type.equals(Constants.INTEGER_ACCESS))
 						{
-							if (!function.findVariable(assignmentNode.right_side_2.arrayIndexId)) 
+							if (!function.findVariable(assignmentNode.right_side_2.array_index)) 
 							{
-								String error_message = "Na função "+function+" a variável "+assignmentNode.right_side_2.arrayIndexId+
+								String error_message = "Na função "+function+" a variável "+assignmentNode.right_side_2.array_index+
 										" do lado direito do assignment da variável "+assignmentNode.left_side.id+
 										" não existe!";
 								
@@ -1025,7 +1025,7 @@ public class SemanticAnalysis
 							} 
 							else 
 							{
-								Variable v = function.returnVarById(assignmentNode.right_side_2.arrayIndexId);
+								Variable v = function.returnVarById(assignmentNode.right_side_2.array_index);
 								
 								if (!v.getType().equals(Constants.SCALAR))
 								{

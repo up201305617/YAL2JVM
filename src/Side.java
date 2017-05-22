@@ -6,8 +6,8 @@ public class Side
 	public String scope;
 	public String access;
 	public String type;
-	public String arrayIndexId;
-	public String arrayAccessType;
+	public String array_index;
+	public String array_access_type;
 	public ArrayList<String> args_id;
 	public Function function;
 	public boolean other_module;
