@@ -697,7 +697,24 @@ public class Generator
 			else if(ast.right_side_2.access.equals(Constants.SCALAR_ACCESS))
 			{
 				righ_side_2_var_index = f.getAllVariables().get(ast.right_side_2.id);
-				loadArrayFromStack(ast.right_side_1.id, righ_side_2_var_index, ast.right_side_2.scope);
+				loadScalarFromStack(ast.right_side_1.id, righ_side_2_var_index, ast.right_side_2.scope);
+			}
+			else if(ast.right_side_2.access.equals(Constants.ARRAY_ACCESS))
+			{
+				
+			}
+			else if(ast.right_side_2.access.equals(Constants.CALL))
+			{
+				
+			}
+			else if(ast.right_side_2.access.equals(Constants.SIZE_ACCESS))
+			{
+				if(righ_side_2_var_index!=-1)
+				{
+
+					loadArrayFromStack(ast.right_side_2.id, righ_side_2_var_index,ast.right_side_2.scope);
+					this.write.println("arraylength");
+				}
 			}
 			
 			//OPERATION
@@ -719,6 +736,10 @@ public class Generator
 			{
 				storeScalarToStack(ast.left_side.id, left_side_var_index, ast.left_side.scope);
 			}
+		}
+		else if(ast.left_side.access.equals(Constants.ARRAY_ACCESS))
+		{
+			
 		}
 	}
 
