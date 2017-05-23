@@ -23,6 +23,7 @@ public class SemanticAnalysis
 				SimpleNode left_side = (SimpleNode) node.jjtGetChild(0);
 				String name = left_side.ID;
 				Variable var = new Variable(name);
+				
 				//Só declração da variável (ex.: a)
 				if(numChildren == 1)
 				{
@@ -30,10 +31,11 @@ public class SemanticAnalysis
 					if(!YAL2JVM.getModule().addGlobalVariableToModule(var))
 					{
 						//Existe mais que uma com o mesmo nome;
-						YAL2JVM.incErrors();
-						System.out.println("Existe mais que uma variável global com o nome " + name);
+						String error_message = "Existe mais que uma variável global com o nome " + name+".";
+						Utils.error(error_message);
 					}
 				}
+				
 				//Declaração e atribuição (ex.: a=1)
 				if(numChildren == 2)
 				{
@@ -347,7 +349,6 @@ public class SemanticAnalysis
 			{
 				if (right_side_child.ID == null) 
 				{
-					@SuppressWarnings("unused")
 					SimpleNode term = (SimpleNode)right_side_child.jjtGetChild(0);
 
 					if (term.getOriginalId() == YAL2JVMTreeConstants.JJTCALL)
