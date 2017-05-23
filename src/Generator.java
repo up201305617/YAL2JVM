@@ -585,14 +585,8 @@ public class Generator
 		}
 	}
 	
-	public void generateAssignment(Function f, AST ast)
+	public void generateRightSide1(AST ast, Function f, int righ_side_1_var_index, boolean isAssignment)
 	{
-		int righ_side_1_var_index = -1;
-		int righ_side_2_var_index = -1;
-		int left_side_var_index = -1;
-		
-		//RIGHT_SIDE_1
-		
 		if(ast.right_side_1.access.equals(Constants.INTEGER_ACCESS))
 		{ 
 			pushIntToStack(ast.right_side_1.id);
@@ -600,12 +594,12 @@ public class Generator
 		else if(ast.right_side_1.access.equals(Constants.SCALAR_ACCESS))
 		{ 
 			righ_side_1_var_index = f.getAllVariables().get(ast.right_side_1.id);
-			loadScalarFromStack(ast.right_side_1.id, righ_side_1_var_index, ast.right_side_1.scope);
+			loadScalarFromStack(ast.right_side_1.id, righ_side_1_var_index, f.getScopes(ast.right_side_1.id));
 		}
 		else if(ast.right_side_1.access.equals(Constants.ARRAY_ACCESS))
 		{
 			righ_side_1_var_index = f.getAllVariables().get(ast.right_side_1.id);
-			loadArrayFromStack(ast.right_side_1.id, righ_side_1_var_index, ast.right_side_1.scope);
+			loadArrayFromStack(ast.right_side_1.id, righ_side_1_var_index, f.getScopes(ast.right_side_1.id));
 			
 			if(ast.right_side_1.array_access_type.equals(Constants.INTEGER_ACCESS))
 			{
@@ -676,8 +670,22 @@ public class Generator
 		}
 		else if(ast.right_side_1.access.equals(Constants.ARRAY_SIZE))
 		{
-			pushIntToStack(ast.right_side_1.id);
+			if(isAssignment)
+			{
+				pushIntToStack(ast.right_side_1.id);
+			}
 		}
+	}
+	
+	public void generateAssignment(Function f, AST ast)
+	{
+		int righ_side_1_var_index = -1;
+		int righ_side_2_var_index = -1;
+		int left_side_var_index = -1;
+		
+		//RIGHT_SIDE_1
+		
+		generateRightSide1(ast,f,righ_side_1_var_index,true);
 		
 		if(ast.isOperation)
 		{
@@ -814,88 +822,7 @@ public class Generator
 		
 		//RIGHT SIDE 1
 		
-		if(ast.right_side_1.access.equals(Constants.INTEGER_ACCESS))
-		{ 
-			pushIntToStack(ast.right_side_1.id);
-		}
-		else if(ast.right_side_1.access.equals(Constants.SCALAR_ACCESS))
-		{ 
-			righ_side_1_var_index = f.getAllVariables().get(ast.right_side_1.id);
-			System.out.println(ast.right_side_1.id);
-			loadScalarFromStack(ast.right_side_1.id, righ_side_1_var_index, f.getScopes(ast.right_side_1.id));
-		}
-		else if(ast.right_side_1.access.equals(Constants.ARRAY_ACCESS))
-		{
-			righ_side_1_var_index = f.getAllVariables().get(ast.right_side_1.id);
-			loadArrayFromStack(ast.right_side_1.id, righ_side_1_var_index, f.getScopes(ast.right_side_1.id));
-			
-			if(ast.right_side_1.array_access_type.equals(Constants.INTEGER_ACCESS))
-			{
-				pushIntToStack(ast.right_side_1.array_index);
-			}
-			else if(ast.right_side_1.array_access_type.equals(Constants.SCALAR_ACCESS))
-			{
-				loadScalarFromStack(ast.right_side_1.array_index,f.getAllVariables().get(ast.right_side_1.array_index),f.getScopes(ast.right_side_1.array_index));
-			}
-			this.write.println("iaload");
-		}
-		else if(ast.right_side_1.access.equals(Constants.CALL))
-		{
-			String invocation = "";
-			
-			if(ast.right_side_1.other_module)
-			{
-				invocation = buildFunctionInvocationOtherModule(f, Utils.splitByDotFunction(ast.right_side_1.id), ast.right_side_1.args_id);
-			}
-			else
-			{
-				invocation = buildFunctionInvocationSameModule(ast.right_side_1.function, ast.right_side_1.id, ast.right_side_1.function.getArguments());
-			}
-			
-			for (int i = 0; i < ast.right_side_1.args_id.size(); i++) 
-			{
-				Variable var;
-				String atual_var = ast.right_side_1.args_id.get(i);
-				
-				try 
-				{
-					Integer.parseInt(atual_var);
-					pushIntToStack(atual_var);
-				} 
-				catch (NumberFormatException e)
-				{
-					var = f.returnVarById(atual_var);
-					String scope = f.getScopes(atual_var);
-					int varNum = f.getAllVariables().get(atual_var);
-					
-					if(var.getType().equals(Constants.SCALAR))
-					{
-						loadScalarFromStack(atual_var, varNum, scope);
-					}
-					else if(var.getType().equals(Constants.ARRAY))
-					{
-						loadArrayFromStack(atual_var, varNum, scope);
-					}
-				}
-			}
-			
-			if(ast.right_side_1.other_module)
-			{
-				this.write.println("invokestatic "+Utils.splitByDotModule(ast.right_side_1.id)+"/"+invocation);
-			}
-			else
-			{
-				this.write.println("invokestatic "+moduleName+"/"+invocation);
-			}
-		}
-		else if(ast.right_side_1.access.equals(Constants.SIZE_ACCESS))
-		{ 
-			if(righ_side_1_var_index!=-1)
-			{
-				loadArrayFromStack(ast.right_side_1.id, righ_side_1_var_index,ast.right_side_1.scope);
-				this.write.println("arraylength");
-			}
-		}
+		generateRightSide1(ast,f,righ_side_1_var_index,false);
 
 		if(ast.isOperation)
 		{
