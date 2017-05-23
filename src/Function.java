@@ -12,6 +12,7 @@ public class Function
 	private AST initialNode;
 	private HashMap<String,Integer> allVariables;
 	private int varNum;
+	private int loops;
 	
 	public Function(String id, Variable returnValue, ArrayList<Variable> a, SimpleNode body)
 	{
@@ -22,8 +23,19 @@ public class Function
 		this.nodes = new ArrayList<AST>();
 		this.variables = new HashMap<String,Variable>();
 		this.allVariables = new HashMap<String,Integer>();
+		this.loops = 0;
 	}
 	
+	public int getLoops()
+	{
+		return loops;
+	}
+	
+	public void incLoops()
+	{
+		this.loops++;
+	}
+
 	public void initializeInitialNode(Function f)
 	{
 		this.initialNode = new AST("start",f);

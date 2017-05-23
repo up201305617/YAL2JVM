@@ -1106,9 +1106,9 @@ public class SemanticAnalysis
 		
 		AST current = root;
 		
-		for(int i=0; i<sn.getChildren().length;i++)
+		for(int i=0; i<children.length;i++)
 		{
-			SimpleNode child = (SimpleNode) sn.getChildren()[i];
+			SimpleNode child = (SimpleNode) children[i];
 			
 			switch(child.getOriginalId())
 			{
@@ -1166,7 +1166,6 @@ public class SemanticAnalysis
 				break;
 			}
 		}
-		
 		return current;
 	}
 }

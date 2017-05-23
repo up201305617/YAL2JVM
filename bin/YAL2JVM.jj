@@ -535,7 +535,7 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants/*@egen*/{/
   jjtree.openNodeScope(jjtn000);
 /*@egen*/}{/*@bgen(jjtree) WhileBody */
         try {
-/*@egen*/	Stmtlst()/*@bgen(jjtree)*/
+/*@egen*/	(Stmt())*/*@bgen(jjtree)*/
         } catch (Throwable jjte000) {
           if (jjtc000) {
             jjtree.clearNodeScope(jjtn000);
