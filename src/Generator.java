@@ -487,8 +487,8 @@ public class Generator
 		
 		if(ast.call.other_module)
 		{
-			this.write.print("invokestatic " + Utils.splitByDotModule(ast.call.functionName)+ "/"+
-					Utils.splitByDotFunction(ast.call.functionName));
+			this.write.print("invokestatic " + Utils.splitByDot(ast.call.functionName,false)+ "/"+
+					Utils.splitByDot(ast.call.functionName,true));
 		}
 		else
 		{
@@ -617,7 +617,7 @@ public class Generator
 			
 			if(ast.right_side_1.other_module)
 			{
-				invocation = buildFunctionInvocationOtherModule(f, Utils.splitByDotFunction(ast.right_side_1.id), ast.right_side_1.args_id);
+				invocation = buildFunctionInvocationOtherModule(f, Utils.splitByDot(ast.right_side_1.id,true), ast.right_side_1.args_id);
 			}
 			else
 			{
@@ -653,7 +653,7 @@ public class Generator
 			
 			if(ast.right_side_1.other_module)
 			{
-				this.write.println("invokestatic "+Utils.splitByDotModule(ast.right_side_1.id)+"/"+invocation);
+				this.write.println("invokestatic "+Utils.splitByDot(ast.right_side_1.id,false)+"/"+invocation);
 			}
 			else
 			{
@@ -722,7 +722,7 @@ public class Generator
 				
 				if(ast.right_side_2.other_module)
 				{
-					invocation = buildFunctionInvocationOtherModule(f, Utils.splitByDotFunction(ast.right_side_2.id), ast.right_side_2.args_id);
+					invocation = buildFunctionInvocationOtherModule(f, Utils.splitByDot(ast.right_side_2.id,true), ast.right_side_2.args_id);
 				}
 				else
 				{
@@ -758,7 +758,7 @@ public class Generator
 				
 				if(ast.right_side_2.other_module)
 				{
-					this.write.println("invokestatic "+Utils.splitByDotModule(ast.right_side_2.id)+"/"+invocation);
+					this.write.println("invokestatic "+Utils.splitByDot(ast.right_side_2.id,false)+"/"+invocation);
 				}
 				else
 				{
@@ -859,7 +859,7 @@ public class Generator
 				
 				if(ast.right_side_2.other_module)
 				{
-					invocation = buildFunctionInvocationOtherModule(f, Utils.splitByDotFunction(ast.right_side_2.id), ast.right_side_2.args_id);
+					invocation = buildFunctionInvocationOtherModule(f, Utils.splitByDot(ast.right_side_2.id,true), ast.right_side_2.args_id);
 				}
 				else
 				{
@@ -895,7 +895,7 @@ public class Generator
 				
 				if(ast.right_side_2.other_module)
 				{
-					this.write.println("invokestatic "+Utils.splitByDotModule(ast.right_side_2.id)+"/"+invocation);
+					this.write.println("invokestatic "+Utils.splitByDot(ast.right_side_2.id,false)+"/"+invocation);
 				}
 				else
 				{

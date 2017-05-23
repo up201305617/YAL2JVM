@@ -100,32 +100,29 @@ public class Utils
 		return name;
 	}
 	
-	public static String splitByDotModule(String string)
+	public static String splitByDot(String string, boolean isFunction)
 	{
-		String module = null;
-		
+		String temp = null;
+
 		for (int i = string.length()-1; i >= 0; i--) 
 		{
-			if(string.charAt(i) == '.')
+			if(isFunction)
 			{
-				module = string.substring(0, i);
+				if(string.charAt(i) == '.')
+				{
+					temp = string.substring(i+1, string.length());
+				}
 			}
-		}
-		return module;
-	}
-	
-	public static String splitByDotFunction(String string)
-	{
-		String function = null;
-		
-		for (int i = string.length()-1; i >= 0; i--) 
-		{
-			if(string.charAt(i) == '.')
+			else
 			{
-				function = string.substring(i+1, string.length());
+				if(string.charAt(i) == '.')
+				{
+					temp = string.substring(0, i);
+				}
 			}
+			
 		}
-		return function;
+		return temp;
 	}
 	
 	public static void createLogFile(String moduleName) throws FileNotFoundException, UnsupportedEncodingException
