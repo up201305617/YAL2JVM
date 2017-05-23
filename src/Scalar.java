@@ -2,7 +2,6 @@ public class Scalar extends Variable
 {
 	private int value;
 	private String type;
-	private boolean assign;
 	
 	//Sem atribuição do valor (a)
 	public Scalar(String id)
