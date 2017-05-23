@@ -947,9 +947,7 @@ public class Generator
 		this.write.println("loop"+f.getLoops()+":");
 		generateCondition(f,ast);
 		
-		System.out.println(ast.condSign);
-		
-		if(ast.condSign == "==")
+		if(ast.condSign.equals("=="))
 		{
 			this.write.print("if_icmpeq");
 		}
@@ -957,19 +955,19 @@ public class Generator
 		{
 			this.write.print("if_icmple");
 		}
-		else if(ast.condSign == "<=")
+		else if(ast.condSign.equals("<="))
 		{
 			this.write.print("if_icmplt");
 		}
-		else if(ast.condSign == ">")
+		else if(ast.condSign.equals(">"))
 		{
 			this.write.print("if_icmpge");
 		}
-		else if(ast.condSign == ">=")
+		else if(ast.condSign.equals(">="))
 		{
 			this.write.print("if_icmpgt");
 		}
-		else if(ast.condSign == "!=")
+		else if(ast.condSign.equals("!="))
 		{
 			this.write.print("if_icmpne");
 		}
