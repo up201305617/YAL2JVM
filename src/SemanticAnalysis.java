@@ -68,7 +68,8 @@ public class SemanticAnalysis
 		{
 			if(YAL2JVM.getModule().getGlobalVariableById(array) instanceof Scalar)
 			{
-				System.out.println("Na função "+function.getFunctionId() + " a variavel "+array+" não é um array");
+				String error_message = "Na função "+function.getFunctionId() + " a variavel "+array+" não é um array.";
+				Utils.error(error_message);
 			}
 		}
 		
@@ -76,7 +77,8 @@ public class SemanticAnalysis
 		{
 			if (function.getVariableById(array) instanceof Scalar)
 			{
-				System.out.println("Na função "+function.getFunctionId() + " a variavel "+array+" não é um array");
+				String error_message = "Na função "+function.getFunctionId() + " a variavel "+array+" não é um array.";
+				Utils.error(error_message);
 			}
 		} 
 		
@@ -84,7 +86,8 @@ public class SemanticAnalysis
 		{
 			if (function.getArgumentsById(array) instanceof Scalar)
 			{
-				System.out.println("Na função "+function.getFunctionId() + " a variavel "+array+" não é um array");
+				String error_message = "Na função "+function.getFunctionId() + " a variavel "+array+" não é um array.";
+				Utils.error(error_message);
 			}
 		}  
 		
@@ -92,12 +95,14 @@ public class SemanticAnalysis
 		{
 			if (function.getReturnValue() instanceof Scalar)
 			{
-				System.out.println("Na função "+function.getFunctionId() + " a variavel "+array+" não é um array");
+				String error_message = "Na função "+function.getFunctionId() + " a variavel "+array+" não é um array.";
+				Utils.error(error_message);
 			}
 		} 
 		else 
 		{
-			System.out.println("Na função "+function.getFunctionId() + " a variavel "+array+" ainda não foi declarada");
+			String error_message = "Na função "+function.getFunctionId() + " a variavel "+array+" ainda não foi declarada.";
+			Utils.error(error_message);
 		}
 		
 		try 
@@ -110,33 +115,38 @@ public class SemanticAnalysis
 			{
 				if (YAL2JVM.getModule().getGlobalVariableById(index)  instanceof Array)
 				{
-					System.out.println("Na função "+function.getFunctionId() +" para aceder ao array " + index + " deve usar um scalar");
+					String error_message = "Na função "+function.getFunctionId() +" para aceder ao array " + index + " deve usar um scalar.";
+					Utils.error(error_message);
 				}
 			}  
 			else if (function.isLocalVariable(index)) 
 			{
 				if (function.getVariableById(index) instanceof Array)
 				{
-					System.out.println("Na função "+function.getFunctionId() +" para aceder ao array " + index + " deve usar um scalar");
+					String error_message = "Na função "+function.getFunctionId() +" para aceder ao array " + index + " deve usar um scalar.";
+					Utils.error(error_message);
 				}
 			} 
 			else if (function.checkArguments(index)) 
 			{
 				if (function.getArgumentsById(index) instanceof Array)
 				{
-					System.out.println("Na função "+function.getFunctionId() +" para aceder ao array " + index + " deve usar um scalar");
+					String error_message = "Na função "+function.getFunctionId() +" para aceder ao array " + index + " deve usar um scalar.";
+					Utils.error(error_message);
 				}
 			}  
 			else if (function.isReturnValue(index))
 			{
 				if (function.getReturnValue() instanceof Array)
 				{
-					System.out.println("Na função "+function.getFunctionId() +" para aceder ao array " + index + " deve usar um scalar");
+					String error_message = "Na função "+function.getFunctionId() +" para aceder ao array " + index + " deve usar um scalar.";
+					Utils.error(error_message);
 				}
 			} 
 			else 
 			{
-				System.out.println("Na função "+function.getFunctionId() + " a variavel "+index+" ainda não foi declarada");
+				String error_message = "Na função "+function.getFunctionId() + " a variavel "+index+" ainda não foi declarada.";
+				Utils.error(error_message);
 			}
 		}
 	}

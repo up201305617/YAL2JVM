@@ -918,6 +918,7 @@ public class Generator
 		
 		left_side_var_index = f.getAllVariables().get(ast.left_side.id);
 		System.out.println(left_side_var_index);
+		
 		if(ast.left_side.access.equals(Constants.SCALAR_ACCESS))
 		{
 			System.out.println(ast.left_side.id);
