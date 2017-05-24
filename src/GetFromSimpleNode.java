@@ -69,6 +69,7 @@ public class GetFromSimpleNode
 				ArrayList<Variable> arguments = new ArrayList<>();
 				Variable returnValue = null;
 				int numChildrenNode = node.jjtGetNumChildren();
+				
 				for (int j = 0; j < numChildrenNode; j++)
 				{
 					SimpleNode n = (SimpleNode)node.jjtGetChild(j);
@@ -82,6 +83,7 @@ public class GetFromSimpleNode
 						arguments = getArguments(n,node.ID, returnValue);
 					}
 				}
+				
 				String name = node.ID;
 				Function f = new Function(name,returnValue,arguments,(SimpleNode)node.jjtGetChild(node.jjtGetNumChildren()-1));
 				m.addFunction(f);

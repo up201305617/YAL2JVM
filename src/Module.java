@@ -48,6 +48,7 @@ public class Module
 	public boolean addFunction(Function function)
 	{
 		String declaration = function.getFunctionDeclaration();
+		
 		if (!functions.containsKey(declaration))
 		{
 			functions.put(declaration,function);

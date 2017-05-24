@@ -568,25 +568,21 @@ public class SemanticAnalysis
 					{
 						if (YAL2JVM.getModule().getFunctionByID(declaration).getReturnValue() instanceof Array)
 						{
-							YAL2JVM.errorFound();
-							YAL2JVM.incErrors();
-							System.out.println("A função "+declaration+" retorna um array.");
-							
+							String error_message = "A função "+declaration+" retorna um array.";
+							Utils.error(error_message);	
 						}
 					} 
 					else
 					{
-						YAL2JVM.errorFound();
-						YAL2JVM.incErrors();
-						System.out.println("A função "+declaration+" não retorna nenhuma variável.");
+						String error_message = "A função "+declaration+" não retorna nenhuma variável.";
+						Utils.error(error_message);
 					}
 				}
 			} 
 			else
 			{
-				YAL2JVM.errorFound();
-				YAL2JVM.incErrors();
-				System.out.println("A função "+declaration+" não foi declarada.");
+				String error_message = "A função "+declaration+" não existe.";
+				Utils.error(error_message);
 			}
 		}
 		
