@@ -1155,31 +1155,12 @@ public class SemanticAnalysis
 					else_node_body = (SimpleNode) child.jjtGetChild(2);
 					last_else = analyseFunctionBuildAST(function,if_cond,else_node_body.getChildren());
 				
-					if(last_if != if_cond && if_cond == last_else)
-					{
-						end_if.parents.add(last_if);
-						last_if.children.add(end_if);
-						end_if.parents.add(if_cond);
-						if_cond.children.add(end_if);
-					}
-					else if(if_cond != last_else && last_if == if_cond)
-					{
-						end_if.parents.add(last_else);
-						last_else.children.add(end_if);
-						end_if.parents.add(if_cond);
-						if_cond.children.add(end_if);
-					}
-					else if(if_cond != last_else && last_if != if_cond)
+					if(if_cond != last_else && last_if != if_cond)
 					{
 						end_if.parents.add(last_if);
 						last_if.children.add(end_if);
 						end_if.parents.add(last_else);
 						last_else.children.add(end_if);
-					}
-					else
-					{
-						end_if.parents.add(if_cond);
-						if_cond.children.add(end_if);
 					}
 				}
 				else
