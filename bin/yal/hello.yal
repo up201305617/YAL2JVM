@@ -3,6 +3,10 @@ module hello
 	function a=f(b,c)
 	{
 		a = b*c;
+		if(b<c)
+		{
+			a=5;
+		}
 	}
 	
 	function main() 

@@ -11,8 +11,7 @@ public class AST
 	public Side right_side_2;
 	public Call call;
 	
-	public String compOperator;
-	public String condSign;
+	public String conditional_op;
 	public String operation;
 	public boolean isOperation;
 	

@@ -917,11 +917,9 @@ public class Generator
 		}
 		
 		left_side_var_index = f.getAllVariables().get(ast.left_side.id);
-		System.out.println(left_side_var_index);
 		
 		if(ast.left_side.access.equals(Constants.SCALAR_ACCESS))
 		{
-			System.out.println(ast.left_side.id);
 			loadScalarFromStack(ast.left_side.id, left_side_var_index, f.getScopes(ast.left_side.id));
 		}
 		else if(ast.left_side.access.equals(Constants.ARRAY_ACCESS))
@@ -948,27 +946,27 @@ public class Generator
 		this.write.println("loop"+f.getLoops()+":");
 		generateCondition(f,ast);
 		
-		if(ast.condSign.equals("=="))
+		if(ast.conditional_op.equals("=="))
 		{
 			this.write.print("if_icmpeq");
 		}
-		else if(ast.condSign.equals("<"))
+		else if(ast.conditional_op.equals("<"))
 		{
 			this.write.print("if_icmple");
 		}
-		else if(ast.condSign.equals("<="))
+		else if(ast.conditional_op.equals("<="))
 		{
 			this.write.print("if_icmplt");
 		}
-		else if(ast.condSign.equals(">"))
+		else if(ast.conditional_op.equals(">"))
 		{
 			this.write.print("if_icmpge");
 		}
-		else if(ast.condSign.equals(">="))
+		else if(ast.conditional_op.equals(">="))
 		{
 			this.write.print("if_icmpgt");
 		}
-		else if(ast.condSign.equals("!="))
+		else if(ast.conditional_op.equals("!="))
 		{
 			this.write.print("if_icmpne");
 		}

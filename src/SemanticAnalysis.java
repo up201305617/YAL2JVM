@@ -151,7 +151,7 @@ public class SemanticAnalysis
 		}
 	}
 	
-	public void analyseScalarAccess(String scalarAccess, Function parentFunction) 
+	public void analyseScalarAccess(String scalarAccess, Function function) 
 	{
 		String scalar;
 
@@ -163,33 +163,38 @@ public class SemanticAnalysis
 			{
 				if (YAL2JVM.getModule().getGlobalVariableById(scalar) instanceof Scalar)
 				{
-					System.out.println("Na função "+parentFunction.getFunctionId()+" a variável "+scalar+" não é um array e não possui o atributo tamanho");
+					String error_message = "Na função "+function.getFunctionId()+" a variável "+scalar+" não é um array e não possui o atributo tamanho.";
+					Utils.error(error_message);
 				}
 			}  
-			else if (parentFunction.isLocalVariable(scalar)) 
+			else if (function.isLocalVariable(scalar)) 
 			{
-				if (parentFunction.getVariableById(scalar) instanceof Scalar)
+				if (function.getVariableById(scalar) instanceof Scalar)
 				{
-					System.out.println("Na função "+parentFunction.getFunctionId()+" a variável "+scalar+" não é um array e não possui o atributo tamanho");
+					String error_message = "Na função "+function.getFunctionId()+" a variável "+scalar+" não é um array e não possui o atributo tamanho.";
+					Utils.error(error_message);
 				}
 			} 
-			else if (parentFunction.checkArguments(scalar)) 
+			else if (function.checkArguments(scalar)) 
 			{
-				if (parentFunction.getArgumentsById(scalar) instanceof Scalar)
+				if (function.getArgumentsById(scalar) instanceof Scalar)
 				{
-					System.out.println("Na função "+parentFunction.getFunctionId()+" a variável "+scalar+" não é um array e não possui o atributo tamanho");
+					String error_message = "Na função "+function.getFunctionId()+" a variável "+scalar+" não é um array e não possui o atributo tamanho.";
+					Utils.error(error_message);
 				}
 			} 
-			else if (parentFunction.isReturnValue(scalar))
+			else if (function.isReturnValue(scalar))
 			{
-				if (parentFunction.getReturnValue() instanceof Scalar)
+				if (function.getReturnValue() instanceof Scalar)
 				{
-					System.out.println("Na função "+parentFunction.getFunctionId()+" a variável "+scalar+" não é um array e não possui o atributo tamanho");
+					String error_message = "Na função "+function.getFunctionId()+" a variável "+scalar+" não é um array e não possui o atributo tamanho.";
+					Utils.error(error_message);
 				}
 			} 
 			else 
 			{
-				System.out.println("Na função "+parentFunction.getFunctionId() + " a variavel "+scalar+" ainda não foi declarada");
+				String error_message = "Na função "+function.getFunctionId() + " a variavel "+scalar+" ainda não foi declarada.";
+				Utils.error(error_message);
 			}
 		} 
 		else
@@ -198,38 +203,43 @@ public class SemanticAnalysis
 			{
 				if (YAL2JVM.getModule().getGlobalVariableById(scalarAccess) instanceof Array)
 				{
-					System.out.println("Na função "+parentFunction.getFunctionId()+" é necessário um index para aceder à variavél "+scalarAccess);
+					String error_message = "Na função "+function.getFunctionId()+" é necessário um index para aceder à variavél "+scalarAccess+".";
+					Utils.error(error_message);
 				}
 			} 
-			else if (parentFunction.isLocalVariable(scalarAccess)) 
+			else if (function.isLocalVariable(scalarAccess)) 
 			{
-				if (parentFunction.getVariableById(scalarAccess) instanceof Array)
+				if (function.getVariableById(scalarAccess) instanceof Array)
 				{
-					System.out.println("Na função "+parentFunction.getFunctionId()+" é necessário um index para aceder à variavél "+scalarAccess);
+					String error_message = "Na função "+function.getFunctionId()+" é necessário um index para aceder à variavél "+scalarAccess+".";
+					Utils.error(error_message);
 				}
 			} 
-			else if (parentFunction.checkArguments(scalarAccess))
+			else if (function.checkArguments(scalarAccess))
 			{
-				if (parentFunction.getArgumentsById(scalarAccess) instanceof Array)
+				if (function.getArgumentsById(scalarAccess) instanceof Array)
 				{
-					System.out.println("Na função "+parentFunction.getFunctionId()+" é necessário um index para aceder à variavél "+scalarAccess);
+					String error_message = "Na função "+function.getFunctionId()+" é necessário um index para aceder à variavél "+scalarAccess+".";
+					Utils.error(error_message);
 				}
 			} 
-			else if (parentFunction.isReturnValue(scalarAccess))
+			else if (function.isReturnValue(scalarAccess))
 			{
-				if (parentFunction.getReturnValue() instanceof Array)
+				if (function.getReturnValue() instanceof Array)
 				{
-					System.out.println("Na função "+parentFunction.getFunctionId()+" é necessário um index para aceder à variavél "+scalarAccess);
+					String error_message = "Na função "+function.getFunctionId()+" é necessário um index para aceder à variavél "+scalarAccess+".";
+					Utils.error(error_message);
 				}
 			}
 			else 
 			{
-				System.out.println("Na função "+parentFunction.getFunctionId() + " a variavel "+scalarAccess+" ainda não foi declarada");
+				String error_message = "Na função "+function.getFunctionId() + " a variavel "+scalarAccess+" ainda não foi declarada.";
+				Utils.error(error_message);
 			}
 		}
 	}
 	
-	public String analyseFunctionCall(Node[] args, Function parentFunction, String name)
+	public String analyseFunctionCall(Node[] args, Function function, String name)
 	{	
 		String temp = "";
 		temp += name;
@@ -257,59 +267,58 @@ public class SemanticAnalysis
 					if (YAL2JVM.getModule().getGlobalVariableById(var) instanceof Scalar) 
 					{
 						temp += " scalar";
-						analyseScalarAccess(var, parentFunction);
+						analyseScalarAccess(var, function);
 					} 
 					else 
 					{
 						temp += " array";
-						analyseArrayAccess(var, "0", parentFunction);
+						analyseArrayAccess(var, "0", function);
 					}
 				}  
-				else if (parentFunction.isLocalVariable(var)) 
+				else if (function.isLocalVariable(var)) 
 				{
-					if (parentFunction.getVariableById(var) instanceof Scalar)
+					if (function.getVariableById(var) instanceof Scalar)
 					{
 						temp += " scalar";
-						analyseScalarAccess(var, parentFunction);
+						analyseScalarAccess(var, function);
 					} 
 					else 
 					{
 						temp += " array";
-						analyseArrayAccess(var, "0", parentFunction);
+						analyseArrayAccess(var, "0", function);
 					}
 				}  
-				else if (parentFunction.checkArguments(var)) 
+				else if (function.checkArguments(var)) 
 				{
-					if (parentFunction.getArgumentsById(var) instanceof Scalar) 
+					if (function.getArgumentsById(var) instanceof Scalar) 
 					{
 						temp += " scalar";
-						analyseScalarAccess(var, parentFunction);
+						analyseScalarAccess(var, function);
 					} 
 					else 
 					{
 						temp += " array";
-						analyseArrayAccess(var, "0", parentFunction);
+						analyseArrayAccess(var, "0", function);
 					}
 				} 
-				else if (parentFunction.isReturnValue(var)) 
+				else if (function.isReturnValue(var)) 
 				{
-					if (parentFunction.getReturnValue() instanceof Scalar) 
+					if (function.getReturnValue() instanceof Scalar) 
 					{
 						temp += " scalar";
-						analyseScalarAccess(var, parentFunction);
+						analyseScalarAccess(var, function);
 					} 
 					else 
 					{
 						temp += " array";
-						analyseArrayAccess(var, "0", parentFunction);
+						analyseArrayAccess(var, "0", function);
 					}
 				} 
 				else 
 				{
 					temp += " " + var;
-					YAL2JVM.errorFound();
-					YAL2JVM.incErrors();
-					System.out.println("Na função "+parentFunction.getFunctionDeclaration()+"a variável "+var+" ainda não foi declarada.");
+					String error_message = "Na função "+function.getFunctionDeclaration()+"a variável "+var+" ainda não foi declarada.";
+					Utils.error(error_message);
 				}
 			}
 		}
@@ -421,7 +430,6 @@ public class SemanticAnalysis
 		else if (right_side.jjtGetNumChildren() == 2) 
 		{
 			conditionNode.isOperation = true;
-			conditionNode.compOperator = right_side.ID;
 			
 			SimpleNode left_term = (SimpleNode)right_side.jjtGetChild(0);
 			SimpleNode right_term = (SimpleNode)right_side.jjtGetChild(1);
@@ -1120,11 +1128,74 @@ public class SemanticAnalysis
 			switch(child.getOriginalId())
 			{
 			case YAL2JVMTreeConstants.JJTIF:
+				
 				SimpleNode if_node = (SimpleNode) child.jjtGetChild(0);
 				SimpleNode if_left_side = (SimpleNode) if_node.jjtGetChild(0);
 				SimpleNode if_right_side = (SimpleNode) if_node.jjtGetChild(1);
+				SimpleNode if_node_body;
+				SimpleNode else_node_body;
 				
-				AST if_cond = analyseCondition(if_left_side, if_right_side, function,"if");
+				AST if_cond;
+				AST last_if;
+				AST end_if;
+				AST last_else;
+				
+				if_cond = analyseCondition(if_left_side, if_right_side, function,"if");
+				if_cond.conditional_op = if_node.ID;
+				
+				current.children.add(if_cond);
+				if_cond.parents.add(current);
+				
+				if_node_body = (SimpleNode) child.jjtGetChild(1);
+				last_if = analyseFunctionBuildAST(function,if_cond,if_node_body.getChildren());
+				end_if = new AST("endif",function);
+				
+				if (child.jjtGetNumChildren() == 3) 
+				{
+					else_node_body = (SimpleNode) child.jjtGetChild(2);
+					last_else = analyseFunctionBuildAST(function,if_cond,else_node_body.getChildren());
+				
+					if(last_if != if_cond && if_cond == last_else)
+					{
+						end_if.parents.add(last_if);
+						last_if.children.add(end_if);
+						end_if.parents.add(if_cond);
+						if_cond.children.add(end_if);
+					}
+					else if(if_cond != last_else && last_if == if_cond)
+					{
+						end_if.parents.add(last_else);
+						last_else.children.add(end_if);
+						end_if.parents.add(if_cond);
+						if_cond.children.add(end_if);
+					}
+					else if(if_cond != last_else && last_if != if_cond)
+					{
+						end_if.parents.add(last_if);
+						last_if.children.add(end_if);
+						end_if.parents.add(last_else);
+						last_else.children.add(end_if);
+					}
+					else
+					{
+						end_if.parents.add(if_cond);
+						if_cond.children.add(end_if);
+					}
+				}
+				else
+				{
+					if(last_if != if_cond)
+					{
+						end_if.parents.add(last_if);
+						last_if.children.add(end_if);
+					}
+					
+					end_if.parents.add(if_cond);
+					if_cond.children.add(end_if);
+				}
+				
+				current = end_if;
+				
 				break;
 			
 			case YAL2JVMTreeConstants.JJTWHILE:
@@ -1135,7 +1206,7 @@ public class SemanticAnalysis
 				
 				AST while_ast = analyseCondition(while_left_side, while_right_side, function,Constants.WHILE);
 				
-				while_ast.condSign = while_node.ID;
+				while_ast.conditional_op = while_node.ID;
 				current.children.add(while_ast);
 				while_ast.parents.add(current);
 				current = while_ast;
@@ -1173,6 +1244,8 @@ public class SemanticAnalysis
 				break;
 			}
 		}
+		
 		return current;
+		
 	}
 }
