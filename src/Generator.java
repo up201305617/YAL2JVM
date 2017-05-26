@@ -703,7 +703,7 @@ public class Generator
 		int righ_side_1_var_index = -1;
 		int righ_side_2_var_index = -1;
 		int left_side_var_index = -1;
-		
+
 		//RIGHT_SIDE_1
 		
 		generateRightSide1(ast,f,righ_side_1_var_index,true);
@@ -812,7 +812,24 @@ public class Generator
 			}
 			else
 			{
-				storeScalarToStack(ast.left_side.id, left_side_var_index, ast.left_side.scope);
+				if(ast.right_side_1.access.equals(Constants.CALL))
+				{
+					if(ast.right_side_1.function.getReturnValue()!=null)
+					{
+						if(ast.right_side_1.function.getReturnValue() instanceof Array)
+						{
+							storeArrayToStack(ast.left_side.id, left_side_var_index, ast.left_side.scope);
+						}
+						else
+						{
+							storeScalarToStack(ast.left_side.id, left_side_var_index, ast.left_side.scope);
+						}
+					}
+				}
+				else
+				{
+					storeScalarToStack(ast.left_side.id, left_side_var_index, ast.left_side.scope);
+				}
 			}
 		}
 		else if(ast.left_side.access.equals(Constants.ARRAY_ACCESS))

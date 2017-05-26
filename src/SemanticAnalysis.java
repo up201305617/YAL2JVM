@@ -732,11 +732,20 @@ public class SemanticAnalysis
 		else if (right_side_1.getOriginalId() == YAL2JVMTreeConstants.JJTARRAYSIZE) 
 		{
 			assignmentNode.right_side_1.access = "arraysize";
+			SimpleNode aux = (SimpleNode)right_side_1;
 			
-			if(((SimpleNode)right_side_1.children[0]).toString().equals("ScalarAccess"))
+			if(aux.children != null)
 			{
-				assignmentNode.right_side_1.id = ((SimpleNode)right_side_1.children[0]).ID; 
-				assignmentNode.right_side_1.isScalar = true;
+				if(((SimpleNode)right_side_1.children[0]).toString().equals("ScalarAccess"))
+				{
+					assignmentNode.right_side_1.id = ((SimpleNode)right_side_1.children[0]).ID; 
+					assignmentNode.right_side_1.isScalar = true;
+				}
+				else
+				{
+					assignmentNode.right_side_1.id = right_side_1.ID;
+					assignmentNode.right_side_1.isScalar = false;
+				}
 			}
 			else
 			{
@@ -868,7 +877,7 @@ public class SemanticAnalysis
 							
 							if (!index.getType().equals(Constants.SCALAR)) 
 							{
-								String error_message = "Na função "+function+" a variável usada como index da variável "+
+								String error_message = "Na função "+function.getFunctionId()+" a variável usada como index da variável "+
 										assignmentNode.left_side.id + " do lado esquerdo do assignment não é do tipo Scalar!";
 								
 								Utils.error(error_message);
@@ -886,7 +895,7 @@ public class SemanticAnalysis
 					
 					if(var.getType().equals(Constants.ARRAY))
 					{
-						String error_message = "Na função "+function+" a variável "+assignmentNode.left_side.id+
+						String error_message = "Na função "+function.getFunctionId()+" a variável "+assignmentNode.left_side.id+
 								" do lado esquerdo do assignment não é do tipo Scalar!";
 						
 						Utils.error(error_message);

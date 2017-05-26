@@ -304,4 +304,9 @@ public class Function
 			return Constants.NEW;
 		}
 	}
+
+	public HashMap<String, Variable> getVariables() 
+	{
+		return variables;
+	}
 }
