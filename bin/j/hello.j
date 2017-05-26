@@ -11,10 +11,6 @@ iload_0
 iload_1
 imul
 istore_2
-iconst_5
-istore_2
-iconst_5
-istore_2
 iload_2
 ireturn
 .end method

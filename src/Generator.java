@@ -264,44 +264,46 @@ public class Generator
 		}
 	}
 	
-	public void loadScalarFromStack(String varId, int varNum, String scope)
+	public void loadFromStack(String varId, int varNum, String scope, boolean isArray)
 	{
-		if(scope.equals(Constants.GLOBAL))
+		if(!isArray)
 		{
-			this.write.println("getstatic " + moduleName + "/" + varId + " I");
-		}
-		else
-		{
-			if(varNum <= 3)
+			if(scope.equals(Constants.GLOBAL))
 			{
-				this.write.println("iload_" + varNum);
+				this.write.println("getstatic " + moduleName + "/" + varId + " I");
 			}
 			else
 			{
-				this.write.println("iload " + varNum);
+				if(varNum <= 3)
+				{
+					this.write.println("iload_" + varNum);
+				}
+				else
+				{
+					this.write.println("iload " + varNum);
+				}
 			}
-		}
-	}
-	
-	public void loadArrayFromStack(String varId, int varNum, String scope)
-	{
-		if(scope.equals("global"))
-		{
-			this.write.println("getstatic " + moduleName + "/" + varId + " [I");
 		}
 		else
 		{
-			if(varNum <= 3)
+			if(scope.equals("global"))
 			{
-				this.write.println("aload_" + varNum);
+				this.write.println("getstatic " + moduleName + "/" + varId + " [I");
 			}
 			else
 			{
-				this.write.println("aload " + varNum);
+				if(varNum <= 3)
+				{
+					this.write.println("aload_" + varNum);
+				}
+				else
+				{
+					this.write.println("aload " + varNum);
+				}
 			}
 		}
 	}
-	
+
 	public void storeScalarToStack(String id, int varNum, String scope)
 	{
 		if(scope.equals("global"))
@@ -461,11 +463,11 @@ public class Generator
 					
 					if(var.getType().equals(Constants.SCALAR))
 					{
-						loadScalarFromStack(ast.call.args[i], varNum, scope);
+						loadFromStack(ast.call.args[i], varNum, scope,false);
 					}
 					else if(var.getType().equals(Constants.ARRAY))
 					{
-						loadArrayFromStack(ast.call.args[i], varNum, scope);
+						loadFromStack(ast.call.args[i], varNum, scope,true);
 					}
 				}
 				else
@@ -478,13 +480,13 @@ public class Generator
 						{
 							scope = f.getScopes(ast.call.args[i]);
 							varNum = f.getAllVariables().get(var.getVariableID());
-							loadScalarFromStack(ast.call.args[i], varNum, scope);
+							loadFromStack(ast.call.args[i], varNum, scope,false);
 						}
 						else if(var.getType().equals(Constants.ARRAY))
 						{
 							scope = f.getScopes(ast.call.args[i]);
 							varNum = f.getAllVariables().get(var.getVariableID());
-							loadArrayFromStack(ast.call.args[i], varNum, scope);
+							loadFromStack(ast.call.args[i], varNum, scope,true);
 						}
 					}
 					else
@@ -606,12 +608,12 @@ public class Generator
 		else if(ast.right_side_1.access.equals(Constants.SCALAR_ACCESS))
 		{ 
 			righ_side_1_var_index = f.getAllVariables().get(ast.right_side_1.id);
-			loadScalarFromStack(ast.right_side_1.id, righ_side_1_var_index, f.getScopes(ast.right_side_1.id));
+			loadFromStack(ast.right_side_1.id, righ_side_1_var_index, f.getScopes(ast.right_side_1.id),false);
 		}
 		else if(ast.right_side_1.access.equals(Constants.ARRAY_ACCESS))
 		{
 			righ_side_1_var_index = f.getAllVariables().get(ast.right_side_1.id);
-			loadArrayFromStack(ast.right_side_1.id, righ_side_1_var_index, f.getScopes(ast.right_side_1.id));
+			loadFromStack(ast.right_side_1.id, righ_side_1_var_index, f.getScopes(ast.right_side_1.id),true);
 			
 			if(ast.right_side_1.array_access_type.equals(Constants.INTEGER_ACCESS))
 			{
@@ -619,7 +621,7 @@ public class Generator
 			}
 			else if(ast.right_side_1.array_access_type.equals(Constants.SCALAR_ACCESS))
 			{
-				loadScalarFromStack(ast.right_side_1.array_index,f.getAllVariables().get(ast.right_side_1.array_index),f.getScopes(ast.right_side_1.array_index));
+				loadFromStack(ast.right_side_1.array_index,f.getAllVariables().get(ast.right_side_1.array_index),f.getScopes(ast.right_side_1.array_index),false);
 			}
 			this.write.println("iaload");
 		}
@@ -654,11 +656,11 @@ public class Generator
 					
 					if(var.getType().equals(Constants.SCALAR))
 					{
-						loadScalarFromStack(atual_var, varNum, scope);
+						loadFromStack(atual_var, varNum, scope,false);
 					}
 					else if(var.getType().equals(Constants.ARRAY))
 					{
-						loadArrayFromStack(atual_var, varNum, scope);
+						loadFromStack(atual_var, varNum, scope,true);
 					}
 				}
 			}
@@ -676,7 +678,7 @@ public class Generator
 		{ 
 			if(righ_side_1_var_index!=-1)
 			{
-				loadArrayFromStack(ast.right_side_1.id, righ_side_1_var_index,ast.right_side_1.scope);
+				loadFromStack(ast.right_side_1.id, righ_side_1_var_index,ast.right_side_1.scope,true);
 				this.write.println("arraylength");
 			}
 		}
@@ -711,12 +713,12 @@ public class Generator
 			else if(ast.right_side_2.access.equals(Constants.SCALAR_ACCESS))
 			{
 				righ_side_2_var_index = f.getAllVariables().get(ast.right_side_2.id);
-				loadScalarFromStack(ast.right_side_1.id, righ_side_2_var_index, ast.right_side_2.scope);
+				loadFromStack(ast.right_side_1.id, righ_side_2_var_index, ast.right_side_2.scope,false);
 			}
 			else if(ast.right_side_2.access.equals(Constants.ARRAY_ACCESS))
 			{
 				righ_side_2_var_index = f.getAllVariables().get(ast.right_side_2.id);
-				loadArrayFromStack(ast.right_side_2.id, righ_side_2_var_index, ast.right_side_2.scope);
+				loadFromStack(ast.right_side_2.id, righ_side_2_var_index, ast.right_side_2.scope,true);
 				
 				if(ast.right_side_2.array_access_type.equals(Constants.INTEGER_ACCESS))
 				{
@@ -724,7 +726,7 @@ public class Generator
 				}
 				else if(ast.right_side_2.array_access_type.equals(Constants.SCALAR_ACCESS))
 				{
-					loadScalarFromStack(ast.right_side_2.array_index,f.getAllVariables().get(ast.right_side_2.array_index),f.getScopes(ast.right_side_2.array_index));
+					loadFromStack(ast.right_side_2.array_index,f.getAllVariables().get(ast.right_side_2.array_index),f.getScopes(ast.right_side_2.array_index),false);
 				}
 				this.write.println("iaload");
 			}
@@ -759,11 +761,11 @@ public class Generator
 						
 						if(var.getType().equals(Constants.SCALAR))
 						{
-							loadScalarFromStack(atual_var, varNum, scope);
+							loadFromStack(atual_var, varNum, scope,false);
 						}
 						else if(var.getType().equals(Constants.ARRAY))
 						{
-							loadArrayFromStack(atual_var, varNum, scope);
+							loadFromStack(atual_var, varNum, scope,true);
 						}
 					}
 				}
@@ -781,7 +783,7 @@ public class Generator
 			{
 				if(righ_side_2_var_index!=-1)
 				{
-					loadArrayFromStack(ast.right_side_2.id, righ_side_2_var_index,ast.right_side_2.scope);
+					loadFromStack(ast.right_side_2.id, righ_side_2_var_index,ast.right_side_2.scope,true);
 					this.write.println("arraylength");
 				}
 			}
@@ -808,7 +810,7 @@ public class Generator
 		}
 		else if(ast.left_side.access.equals(Constants.ARRAY_ACCESS))
 		{
-			loadArrayFromStack(ast.left_side.id,left_side_var_index, ast.left_side.scope);
+			loadFromStack(ast.left_side.id,left_side_var_index, ast.left_side.scope,true);
 			
 			this.write.println("swap");
 			
@@ -818,7 +820,7 @@ public class Generator
 			}
 			else if(ast.left_side.array_access_type.equals(Constants.SCALAR_ACCESS))
 			{
-				loadScalarFromStack(ast.left_side.array_index, f.getAllVariables().get(ast.left_side.array_index), f.getScopes(ast.left_side.array_index));
+				loadFromStack(ast.left_side.array_index, f.getAllVariables().get(ast.left_side.array_index), f.getScopes(ast.left_side.array_index),false);
 			}
 			
 			this.write.println("swap");
@@ -848,12 +850,12 @@ public class Generator
 			else if(ast.right_side_2.access.equals(Constants.SCALAR_ACCESS))
 			{
 				righ_side_2_var_index = f.getAllVariables().get(ast.right_side_2.id);
-				loadScalarFromStack(ast.right_side_1.id, righ_side_2_var_index,f.getScopes(ast.right_side_2.id));
+				loadFromStack(ast.right_side_1.id, righ_side_2_var_index,f.getScopes(ast.right_side_2.id),false);
 			}
 			else if(ast.right_side_2.access.equals(Constants.ARRAY_ACCESS))
 			{
 				righ_side_2_var_index = f.getAllVariables().get(ast.right_side_2.id);
-				loadArrayFromStack(ast.right_side_2.id, righ_side_2_var_index, f.getScopes(ast.right_side_2.id));
+				loadFromStack(ast.right_side_2.id, righ_side_2_var_index, f.getScopes(ast.right_side_2.id),true);
 				
 				if(ast.right_side_2.array_access_type.equals(Constants.INTEGER_ACCESS))
 				{
@@ -861,7 +863,7 @@ public class Generator
 				}
 				else if(ast.right_side_2.array_access_type.equals(Constants.SCALAR_ACCESS))
 				{
-					loadScalarFromStack(ast.right_side_2.array_index,f.getAllVariables().get(ast.right_side_2.array_index),f.getScopes(ast.right_side_2.array_index));
+					loadFromStack(ast.right_side_2.array_index,f.getAllVariables().get(ast.right_side_2.array_index),f.getScopes(ast.right_side_2.array_index),false);
 				}
 				this.write.println("iaload");
 			}
@@ -896,11 +898,11 @@ public class Generator
 						
 						if(var.getType().equals(Constants.SCALAR))
 						{
-							loadScalarFromStack(atual_var, varNum, scope);
+							loadFromStack(atual_var, varNum, scope,false);
 						}
 						else if(var.getType().equals(Constants.ARRAY))
 						{
-							loadArrayFromStack(atual_var, varNum, scope);
+							loadFromStack(atual_var, varNum, scope,true);
 						}
 					}
 				}
@@ -918,7 +920,7 @@ public class Generator
 			{
 				if(righ_side_2_var_index!=-1)
 				{
-					loadArrayFromStack(ast.right_side_2.id, righ_side_2_var_index,f.getScopes(ast.right_side_2.id));
+					loadFromStack(ast.right_side_2.id, righ_side_2_var_index,f.getScopes(ast.right_side_2.id),true);
 					this.write.println("arraylength");
 				}
 			}
@@ -932,11 +934,11 @@ public class Generator
 		
 		if(ast.left_side.access.equals(Constants.SCALAR_ACCESS))
 		{
-			loadScalarFromStack(ast.left_side.id, left_side_var_index, f.getScopes(ast.left_side.id));
+			loadFromStack(ast.left_side.id, left_side_var_index, f.getScopes(ast.left_side.id),false);
 		}
 		else if(ast.left_side.access.equals(Constants.ARRAY_ACCESS))
 		{
-			loadArrayFromStack(ast.left_side.id,left_side_var_index, f.getScopes(ast.left_side.id));
+			loadFromStack(ast.left_side.id,left_side_var_index, f.getScopes(ast.left_side.id),true);
 			
 			if(ast.left_side.array_access_type.equals(Constants.INTEGER_ACCESS))
 			{
@@ -944,7 +946,7 @@ public class Generator
 			}
 			else if(ast.left_side.array_access_type.equals(Constants.SCALAR_ACCESS))
 			{
-				loadScalarFromStack(ast.left_side.array_index, f.getAllVariables().get(ast.left_side.array_index), f.getScopes(ast.left_side.array_index));
+				loadFromStack(ast.left_side.array_index, f.getAllVariables().get(ast.left_side.array_index), f.getScopes(ast.left_side.array_index),false);
 			}
 			
 			this.write.println("iaload");

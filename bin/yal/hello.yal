@@ -5,14 +5,6 @@ module hello
 	function a=f(b,c)
 	{
 		a = b*c;
-		if(a<0)
-		{
-			a=5;
-		}
-		else
-		{
-			a=5;
-		}
 	}
 	
 	function main() 
