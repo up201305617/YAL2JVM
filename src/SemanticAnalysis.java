@@ -414,8 +414,21 @@ public class SemanticAnalysis
 					} 
 					if (term.getOriginalId() == YAL2JVMTreeConstants.JJTSCALARACCESS) 
 					{
-						conditionNode.right_side_1.id = term.ID;
-						conditionNode.right_side_1.access = "scalar";
+						if(Utils.isArrayOrFunctionAccess(term.ID))
+						{
+							conditionNode.right_side_1.access = Constants.SIZE_ACCESS;
+							conditionNode.right_side_1.id = term.ID.split("\\.")[0];
+							System.out.println("size");
+						}
+						else
+						{
+							conditionNode.right_side_1.access = "scalar";
+							conditionNode.right_side_1.id = term.ID;
+							System.out.println(term.ID);
+						}
+						
+						//conditionNode.right_side_1.id = term.ID;
+						//conditionNode.right_side_1.access = "scalar";
 						
 						analyseScalarAccess(term.ID, function);
 					}
@@ -653,7 +666,7 @@ public class SemanticAnalysis
 			if(Utils.isArrayOrFunctionAccess((left_side.ID)))
 			{
 				assignmentNode.left_side.access = "size";
-				assignmentNode.left_side.id = left_side.ID.split(".")[0];
+				assignmentNode.left_side.id = left_side.ID.split("\\.")[0];
 			}
 			else
 			{
@@ -711,7 +724,7 @@ public class SemanticAnalysis
 					if(Utils.isArrayOrFunctionAccess(term.ID))
 					{
 						assignmentNode.right_side_1.access = "size";
-						assignmentNode.right_side_1.id = term.ID.split(".")[0];
+						assignmentNode.right_side_1.id = term.ID.split("\\.")[0];
 					}
 					else
 					{
@@ -792,7 +805,7 @@ public class SemanticAnalysis
 						if(Utils.isArrayOrFunctionAccess(term.ID))
 						{
 							assignmentNode.right_side_2.access = "size";
-							assignmentNode.right_side_2.id = term.ID.split(".")[0];
+							assignmentNode.right_side_2.id = term.ID.split("\\.")[0];
 						}
 						else
 						{

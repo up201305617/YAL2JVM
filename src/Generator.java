@@ -677,9 +677,12 @@ public class Generator
 		}
 		else if(ast.right_side_1.access.equals(Constants.SIZE_ACCESS))
 		{ 
+			System.out.println(ast.right_side_1.id);
+			righ_side_1_var_index = f.getAllVariables().get(ast.right_side_1.id);
+			System.out.println(righ_side_1_var_index);
 			if(righ_side_1_var_index!=-1)
 			{
-				loadFromStack(ast.right_side_1.id, righ_side_1_var_index,ast.right_side_1.scope,true);
+				loadFromStack(ast.right_side_1.id, righ_side_1_var_index,f.getScopes(ast.right_side_1.id),true);
 				this.write.println("arraylength");
 			}
 		}

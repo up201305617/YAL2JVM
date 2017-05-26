@@ -6,8 +6,6 @@
 .limit locals 3
 .limit stack 5
 
-iconst_0
-istore_2
 loop1:
 iload_1
 iload_0
@@ -29,8 +27,8 @@ ireturn
 .method public static main([Ljava/lang/String;)V
 .limit locals 2
 .limit stack 5
-iconst_4
 iconst_5
+ldc 6
 invokestatic aval4/f(II)I
 istore_0
 iload_0

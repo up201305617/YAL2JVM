@@ -1,20 +1,19 @@
+
 module aval4
 {
-	function c = f(a, b) 
-	{
-		c=0;
-		
-		while(a < b) 
-		{
+
+function c = f(a, b) {
+    while(a < b) {
 			c = io.read();
 			a = io.read();
 			a = a+c;
-		}
     }
-	
-	function main()
-	{
-		c=f(4,5);
-		io.println(c);
-	}
+}
+
+function main()
+{
+ c=f(5,6);
+ io.println(c); // result=?
+}
+
 }
