@@ -7,7 +7,7 @@ import java.io.UnsupportedEncodingException;
 public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMConstants {/*@bgen(jjtree)*/
   protected static JJTYAL2JVMState jjtree = new JJTYAL2JVMState();private static Module module;
    private static int numErrors = 0;
-   private static boolean hasErrors = true;
+   private static boolean hasErrors = false;
    private static Generator generator;
 
    public static void main(String args [])
@@ -61,7 +61,7 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
         module.analyseFunctions();
         System.out.println("============================");
         //module.printAllModule();
-        if(hasErrors)
+        if(!hasErrors)
         {
           System.out.println("A Iniciar o Gerador JVM: ");
           generator = new Generator(module,root.ID);

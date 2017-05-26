@@ -688,7 +688,14 @@ public class Generator
 			{
 				if(ast.right_side_1.isScalar)
 				{
-					loadFromStack(ast.right_side_1.id, f.getAllVariables().get(ast.right_side_1.id),ast.right_side_1.scope,false);
+					if(Utils.isArrayOrFunctionAccess(ast.right_side_1.id))
+					{
+						loadFromStack(ast.right_side_1.id.split("\\.")[0], f.getAllVariables().get(ast.right_side_1.id.split("\\.")[0]),ast.right_side_1.scope,false);
+					}
+					else
+					{
+						loadFromStack(ast.right_side_1.id, f.getAllVariables().get(ast.right_side_1.id),ast.right_side_1.scope,false);
+					}
 				}
 				else
 				{

@@ -897,7 +897,6 @@ public class SemanticAnalysis
 					{
 						String error_message = "Na função "+function.getFunctionId()+" a variável "+assignmentNode.left_side.id+
 								" do lado esquerdo do assignment não é do tipo Scalar!";
-						
 						Utils.error(error_message);
 					}
 				}
