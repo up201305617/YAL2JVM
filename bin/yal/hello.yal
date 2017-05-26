@@ -1,10 +1,16 @@
 module hello
 {	
-	data=[100];
-	
 	function a=f(b,c)
 	{
-		a = b*c;
+		a=0;
+		if(a<6)
+		{
+			a=5;
+		}
+		else
+		{
+			io.println("aqui");
+		}
 	}
 	
 	function main() 

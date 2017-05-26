@@ -998,12 +998,106 @@ public class Generator
 		}
 	}
 	
+	public void generateIf(AST ast, Function f)
+	{
+		f.incLoops();
+		generateCondition(f,ast);
+		
+		if(ast.children.size() == 2)
+		{
+			if(!ast.children.get(0).type.equals("endif") && !ast.children.get(1).type.equals("endif"))
+			{
+				//Switch Signal
+				
+				if(ast.conditional_op.equals("=="))
+				{
+					this.write.print("if_icmpne");
+				}
+				else if(ast.conditional_op.equals("<"))
+				{
+					this.write.print("if_icmpgt");
+				}
+				else if(ast.conditional_op.equals("<="))
+				{
+					this.write.print("if_icmpge");
+				}
+				else if(ast.conditional_op.equals(">"))
+				{
+					this.write.print("if_icmplt");
+				}
+				else if(ast.conditional_op.equals(">="))
+				{
+					this.write.print("if_icmple");
+				}
+				else if(ast.conditional_op.equals("!="))
+				{
+					this.write.print("if_icmpeq");
+				}
+				
+				this.write.print(" loop"+f.getLoops()+"_end\n");
+				
+				generateBody(f,ast.children.get(0));
+				
+				this.write.println("goto loop"+f.getLoops()+"_next");
+				this.write.println("loop"+f.getLoops()+"_end:");
+				
+				generateBody(f,ast.children.get(1));
+				
+				this.write.println("loop"+f.getLoops()+"_next:");
+			}
+			else
+			{
+				if(ast.children.get(1).type.equals("endif"))
+				{
+					//Switch Signal
+					
+					if(ast.conditional_op.equals("=="))
+					{
+						this.write.print("if_icmpne");
+					}
+					else if(ast.conditional_op.equals("<"))
+					{
+						this.write.print("if_icmpgt");
+					}
+					else if(ast.conditional_op.equals("<="))
+					{
+						this.write.print("if_icmpge");
+					}
+					else if(ast.conditional_op.equals(">"))
+					{
+						this.write.print("if_icmplt");
+					}
+					else if(ast.conditional_op.equals(">="))
+					{
+						this.write.print("if_icmple");
+					}
+					else if(ast.conditional_op.equals("!="))
+					{
+						this.write.print("if_icmpeq");
+					}
+					
+					this.write.print(" loop"+f.getLoops()+"_end\n");
+					
+					generateBody(f,ast.children.get(0));
+					
+					this.write.println("loop"+f.getLoops()+"_end:");
+					
+					generateBody(f,ast.children.get(1));
+				}
+			}
+		}
+	
+	}
+	
 	public void generateBody(Function f, AST ast)
 	{
 		switch(ast.type)
 		{
 		case "while":
 			generateWhile(ast,f);
+			break;
+		case "if":
+			generateIf(ast,f);
 			break;
 		case "call":
 			generateCall(f,ast);

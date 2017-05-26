@@ -1,16 +1,23 @@
 .class public hello
 .super java/lang/Object
 
-.field static data [I
 
 .method public static f(II)I
 .limit locals 3
 .limit stack 2
 
-iload_0
-iload_1
-imul
+iconst_0
 istore_2
+ldc 6
+iload_2
+if_icmpgt loop1_end
+iconst_5
+istore_2
+goto loop1_next
+loop1_end:
+ldc "aqui"
+invokestatic io/println(Ljava/lang/String;)V
+loop1_next:
 iload_2
 ireturn
 .end method
@@ -41,10 +48,7 @@ return
 .end method
 
 .method static public <clinit>()V 
-.limit stack 2
-.limit locals 1
-bipush 100
-newarray int
-putstatic hello/data [I
+.limit stack 0
+.limit locals 0
 return
 .end method
