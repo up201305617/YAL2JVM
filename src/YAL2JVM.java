@@ -60,7 +60,7 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
         System.out.println("============================");
         module.analyseFunctions();
         System.out.println("============================");
-        //module.printAllModule();
+
         if(!hasErrors)
         {
           System.out.println("A Iniciar o Gerador JVM: ");
