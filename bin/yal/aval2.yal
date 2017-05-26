@@ -5,6 +5,10 @@ function c=f(a, b) {
 	if(a == b) {
 		 c = 2;
     }
+	else
+	{
+		c=0;
+	}
 }
 
 function main()

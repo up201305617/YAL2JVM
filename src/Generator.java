@@ -205,11 +205,9 @@ public class Generator
 	public int countArrayFields()
 	{
 		int count = 0;
-		System.out.println(this.module.getGlobalVariables().size());
 		for(Map.Entry<String, Variable> entry : this.module.getGlobalVariables().entrySet())
 		{
 			Array array = (Array)entry.getValue();
-			System.out.println(array.getSize());
 			if(entry.getValue().getType().equals(Constants.ARRAY))
 			{
 				count++;
@@ -444,7 +442,6 @@ public class Generator
 	{
 		for (int i = 0; i < ast.call.args.length; i++) 
 		{
-			System.out.println(ast.call.functionName);
 			try
 			{
 				Integer.parseInt(ast.call.args[i]);
@@ -677,9 +674,8 @@ public class Generator
 		}
 		else if(ast.right_side_1.access.equals(Constants.SIZE_ACCESS))
 		{ 
-			System.out.println(ast.right_side_1.id);
 			righ_side_1_var_index = f.getAllVariables().get(ast.right_side_1.id);
-			System.out.println(righ_side_1_var_index);
+			
 			if(righ_side_1_var_index!=-1)
 			{
 				loadFromStack(ast.right_side_1.id, righ_side_1_var_index,f.getScopes(ast.right_side_1.id),true);

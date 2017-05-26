@@ -418,17 +418,12 @@ public class SemanticAnalysis
 						{
 							conditionNode.right_side_1.access = Constants.SIZE_ACCESS;
 							conditionNode.right_side_1.id = term.ID.split("\\.")[0];
-							System.out.println("size");
 						}
 						else
 						{
 							conditionNode.right_side_1.access = "scalar";
 							conditionNode.right_side_1.id = term.ID;
-							System.out.println(term.ID);
 						}
-						
-						//conditionNode.right_side_1.id = term.ID;
-						//conditionNode.right_side_1.access = "scalar";
 						
 						analyseScalarAccess(term.ID, function);
 					}
@@ -730,7 +725,6 @@ public class SemanticAnalysis
 					{
 						assignmentNode.right_side_1.access = "scalar";
 						assignmentNode.right_side_1.id = term.ID;
-						System.out.println(term.ID);
 					}
 				} 
 			}

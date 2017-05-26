@@ -8,7 +8,7 @@
 
 iload_1
 iload_0
-if_icmple loop1_end
+if_icmplt loop1_end
 iconst_2
 istore_2
 goto loop1_next

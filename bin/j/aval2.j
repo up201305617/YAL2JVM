@@ -6,6 +6,7 @@
 .limit locals 3
 .limit stack 5
 
+iload_2
 iload_1
 iload_0
 if_icmpne loop1_end

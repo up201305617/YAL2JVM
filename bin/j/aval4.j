@@ -6,6 +6,8 @@
 .limit locals 3
 .limit stack 5
 
+iconst_0
+istore_2
 loop1:
 iload_1
 iload_0
