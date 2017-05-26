@@ -4,7 +4,7 @@
 
 .method public static f(II)I
 .limit locals 3
-.limit stack 2
+.limit stack 5
 
 iconst_0
 istore_2
@@ -38,3 +38,8 @@ invokestatic io/println(I)V
 return
 .end method
 
+.method static public <clinit>()V 
+.limit stack 0
+.limit locals 0
+return
+.end method

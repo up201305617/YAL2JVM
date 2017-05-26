@@ -255,15 +255,29 @@ public class Function
 		return allVariables;
 	}
 	
-	public void addVariable(String access, String id, String size)
+	public void addVariable(String access, String id, String size, boolean isScalar)
 	{
 		if(access.equals(Constants.ARRAY_SIZE))
 		{
-			this.variables.put(id, new Array(id,Integer.parseInt(size)));
+			Array array;
+			
+			if(isScalar)
+			{
+				array = new Array(id,size);
+			}
+			else
+			{
+				array = new Array(id,Integer.parseInt(size));
+			}
+			
+			array.setType(Constants.ARRAY);
+			this.variables.put(id, array);
 		}
 		else
 		{
-			this.variables.put(id, new Scalar(id));
+			Scalar scalar = new Scalar(id);
+			scalar.setType(Constants.SCALAR);
+			this.variables.put(id, scalar);
 		}
 	}
 	

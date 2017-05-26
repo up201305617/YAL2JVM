@@ -631,17 +631,17 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
                               /*@bgen(jjtree) ArraySize */
                                SimpleNode jjtn000 = new SimpleNode(JJTARRAYSIZE);
                                boolean jjtc000 = true;
-                               jjtree.openNodeScope(jjtn000);Token intId;
+                               jjtree.openNodeScope(jjtn000);Token intID;
     try {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case ID:
         ScalarAccess();
         break;
       case INTEGER:
-        intId = jj_consume_token(INTEGER);
+        intID = jj_consume_token(INTEGER);
                                            jjtree.closeNodeScope(jjtn000, true);
                                            jjtc000 = false;
-                                           jjtn000.ID = intId.image;
+                                           jjtn000.ID = intID.image;
         break;
       default:
         jj_la1[18] = jj_gen;
@@ -985,12 +985,12 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
                                      jjtree.openNodeScope(jjtn000);Token scalarID, size;
     try {
       scalarID = jj_consume_token(ID);
-                       jjtn000.ID = scalarID.image;
+                jjtn000.ID = scalarID.image;
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 33:
         jj_consume_token(33);
         size = jj_consume_token(SIZE);
-                          jjtn000.ID += "." + size.image;
+                jjtn000.ID += "." + size.image;
         break;
       default:
         jj_la1[27] = jj_gen;
@@ -1232,6 +1232,11 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
     return false;
   }
 
+  static private boolean jj_3R_34() {
+    if (jj_scan_token(INTEGER)) return true;
+    return false;
+  }
+
   static private boolean jj_3R_28() {
     if (jj_scan_token(INTEGER)) return true;
     return false;
@@ -1262,11 +1267,6 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
 
   static private boolean jj_3R_18() {
     if (jj_3R_22()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_34() {
-    if (jj_scan_token(INTEGER)) return true;
     return false;
   }
 
@@ -1315,9 +1315,24 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
     return false;
   }
 
+  static private boolean jj_3R_33() {
+    if (jj_scan_token(ID)) return true;
+    return false;
+  }
+
   static private boolean jj_3R_15() {
     if (jj_scan_token(33)) return true;
     if (jj_scan_token(ID)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_25() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_33()) {
+    jj_scanpos = xsp;
+    if (jj_3R_34()) return true;
+    }
     return false;
   }
 
@@ -1335,21 +1350,6 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants, YAL2JVMCon
     if (jj_3R_13()) return true;
     if (jj_scan_token(ASSIGN)) return true;
     if (jj_3R_14()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_33() {
-    if (jj_scan_token(ID)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_25() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_33()) {
-    jj_scanpos = xsp;
-    if (jj_3R_34()) return true;
-    }
     return false;
   }
 

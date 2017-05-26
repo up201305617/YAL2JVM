@@ -2,6 +2,7 @@ public class Array extends Variable
 {
 	private int size;
 	private int[] array;
+	private String size_s;
 	
 	//Default Array (ex.: c=[])
 	public Array(String id)
@@ -17,6 +18,12 @@ public class Array extends Variable
 		super(id,size);
 		this.array = new int[size];
 		this.size = size;
+	}
+	
+	public Array(String id, String size)
+	{
+		super(id);
+		this.size_s=size;
 	}
 
 	public int getSize() 

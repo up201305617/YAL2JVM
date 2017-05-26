@@ -665,7 +665,7 @@ public class SemanticAnalysis
 		//ANALYSE RIGTH SIDE 1
 		
 		SimpleNode right_side_1 = (SimpleNode)right_side.jjtGetChild(0);
-		
+	
 		if (right_side_1.getOriginalId() == YAL2JVMTreeConstants.JJTTERM) 
 		{
 			if (right_side_1.ID != null)
@@ -717,6 +717,7 @@ public class SemanticAnalysis
 					{
 						assignmentNode.right_side_1.access = "scalar";
 						assignmentNode.right_side_1.id = term.ID;
+						System.out.println(term.ID);
 					}
 				} 
 			}
@@ -724,7 +725,17 @@ public class SemanticAnalysis
 		else if (right_side_1.getOriginalId() == YAL2JVMTreeConstants.JJTARRAYSIZE) 
 		{
 			assignmentNode.right_side_1.access = "arraysize";
-			assignmentNode.right_side_1.id = right_side_1.ID;
+			
+			if(((SimpleNode)right_side_1.children[0]).toString().equals("ScalarAccess"))
+			{
+				assignmentNode.right_side_1.id = ((SimpleNode)right_side_1.children[0]).ID; 
+				assignmentNode.right_side_1.isScalar = true;
+			}
+			else
+			{
+				assignmentNode.right_side_1.id = right_side_1.ID;
+				assignmentNode.right_side_1.isScalar = false;
+			}
 		}
 		
 		//ANALYSE RIGTH SIDE 2
@@ -1108,7 +1119,14 @@ public class SemanticAnalysis
 		
 		if(new_var)
 		{
-			function.addVariable(assignmentNode.right_side_1.access, assignmentNode.left_side.id, assignmentNode.right_side_1.id);
+			if(assignmentNode.right_side_1.isScalar == true)
+			{
+				function.addVariable(assignmentNode.right_side_1.access, assignmentNode.left_side.id, assignmentNode.right_side_1.id,true);
+			}
+			else
+			{
+				function.addVariable(assignmentNode.right_side_1.access, assignmentNode.left_side.id, assignmentNode.right_side_1.id,false);
+			}	
 		}
 	}
 

@@ -11,6 +11,7 @@ public class Side
 	public ArrayList<String> args_id;
 	public Function function;
 	public boolean other_module;
+	public boolean isScalar;
 	
 	public Side()
 	{

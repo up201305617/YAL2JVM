@@ -254,14 +254,14 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants/*@egen*/{/
                                SimpleNode jjtn000 = new SimpleNode(JJTARRAYSIZE);
                                boolean jjtc000 = true;
                                jjtree.openNodeScope(jjtn000);
-/*@egen*/ Token intId; }{/*@bgen(jjtree) ArraySize */
+/*@egen*/ Token intID; }{/*@bgen(jjtree) ArraySize */
         try {
-/*@egen*/	ScalarAccess() | intId=<INTEGER>/*@bgen(jjtree)*/
+/*@egen*/	ScalarAccess() | intID=<INTEGER>/*@bgen(jjtree)*/
                                          {
                                            jjtree.closeNodeScope(jjtn000, true);
                                            jjtc000 = false;
                                          }
-/*@egen*/ { jjtn000.ID = intId.image; }/*@bgen(jjtree)*/
+/*@egen*/ { jjtn000.ID = intID.image; }/*@bgen(jjtree)*/
         } catch (Throwable jjte000) {
           if (jjtc000) {
             jjtree.clearNodeScope(jjtn000);
@@ -475,7 +475,7 @@ public class YAL2JVM/*@bgen(jjtree)*/implements YAL2JVMTreeConstants/*@egen*/{/
                                      jjtree.openNodeScope(jjtn000);
 /*@egen*/ Token scalarID, size; }{/*@bgen(jjtree) ScalarAccess */
         try {
-/*@egen*/	scalarID=<ID> {jjtn000.ID = scalarID.image;}	("." size=<SIZE> {jjtn000.ID += "." + size.image;})?/*@bgen(jjtree)*/
+/*@egen*/	scalarID=<ID>	{		jjtn000.ID = scalarID.image;	} ("." size=<SIZE>	{		jjtn000.ID += "." + size.image;	})?/*@bgen(jjtree)*/
         } finally {
           if (jjtc000) {
             jjtree.closeNodeScope(jjtn000, true);

@@ -154,7 +154,7 @@ public class Generator
 			}
 			
 			this.write.println(".limit locals " + num);
-			this.write.println(".limit stack 2");
+			this.write.println(".limit stack 5");
 			this.write.println();
 		}
 	}
@@ -444,6 +444,7 @@ public class Generator
 	{
 		for (int i = 0; i < ast.call.args.length; i++) 
 		{
+			System.out.println(ast.call.functionName);
 			try
 			{
 				Integer.parseInt(ast.call.args[i]);
@@ -455,7 +456,7 @@ public class Generator
 				String scope;
 				int varNum;
 				
-				if(!ast.call.functionName.equals("io.println"))
+				if(!ast.call.functionName.equals("io.println") && !ast.call.functionName.equals("io.print"))
 				{	
 					var = f.returnVarById(ast.call.args[i]);
 					scope = f.getScopes(ast.call.args[i]);
@@ -528,6 +529,8 @@ public class Generator
 				}
 			}
 			
+			this.write.print(")");
+			
 			Variable returnVar = call.getReturnValue();
 			
 			if(returnVar == null)
@@ -544,11 +547,9 @@ public class Generator
 				{
 					this.write.print("[I");
 				}
-			}
-			
-			this.write.print(")");	
+			}	
 		}
-		else if(ast.call.functionName.equals("io.println"))
+		else if(ast.call.functionName.equals("io.println") || ast.call.functionName.equals("io.print"))
 		{
 			for(int i=0; i<ast.call.args.length;i++)
 			{
@@ -686,7 +687,14 @@ public class Generator
 		{
 			if(isAssignment)
 			{
-				pushIntToStack(ast.right_side_1.id);
+				if(ast.right_side_1.isScalar)
+				{
+					loadFromStack(ast.right_side_1.id, f.getAllVariables().get(ast.right_side_1.id),ast.right_side_1.scope,false);
+				}
+				else
+				{
+					pushIntToStack(ast.right_side_1.id);
+				}
 			}
 		}
 	}
