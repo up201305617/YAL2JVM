@@ -52,7 +52,7 @@ public class Generator
 		generateGlobalVariables();
 		generateNewLine();
 		generateFunctions();
-		//generateClinit();
+		generateClinit();
 	}
 	
 	public void generateNewLine()
@@ -205,8 +205,11 @@ public class Generator
 	public int countArrayFields()
 	{
 		int count = 0;
+		System.out.println(this.module.getGlobalVariables().size());
 		for(Map.Entry<String, Variable> entry : this.module.getGlobalVariables().entrySet())
 		{
+			Array array = (Array)entry.getValue();
+			System.out.println(array.getSize());
 			if(entry.getValue().getType().equals(Constants.ARRAY))
 			{
 				count++;
@@ -223,6 +226,15 @@ public class Generator
 		{
 			this.write.println(".limit stack 2");
 			this.write.println(".limit locals "+countArrayFields());
+			for(Map.Entry<String, Variable> entry : this.module.getGlobalVariables().entrySet())
+			{
+				if(entry.getValue().getType().equals(Constants.ARRAY))
+				{
+					this.write.println("bipush "+entry.getValue().getSize());
+					this.write.println("newarray int");
+					this.write.println("putstatic " + moduleName + "/" + entry.getValue().getVariableID() + " [I");
+				}
+			}
 		}
 		else
 		{

@@ -1,5 +1,7 @@
 module hello
 {	
+	data=[100];
+	
 	function a=f(b,c)
 	{
 		a = b*c;

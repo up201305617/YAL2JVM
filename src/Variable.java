@@ -3,9 +3,16 @@ public class Variable
 	private String variableID;
 	private String type;
 	private boolean assign;
+	private int size;
 	
 	public Variable(String id) 
 	{
+		this.variableID = id;
+	}
+	
+	public Variable(String id, int size)
+	{
+		this.size = size;
 		this.variableID = id;
 	}
 
@@ -50,5 +57,10 @@ public class Variable
 	public void setAssign(boolean assign)
 	{
 		this.assign = assign;
+	}
+
+	public int getSize() 
+	{
+		return size;
 	}
 }

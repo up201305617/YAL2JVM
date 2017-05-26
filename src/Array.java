@@ -8,13 +8,15 @@ public class Array extends Variable
 	{
 		super(id);
 		this.array = new int[0];
+		this.size = 0;
 	}
 	
 	//Array com tamanho específico (ex.: c=[2])
 	public Array(String id, int size)
 	{
-		super(id);
+		super(id,size);
 		this.array = new int[size];
+		this.size = size;
 	}
 
 	public int getSize() 

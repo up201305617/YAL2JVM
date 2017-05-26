@@ -1,6 +1,7 @@
 .class public hello
 .super java/lang/Object
 
+.field static data [I
 
 .method public static f(II)I
 .limit locals 3
@@ -43,3 +44,11 @@ invokestatic io/println(Ljava/lang/String;I)V
 return
 .end method
 
+.method static public <clinit>()V 
+.limit stack 2
+.limit locals 1
+bipush 100
+newarray int
+putstatic hello/data [I
+return
+.end method

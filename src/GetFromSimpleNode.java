@@ -22,6 +22,8 @@ public class GetFromSimpleNode
 				{
 					var = new Scalar(varName);
 					var.setAssign(false);
+					var.setType(Constants.SCALAR);
+					
 					if (!m.addGlobalVariableToModule(var))
 					{
 						String error_message = "No módulo "+m.getModuleID()+" o atributo "+varName+" já foi declarada.";
@@ -38,6 +40,7 @@ public class GetFromSimpleNode
 						int value = Integer.parseInt(right_side.ID);
 						var = new Scalar(varName, value);
 						var.setAssign(true);
+						var.setType(Constants.SCALAR);
 					} 
 					
 					if(rhsChildrenNum == 1)
@@ -46,6 +49,7 @@ public class GetFromSimpleNode
 						int size = Integer.parseInt(arraySize.ID);
 						var = new Array(varName, size);
 						var.setAssign(true);
+						var.setType(Constants.ARRAY);
 					}
 					
 					if (!m.addGlobalVariableToModule(var)) 
