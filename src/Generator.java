@@ -1066,19 +1066,19 @@ public class Generator
 				}
 				else if(ast.conditional_op.equals("<"))
 				{
-					this.write.print("if_icmpgt");
+					this.write.print("if_icmpge");
 				}
 				else if(ast.conditional_op.equals("<="))
 				{
-					this.write.print("if_icmpge");
+					this.write.print("if_icmpgt");
 				}
 				else if(ast.conditional_op.equals(">"))
 				{
-					this.write.print("if_icmplt");
+					this.write.print("if_icmple");
 				}
 				else if(ast.conditional_op.equals(">="))
 				{
-					this.write.print("if_icmple");
+					this.write.print("if_icmplt");
 				}
 				else if(ast.conditional_op.equals("!="))
 				{
@@ -1108,19 +1108,19 @@ public class Generator
 					}
 					else if(ast.conditional_op.equals("<"))
 					{
-						this.write.print("if_icmpgt");
+						this.write.print("if_icmpge");
 					}
 					else if(ast.conditional_op.equals("<="))
 					{
-						this.write.print("if_icmpge");
+						this.write.print("if_icmpgt");
 					}
 					else if(ast.conditional_op.equals(">"))
 					{
-						this.write.print("if_icmplt");
+						this.write.print("if_icmple");
 					}
 					else if(ast.conditional_op.equals(">="))
 					{
-						this.write.print("if_icmple");
+						this.write.print("if_icmplt");
 					}
 					else if(ast.conditional_op.equals("!="))
 					{

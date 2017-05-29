@@ -15,8 +15,6 @@ while1:
 iload_3
 iload_0
 if_icmple while1_end
-ldc "while"
-invokestatic io/println(Ljava/lang/String;)V
 iload_0
 iconst_1
 iadd
