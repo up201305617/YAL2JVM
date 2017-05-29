@@ -22,6 +22,9 @@ function main()
  c=3;
  c=f(4,2);
  io.println(c); // result = 3
+ 
+ d=f(5,5);
+ io.println(d);
 }
 
 }

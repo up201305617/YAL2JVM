@@ -13,6 +13,7 @@ public class Function
 	private HashMap<String,Integer> allVariables;
 	private int varNum;
 	private int loops;
+	private int ifs;
 	
 	public Function(String id, Variable returnValue, ArrayList<Variable> a, SimpleNode body)
 	{
@@ -24,6 +25,7 @@ public class Function
 		this.variables = new HashMap<String,Variable>();
 		this.allVariables = new HashMap<String,Integer>();
 		this.loops = 0;
+		this.ifs=0;
 	}
 	
 	public int getLoops()
@@ -34,6 +36,16 @@ public class Function
 	public void incLoops()
 	{
 		this.loops++;
+	}
+	
+	public int getIfs()
+	{
+		return this.ifs;
+	}
+	
+	public void incIfs()
+	{
+		this.ifs++;
 	}
 
 	public void initializeInitialNode(Function f)

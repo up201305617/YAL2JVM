@@ -1,0 +1,30 @@
+module aval5
+{
+
+function d=f(a, c)
+{
+	b = 10;
+ 	if(a == c) 
+	{
+    	while(a < b) 
+		{
+			a = a+1;
+    	}
+		d = a << 2;
+	} 
+	else 
+	{
+		d = c + a;
+	}
+}
+
+function main()
+{
+ c=f(4, 5);
+ io.println(c); // result= 9
+
+ c=f(2, 2);
+ io.println(c); // result= 40
+}
+
+}

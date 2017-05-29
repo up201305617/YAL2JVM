@@ -356,6 +356,26 @@ public class Generator
 		case "/":
 			this.write.println("idiv");
 			break;
+		case ">>":
+			this.write.println("ishr");
+			break;
+		case "<<":
+			this.write.println("ishl");
+			break;
+		case ">>>":
+			this.write.println("iushr");
+			break;
+		case "&":
+			this.write.println("iand");
+			break;
+		case "|":
+			this.write.println("ior");
+			break;
+		case "^":
+			this.write.println("ixor");
+			break;
+		default:
+			break;
 		}
 	}
 	
@@ -988,7 +1008,7 @@ public class Generator
 	{
 		ast.visited = true;
 		f.incLoops();
-		this.write.println("loop"+f.getLoops()+":");
+		this.write.println("while"+f.getLoops()+":");
 		generateCondition(f,ast);
 		
 		if(ast.conditional_op.equals("=="))
@@ -1016,12 +1036,12 @@ public class Generator
 			this.write.print("if_icmpne");
 		}
 		
-		this.write.print(" loop"+f.getLoops()+"_end\n");
+		this.write.print(" while"+f.getLoops()+"_end\n");
 		
 		generateBody(f,ast.children.get(0));
 		
-		this.write.println("goto loop"+f.getLoops());
-		this.write.println("loop"+f.getLoops()+"_end:");
+		this.write.println("goto while"+f.getLoops());
+		this.write.println("while"+f.getLoops()+"_end:");
 		
 		if(!ast.children.get(1).type.equals("endif"))
 		{
@@ -1031,7 +1051,7 @@ public class Generator
 	
 	public void generateIf(AST ast, Function f)
 	{
-		f.incLoops();
+		f.incIfs();
 		generateCondition(f,ast);
 		
 		if(ast.children.size() == 2)
@@ -1065,16 +1085,16 @@ public class Generator
 					this.write.print("if_icmpeq");
 				}
 				
-				this.write.print(" loop"+f.getLoops()+"_end\n");
+				this.write.print(" if"+f.getIfs()+"_end\n");
 				
 				generateBody(f,ast.children.get(0));
 				
-				this.write.println("goto loop"+f.getLoops()+"_next");
-				this.write.println("loop"+f.getLoops()+"_end:");
+				this.write.println("goto if"+f.getIfs()+"_next");
+				this.write.println("if"+f.getIfs()+"_end:");
 				
 				generateBody(f,ast.children.get(1));
-				
-				this.write.println("loop"+f.getLoops()+"_next:");
+			
+				this.write.println("if"+f.getIfs()+"_next:");
 			}
 			else
 			{
@@ -1107,11 +1127,11 @@ public class Generator
 						this.write.print("if_icmpeq");
 					}
 					
-					this.write.print(" loop"+f.getLoops()+"_end\n");
+					this.write.print(" if"+f.getIfs()+"_end\n");
 					
 					generateBody(f,ast.children.get(0));
 					
-					this.write.println("loop"+f.getLoops()+"_end:");
+					this.write.println("if"+f.getIfs()+"_end:");
 					
 					generateBody(f,ast.children.get(1));
 				}
