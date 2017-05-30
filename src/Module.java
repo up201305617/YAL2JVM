@@ -40,6 +40,11 @@ public class Module
 		return globalVariables.containsKey(id);
 	}
 	
+	public void addGlobal(Variable global)
+	{
+		this.globalVariables.put(global.getVariableID(), global);
+	}
+	
 	public Variable getGlobalVariableById(String id)
 	{
 		return globalVariables.get(id);

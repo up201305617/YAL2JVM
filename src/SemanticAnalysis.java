@@ -7,61 +7,6 @@ public class SemanticAnalysis
 		this.sn = sn;
 	}
 	
-	public void analyseGlobalVariables()
-	{
-		for(int i=0; i<sn.getChildren().length; i++)
-		{
-			SimpleNode node = (SimpleNode) sn.jjtGetChild(i);
-			
-			if(node.id == YAL2JVMTreeConstants.JJTFUNCTION)
-			{
-				return;
-			}
-			else if(node.id == YAL2JVMTreeConstants.JJTDECLARATION)
-			{
-				int numChildren = node.jjtGetNumChildren();
-				SimpleNode left_side = (SimpleNode) node.jjtGetChild(0);
-				String name = left_side.ID;
-				Variable var = new Variable(name);
-				
-				//Só declração da variável (ex.: a)
-				if(numChildren == 1)
-				{
-					var = new Scalar(name);
-					if(!YAL2JVM.getModule().addGlobalVariableToModule(var))
-					{
-						//Existe mais que uma com o mesmo nome;
-						String error_message = "Existe mais que uma variável global com o nome " + name+".";
-						Utils.error(error_message);
-					}
-				}
-				
-				//Declaração e atribuição (ex.: a=1)
-				if(numChildren == 2)
-				{
-					SimpleNode right_side = (SimpleNode) node.jjtGetChild(1);
-					int rhsChildrenNum = right_side.jjtGetNumChildren();
-					
-					//Scalar
-					if(rhsChildrenNum == 0)
-					{
-						int value = Integer.parseInt(right_side.ID);
-						var = new Scalar(name,value);
-					}
-					
-					//Array
-					if(rhsChildrenNum == 1)
-					{
-						SimpleNode array = (SimpleNode) right_side.jjtGetChild(0);
-						int size = Integer.parseInt(array.ID);
-						var = new Array(name, size);
-					}
-				}
-			}
-			
-		}
-	}
-	
 	public void analyseArrayAccess(String array, String index, Function function)
 	{
 		if(YAL2JVM.getModule().isGlobalVariable(array))

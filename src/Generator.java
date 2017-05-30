@@ -207,8 +207,9 @@ public class Generator
 		int count = 0;
 		for(Map.Entry<String, Variable> entry : this.module.getGlobalVariables().entrySet())
 		{
-			Array array = (Array)entry.getValue();
-			if(entry.getValue().getType().equals(Constants.ARRAY))
+			Variable var = (Variable)entry.getValue();
+			
+			if(var.getType().equals(Constants.ARRAY))
 			{
 				count++;
 			}
@@ -471,13 +472,17 @@ public class Generator
 			{
 				Variable var;
 				String scope;
-				int varNum;
+				int varNum=-1;
 				
 				if(!ast.call.functionName.equals("io.println") && !ast.call.functionName.equals("io.print"))
 				{	
 					var = f.returnVarById(ast.call.args[i]);
 					scope = f.getScopes(ast.call.args[i]);
-					varNum = f.getAllVariables().get(var.getVariableID());
+					
+					if(!scope.equals(Constants.GLOBAL))
+					{
+						varNum = f.getAllVariables().get(var.getVariableID());
+					}
 					
 					if(var.getType().equals(Constants.SCALAR))
 					{
@@ -497,13 +502,23 @@ public class Generator
 						if(var.getType().equals(Constants.SCALAR))
 						{
 							scope = f.getScopes(ast.call.args[i]);
-							varNum = f.getAllVariables().get(var.getVariableID());
+							
+							if(!scope.equals(Constants.GLOBAL))
+							{
+								varNum = f.getAllVariables().get(var.getVariableID());
+							}
+							
 							loadFromStack(ast.call.args[i], varNum, scope,false);
 						}
 						else if(var.getType().equals(Constants.ARRAY))
 						{
 							scope = f.getScopes(ast.call.args[i]);
-							varNum = f.getAllVariables().get(var.getVariableID());
+							
+							if(!scope.equals(Constants.GLOBAL))
+							{
+								varNum = f.getAllVariables().get(var.getVariableID());
+							}
+							
 							loadFromStack(ast.call.args[i], varNum, scope,true);
 						}
 					}
@@ -625,12 +640,20 @@ public class Generator
 		}
 		else if(ast.right_side_1.access.equals(Constants.SCALAR_ACCESS))
 		{ 
-			righ_side_1_var_index = f.getAllVariables().get(ast.right_side_1.id);
+			if(!f.getScopes(ast.right_side_1.id).equals(Constants.GLOBAL))
+			{
+				righ_side_1_var_index = f.getAllVariables().get(ast.right_side_1.id);
+			}
+			
 			loadFromStack(ast.right_side_1.id, righ_side_1_var_index, f.getScopes(ast.right_side_1.id),false);
 		}
 		else if(ast.right_side_1.access.equals(Constants.ARRAY_ACCESS))
 		{
-			righ_side_1_var_index = f.getAllVariables().get(ast.right_side_1.id);
+			if(!ast.right_side_1.scope.equals(Constants.GLOBAL))
+			{
+				righ_side_1_var_index = f.getAllVariables().get(ast.right_side_1.id);
+			}
+			
 			loadFromStack(ast.right_side_1.id, righ_side_1_var_index, f.getScopes(ast.right_side_1.id),true);
 			
 			if(ast.right_side_1.array_access_type.equals(Constants.INTEGER_ACCESS))
@@ -694,8 +717,10 @@ public class Generator
 		}
 		else if(ast.right_side_1.access.equals(Constants.SIZE_ACCESS))
 		{ 
-			righ_side_1_var_index = f.getAllVariables().get(ast.right_side_1.id);
-			
+			if(!f.getScopes(ast.right_side_1.id).equals(Constants.GLOBAL))
+			{
+				righ_side_1_var_index = f.getAllVariables().get(ast.right_side_1.id);
+			}
 			if(righ_side_1_var_index!=-1)
 			{
 				loadFromStack(ast.right_side_1.id, righ_side_1_var_index,f.getScopes(ast.right_side_1.id),true);
@@ -746,12 +771,20 @@ public class Generator
 			}
 			else if(ast.right_side_2.access.equals(Constants.SCALAR_ACCESS))
 			{
-				righ_side_2_var_index = f.getAllVariables().get(ast.right_side_2.id);
+				if(!ast.right_side_2.scope.equals(Constants.GLOBAL))
+				{
+					righ_side_2_var_index = f.getAllVariables().get(ast.right_side_2.id);
+				}
+				
 				loadFromStack(ast.right_side_1.id, righ_side_2_var_index, ast.right_side_2.scope,false);
 			}
 			else if(ast.right_side_2.access.equals(Constants.ARRAY_ACCESS))
 			{
-				righ_side_2_var_index = f.getAllVariables().get(ast.right_side_2.id);
+				if(!ast.right_side_2.scope.equals(Constants.GLOBAL))
+				{
+					righ_side_2_var_index = f.getAllVariables().get(ast.right_side_2.id);
+				}
+				
 				loadFromStack(ast.right_side_2.id, righ_side_2_var_index, ast.right_side_2.scope,true);
 				
 				if(ast.right_side_2.array_access_type.equals(Constants.INTEGER_ACCESS))
@@ -828,7 +861,11 @@ public class Generator
 		}
 		
 		//LEFT_SIDE
-		left_side_var_index = f.getAllVariables().get(ast.left_side.id);
+		
+		if(!ast.left_side.scope.equals(Constants.GLOBAL))
+		{
+			left_side_var_index = f.getAllVariables().get(ast.left_side.id);
+		}
 		
 		if(ast.left_side.access.equals(Constants.SCALAR_ACCESS))
 		{
@@ -841,16 +878,23 @@ public class Generator
 			{
 				if(ast.right_side_1.access.equals(Constants.CALL))
 				{
-					if(ast.right_side_1.function.getReturnValue()!=null)
+					if(!ast.right_side_1.other_module)
 					{
-						if(ast.right_side_1.function.getReturnValue() instanceof Array)
+						if(ast.right_side_1.function.getReturnValue()!=null)
 						{
-							storeArrayToStack(ast.left_side.id, left_side_var_index, ast.left_side.scope);
+							if(ast.right_side_1.function.getReturnValue() instanceof Array)
+							{
+								storeArrayToStack(ast.left_side.id, left_side_var_index, ast.left_side.scope);
+							}
+							else
+							{
+								storeScalarToStack(ast.left_side.id, left_side_var_index, ast.left_side.scope);
+							}
 						}
-						else
-						{
-							storeScalarToStack(ast.left_side.id, left_side_var_index, ast.left_side.scope);
-						}
+					}
+					else
+					{
+						storeScalarToStack(ast.left_side.id, left_side_var_index, ast.left_side.scope);
 					}
 				}
 				else
@@ -879,7 +923,7 @@ public class Generator
 		}
 	}
 	
-	public void generateCondition(Function f, AST ast)
+	public void generateCondition(Function f, AST ast, boolean isIf)
 	{
 		int righ_side_1_var_index = -1;
 		int righ_side_2_var_index = -1;
@@ -896,16 +940,23 @@ public class Generator
 			if(ast.right_side_2.access.equals(Constants.INTEGER_ACCESS))
 			{
 				pushIntToStack(ast.right_side_2.id);
-				
 			}
 			else if(ast.right_side_2.access.equals(Constants.SCALAR_ACCESS))
 			{
-				righ_side_2_var_index = f.getAllVariables().get(ast.right_side_2.id);
+				if(!ast.right_side_2.scope.equals(Constants.GLOBAL))
+				{
+					righ_side_2_var_index = f.getAllVariables().get(ast.right_side_2.id);
+				}
+				
 				loadFromStack(ast.right_side_1.id, righ_side_2_var_index,f.getScopes(ast.right_side_2.id),false);
 			}
 			else if(ast.right_side_2.access.equals(Constants.ARRAY_ACCESS))
 			{
-				righ_side_2_var_index = f.getAllVariables().get(ast.right_side_2.id);
+				if(!ast.right_side_2.scope.equals(Constants.GLOBAL))
+				{
+					righ_side_2_var_index = f.getAllVariables().get(ast.right_side_2.id);
+				}
+				
 				loadFromStack(ast.right_side_2.id, righ_side_2_var_index, f.getScopes(ast.right_side_2.id),true);
 				
 				if(ast.right_side_2.array_access_type.equals(Constants.INTEGER_ACCESS))
@@ -981,7 +1032,10 @@ public class Generator
 			makeOperation(ast.operation);
 		}
 		
-		left_side_var_index = f.getAllVariables().get(ast.left_side.id);
+		if(!f.getScopes(ast.left_side.id).equals(Constants.GLOBAL))
+		{
+			left_side_var_index = f.getAllVariables().get(ast.left_side.id);
+		}
 		
 		if(ast.left_side.access.equals(Constants.SCALAR_ACCESS))
 		{
@@ -1002,6 +1056,11 @@ public class Generator
 			
 			this.write.println("iaload");
 		}
+		
+		if(isIf)
+		{
+			this.write.println("swap");
+		}
 	}
 	
 	public void generateWhile(AST ast, Function f)
@@ -1009,7 +1068,7 @@ public class Generator
 		ast.visited = true;
 		f.incLoops();
 		this.write.println("while"+f.getLoops()+":");
-		generateCondition(f,ast);
+		generateCondition(f,ast,false);
 		
 		if(ast.conditional_op.equals("=="))
 		{
@@ -1052,7 +1111,7 @@ public class Generator
 	public void generateIf(AST ast, Function f)
 	{
 		f.incIfs();
-		generateCondition(f,ast);
+		generateCondition(f,ast,true);
 		
 		if(ast.children.size() == 2)
 		{

@@ -83,7 +83,6 @@ public void jjtSetValue(Object value) { this.value = value; }
   public void analyseGlobals()
   {
 	  sa = new SemanticAnalysis(this);
-	  sa.analyseGlobalVariables();
   }
 
   public int getOriginalId()
