@@ -8,14 +8,15 @@
 
 iload_1
 iload_0
-if_icmpne loop1_end
+swap
+if_icmpne if1_end
 iconst_2
 istore_2
-goto loop1_next
-loop1_end:
+goto if1_next
+if1_end:
 iconst_0
 istore_2
-loop1_next:
+if1_next:
 iload_2
 ireturn
 .end method

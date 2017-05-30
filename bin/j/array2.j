@@ -12,10 +12,10 @@ newarray int
 astore_0
 iconst_0
 istore_1
-loop1:
+while1:
 iload_3
 iload_1
-if_icmple loop1_end
+if_icmple while1_end
 iconst_1
 aload_0
 swap
@@ -26,8 +26,8 @@ iload_1
 iconst_1
 iadd
 istore_1
-goto loop1
-loop1_end:
+goto while1
+while1_end:
 aload_0
 invokestatic array2/sum_array([I)I
 istore_2
@@ -45,11 +45,11 @@ iconst_0
 istore_2
 iconst_0
 istore_1
-loop1:
+while1:
 aload_0
 arraylength
 iload_2
-if_icmple loop1_end
+if_icmple while1_end
 iload_1
 aload_0
 iload_2
@@ -60,8 +60,8 @@ iload_2
 iconst_1
 iadd
 istore_2
-goto loop1
-loop1_end:
+goto while1
+while1_end:
 iload_1
 ireturn
 .end method

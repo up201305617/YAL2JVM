@@ -4,20 +4,20 @@
 
 .method public static f(II)I
 .limit locals 3
-.limit stack 2
+.limit stack 5
 
 iconst_0
 istore_2
 ldc 6
 iload_2
-if_icmpgt loop1_end
+if_icmpge if1_end
 iconst_5
 istore_2
-goto loop1_next
-loop1_end:
+goto if1_next
+if1_end:
 ldc "aqui"
 invokestatic io/println(Ljava/lang/String;)V
-loop1_next:
+if1_next:
 iload_2
 ireturn
 .end method

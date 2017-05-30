@@ -10,6 +10,7 @@ ldc 10
 istore_3
 iload_1
 iload_0
+swap
 if_icmpne if1_end
 while1:
 iload_3

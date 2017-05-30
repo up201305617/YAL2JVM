@@ -8,10 +8,10 @@
 
 iconst_0
 istore_2
-loop1:
+while1:
 iload_1
 iload_0
-if_icmple loop1_end
+if_icmple while1_end
 invokestatic io/read()I
 istore_2
 invokestatic io/read()I
@@ -20,8 +20,8 @@ iload_0
 iload_2
 iadd
 istore_0
-goto loop1
-loop1_end:
+goto while1
+while1_end:
 iload_2
 ireturn
 .end method

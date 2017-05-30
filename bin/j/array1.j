@@ -11,10 +11,10 @@ newarray int
 astore_1
 iconst_0
 istore_3
-loop1:
+while1:
 iload_0
 iload_3
-if_icmple loop1_end
+if_icmple while1_end
 iload_3
 aload_1
 swap
@@ -25,14 +25,14 @@ iload_3
 iconst_1
 iadd
 istore_3
-goto loop1
-loop1_end:
+goto while1
+while1_end:
 iconst_0
 istore_3
-loop2:
+while2:
 iload_0
 iload_3
-if_icmple loop2_end
+if_icmple while2_end
 aload_1
 iload_3
 iaload
@@ -44,8 +44,8 @@ iload_3
 iconst_1
 iadd
 istore_3
-goto loop2
-loop2_end:
+goto while2
+while2_end:
 return
 .end method
 

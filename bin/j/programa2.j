@@ -52,11 +52,11 @@ istore_3
 iload_3
 newarray int
 astore_1
-loop1:
+while1:
 aload_0
 arraylength
 iload_2
-if_icmple loop1_end
+if_icmple while1_end
 aload_0
 iload_2
 iaload
@@ -69,8 +69,8 @@ iload_2
 iconst_1
 iadd
 istore_2
-goto loop1
-loop1_end:
+goto while1
+while1_end:
 aload_1
 areturn
 .end method
