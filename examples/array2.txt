@@ -1,0 +1,5 @@
+Este exemplo calcula a soma de todos os elementos de um array.
+A função sum_array recebe um array A[], calcula a soma de todos os elementos e retorna em sum.
+A função main inicializa um array com tamanho 16 com todos os elementos a 1, chama a função sum_array e passa-lhe 
+como argumento o array inicializado e imprime o resultado na consola.
+O resultado esperado é 16.

@@ -1,0 +1,4 @@
+Este exemplo serve para calcular a raiz quadrada de um número.
+A função sqrt recebe o número vsqn que é suposto calcular a raiz quadrada e retorna em a a raiz calculada.
+A função main chama a função sqrt com o argumento 17 e imprime o resultado.
+O valor esperado é 4.

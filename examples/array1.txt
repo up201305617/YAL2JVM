@@ -1,0 +1,6 @@
+Este exemplo imprime na consola um array de tamanho N inicializado com números de 0 a N-1.
+A função print_array recebe um tamanho N, inicializa esse array com números de 0 a N-1 e imprime todos
+os elementos na consola.
+A função main chama a função print_array com tamanho 10.
+O resultado esperado é:
+a: 0a: 1a: 2a: 3a: 4a: 5a: 6a: 7a: 8a: 9

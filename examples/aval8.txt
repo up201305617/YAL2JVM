@@ -1,0 +1,4 @@
+Este exemplo serve para calcular o máximo entre dois números introduzidos pelo o utilizador.
+A função max1 pede e calcula o máximo dos números introduzidos pelo utilizador.
+A função main chama a função max1 e imprime o máximo.
+O resultado esperado é o máximo entre dois números.
